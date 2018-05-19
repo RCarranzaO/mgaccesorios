@@ -11,15 +11,15 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="form-group row ">
-                            <label for="username" class="col-sm-4 col-form-label text-md-right">{{ __('Usuario') }}</label>
+                        <div class="form-group row {{ $errors->has('username') ? 'has-error' : '' }}">
+                            <label for="login" class="col-sm-4 col-form-label text-md-right">{{ __('Email o Usuario') }}</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control{{ $errors->has('username') ? 'has-error' : '' }}" name="username" value="{{ old('username') }}" required autofocus placeholder="Introduce nombre de usuario">
+                                <input id="login" type="text" class="form-control" name="login" value="{{ old('login') }}" required autofocus placeholder="Introduce correo o usuario">
 
-                                @if ($errors->has('username'))
+                                @if ($errors->has('login'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('username') }}</strong>
+                                        <strong>{{ $errors->first('login') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -46,7 +46,7 @@
                                 </button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+                                    {{ __('¿Olvidaste tu contraseña?') }}
                                 </a>
                             </div>
                         </div>

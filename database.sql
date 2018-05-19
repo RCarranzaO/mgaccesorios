@@ -3,13 +3,14 @@ USE mgaccesorios;
 
 CREATE TABLE users(
     id_user INT(6) auto_increment NOT NULL,
-    username VARCHAR(20) NOT NULL UNIQUE,
     name VARCHAR(20) NOT NULL,
     lastname VARCHAR(20) NOT NULL,
+    username VARCHAR(20) NOT NULL UNIQUE,
     email VARCHAR(20) NOT NULL,
     password VARCHAR(20) NOT NULL,
     rol INT(2) NOT NULL,
     estatus INT(2) NOT NULL,
+    remember_token VARCHAR(100),
     CONSTRAINT pk_users PRIMARY KEY(id_user)
 )ENGINE=InnoDb;
 
@@ -79,13 +80,13 @@ CREATE TABLE detalleAlmacen(
 CREATE TABLE devoluciones(
     id_devolucion INT(6) auto_increment NOT NULL,
     id_venta INT(6) NOT NULL,
-    id_sucrusal INT(6) NOT NULL,
+    id_sucursal INT(6) NOT NULL,
     id_producto INT(6) NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
     cantidad INT(5) NOT NULL,
     CONSTRAINT pk_devoluciones PRIMARY KEY(id_devolucion),
     CONSTRAINT fk_devoluciones_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
-    CONSTRAINT fk_devoluciones_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucrusal),
+    CONSTRAINT fk_devoluciones_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal),
     CONSTRAINT fk_devoluciones_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto)
 )ENGINE=InnoDb;
 

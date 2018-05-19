@@ -15,6 +15,7 @@ class usuarios extends Seeder
             'name' => 'Miguel',
             'lastname' => 'Avila',
             'username' => 'mavila',
+            'email' => 'miguel@avila.com',
             'password' => bcrypt('adminroot'),
             'rol' => 'administrador',
             'estatus' => '1'
@@ -23,6 +24,7 @@ class usuarios extends Seeder
             'name' => 'Cecilia',
             'lastname' => 'Pech',
             'username' => 'cpech',
+            'email' => 'cecilia@pech.com',
             'password' => bcrypt('userpech'),
             'rol' => 'administrador',
             'estatus' => '1'
@@ -31,6 +33,7 @@ class usuarios extends Seeder
             'name' => 'Jorge',
             'lastname' => 'Bencomo',
             'username' => 'jbencomo',
+            'email' => 'jorge@bencomo.com',
             'password' => bcrypt('userben'),
             'rol' => 'vendedor',
             'estatus' => '1'
