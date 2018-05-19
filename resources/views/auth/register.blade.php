@@ -93,8 +93,11 @@
                             <label for="rol" class="col-md-4 col-form-label text-md-right">{{ __('Rol') }}</label>
 
                             <div class="col-md-6">
-                                <input id="rol" type="text" class="form-control{{ $errors->has('rol') ? ' is-invalid' : '' }}" name="rol" value="{{ old('rol') }}" required>
-
+                                <select class="form-control {{ $errors->has('rol') ? ' is-invalid' : '' }}" name="rol" required>
+                                    <option> </option>
+                                    <option value="0">Vendedor</option>
+                                    <option value="1">Administrador</option>
+                                </select>
                                 @if ($errors->has('rol'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('rol') }}</strong>
