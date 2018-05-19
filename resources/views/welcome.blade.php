@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Mg Accesorios sdfsafdasdf
+                    Mg Accesorios
                 </div>
 
                 <div class="links">
