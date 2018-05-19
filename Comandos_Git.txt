@@ -1,0 +1,17 @@
+Comandos de Git en consola Windows:
+
+	git clone <URL del repositorio>
+
+Subir archivos a github desde pc (con cambios sugeridos)
+
+	git status << Ver archivos modificado
+
+	git commit -am "Mensaje con el cambio que hicimos"
+
+	git status <<  De nuevo por cualquier cosa
+
+	git push origin master << sube cambios al repositorio del master (Rafa)
+
+Cambios de github a pc
+
+	git pull origin master << descargar cambios recientes al repositorio
