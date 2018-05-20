@@ -126,7 +126,7 @@
                                 <li class="nav-item dropdown links">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Alta Usuario</a>
+                                        <a class="dropdown-item" href="{{ route('register') }}">Alta Usuario</a>
                                         <a class="dropdown-item" href="#">Modificar Usuario</a>
                                         <a class="dropdown-item" href="#">Baja Usuario</a>
                                     </div>
@@ -153,7 +153,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                            <!--<li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>-->
                         @else
 
                             <li class="nav-item dropdown">
