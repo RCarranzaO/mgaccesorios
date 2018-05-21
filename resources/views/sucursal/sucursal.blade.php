@@ -1,36 +1,37 @@
 @extends('layouts.app')
 @section('content')
-<div class="row">
-  <div class="col-md-12">
-    <div class="container">
-      <div class="card">
-        <h4 class="card-header">Alta sucursal</h4>
-          <div class="card-body">
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-header"><h4>Alta sucursal</h4></div>
 
-            <div class="form-group row">
-              <label for="example-text-input" class="col-2 col-form-label">Nombre Sucursal: </label>
-              <div class="col-10">
+				<div class="card-body">
+
+						<div class="form-group row">
+							<label for="nombre" class="col-md-4 col-form-label text-md-right">Nombre sucursal</label>
+							<div class="col-md-6">
                 <input class="form-control" type="text"  id="nombresuc" placeholder="Nombre sucursal">
-              </div>
-            </div>
+							</div>
+						</div>
 
-            <div class="form-group row">
-              <label for="example-search-input" class="col-2 col-form-label">Dirección: </label>
-              <div class="col-10">
+						<div class="form-group row">
+							<label for="apellido" class="col-md-4 col-form-label text-md-right">Dirección</label>
+							<div class="col-md-6">
                 <input class="form-control" type="search"  id="direccionsuc" placeholder="Dirección">
-              </div>
-            </div>
+							</div>
+						</div>
 
-            <div class="form-group row">
-              <label for="example-tel-input" class="col-2 col-form-label">Teléfono: </label>
-              <div class="col-10">
+						<div class="form-group row">
+							<label for="usuario" class="col-md-4 col-form-label text-md-right">Teléfono</label>
+							<div class="col-md-6">
                 <input class="form-control" type="tel" id="telefonosuc" placeholder="Teléfono">
-              </div>
-            </div>
+							</div>
+						</div>
 
-          </div>
-      </div>
-    </div>
-  </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 @endsection
