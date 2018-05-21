@@ -16,4 +16,9 @@ class SucursalController extends Controller
       {
         return view('Sucursal/alta');
       }
+
+      public function Agregar(Request $request)
+      {
+        // code...
+      }
 }
