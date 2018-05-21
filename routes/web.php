@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/usuario', 'UsuarioController');
+
+route::get('/sucursal/alta', 'SucursalController@suc')->name('sucursal');
