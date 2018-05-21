@@ -7,18 +7,18 @@ use mgaccesorios\Http\Controllers\Controller;
 
 class SucursalController extends Controller
 {
-    public function __construct()
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
+
+  public function alta()
     {
-        $this->middleware('auth');
+      return view('Sucursal/alta');
     }
 
-    public function alta()
-      {
-        return view('Sucursal/alta');
-      }
+    public function Agregar(Request $request)
+    {
 
-      public function Agregar(Request $request)
-      {
-        // code...
-      }
+    }
 }
