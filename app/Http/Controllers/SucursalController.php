@@ -12,8 +12,8 @@ class SucursalController extends Controller
         $this->middleware('auth');
     }
 
-    public function suc()
+    public function alta()
       {
-        return view('Sucursal/sucursal');
+        return view('Sucursal/alta');
       }
 }
