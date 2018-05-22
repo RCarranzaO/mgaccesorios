@@ -1,14 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function()
         {
             $("#myModal").modal("show");
         });
     </script>
-
-
     <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
