@@ -11,6 +11,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <!--Script-->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
         <!-- Styles -->
         <style>
             html, body {

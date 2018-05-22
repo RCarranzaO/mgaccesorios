@@ -4,7 +4,7 @@ namespace mgaccesorios;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Fondo extends Model
+class Gasto extends Model
 {
-    protected $table = 'fondo';
+    //
 }

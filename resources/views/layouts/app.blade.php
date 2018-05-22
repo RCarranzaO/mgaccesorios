@@ -95,7 +95,7 @@
                             <li class="nav-item dropdown links" >
                                 <a class="nav-link dropdown-toggle" id="navbarDropdowncajaLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Caja</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdowncajaLink">
-                                    <a class="dropdown-item" href="#">Fondo</a>
+                                    <a class="dropdown-item" href="{{ route('fondo') }}">Fondo</a>
                                     <a class="dropdown-item" href="#">Egreso</a><!--Aqui es la tabla de gastos-->
                                 </div>
                             </li>
