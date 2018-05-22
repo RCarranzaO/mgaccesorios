@@ -113,11 +113,9 @@
 
 						<div class="form-group row">
 							<div class="col-md-6 offset-md-4">
-								
-								<button type="submit" class="btn btn-primary">Aceptar</button>
-								<button class="btn btn-secondary">Cancelar</button>
 
 								<button type="submit" class="btn btn-outline-primary">Aceptar</button>
+								<button class="btn btn-outline-secondary">Cancelar</button>
 
 							</div>
 						</div>
