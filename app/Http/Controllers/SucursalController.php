@@ -7,8 +7,18 @@ use mgaccesorios\Http\Controllers\Controller;
 
 class SucursalController extends Controller
 {
-    public function suc()
-      {
-        return view('Sucursal/sucursal');
-      }
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
+
+  public function alta()
+    {
+      return view('Sucursal/alta');
+    }
+
+    public function Agregar(Request $request)
+    {
+
+    }
 }
