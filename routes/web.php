@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/usuario', 'UsuarioController');
 
-route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
+Route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
 
 Route::get('/caja/fondo', 'FondoController@index')->name('fondo');
+Route::post('/caja/guardar-fondo', 'FondoController@saveFondo')->name('guardar-fondo');
