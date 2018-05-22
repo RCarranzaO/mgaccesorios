@@ -13,7 +13,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return 'Hola desde el controlador de usuario :3';
+        
     }
 
     /**
@@ -34,7 +34,9 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $usuario = new Usuario();
+        
+        //return $request->all();
     }
 
     /**
