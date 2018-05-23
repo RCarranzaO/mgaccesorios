@@ -4,6 +4,7 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Producto;
+use mgaccesorios\Usuario;
 
 class ProductoController extends Controller
 {
