@@ -3,6 +3,7 @@
 namespace mgaccesorios\Http\Controllers;
 
 use mgaccesorios\Usuario;
+use mgaccesorios\User;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -22,7 +23,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -43,12 +44,17 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        $validateData = $this->validate($request,[
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'usuario' => 'required|string|unique:usuario'
+        ]);
 
         $usuario = new Usuario();
-        $usuario->nombre = $request->input('nombre');
-        $usuario->apellido = $request->input('apellido');
-        $usuario->usuario = $request->input('usuario');
-        $usuario->correo = $request->input('correo');
+        $usuario->name = $request->input('nombre');
+        $usuario->lastname = $request->input('apellido');
+        $usuario->username = $request->input('usuario');
+        $usuario->email = $request->input('correo');
         $usuario->password = $request->input('password');
         $usuario->rol = $request->input('rol');
         $usuario->save();
