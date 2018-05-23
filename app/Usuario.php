@@ -3,12 +3,13 @@
 namespace mgaccesorios;
 
 use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Usuario extends Model
 {
     protected $table = 'users';
     public $timestamps = false;
-    protected $primaryKey = 'id_user';
+    //protected $primaryKey = 'id_user';
 
     /**
      * The attributes that are mass assignable.

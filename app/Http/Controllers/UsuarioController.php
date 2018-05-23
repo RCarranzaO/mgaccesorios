@@ -44,9 +44,12 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $validateData = $this->validate($request,[
-            'nombre' => 'required|string',
-            'apellido' => 'required|string',
-            'usuario' => 'required|string|unique:usuario'
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'usuario' => 'required|string|max:255',
+            'correo' => 'required|email|string|max:255',
+            'password' => 'required|string|min:6|confirmed',
+            'rol' => 'required|integer|max:2'
         ]);
 
         $usuario = new Usuario();
@@ -54,12 +57,13 @@ class UsuarioController extends Controller
         $usuario->lastname = $request->input('apellido');
         $usuario->username = $request->input('usuario');
         $usuario->email = $request->input('correo');
-        $usuario->password = $request->input('password');
+        $usuario->password = bcrypt($request->input('password'));
         $usuario->rol = $request->input('rol');
+        $usuario->estatus = $request->input('estatus');
         $usuario->save();
         //return 'Guardado';
         //return $request->all();
-
+        return redirect()->route('home');
     }
 
     /**
