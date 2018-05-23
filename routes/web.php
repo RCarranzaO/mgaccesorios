@@ -19,8 +19,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Rutas de usuario
 Route::resource('/usuario', 'UsuarioController');
 
-
-
+//Rutas de producto
+Route::resource('/producto','ProductoController');
 
 
 //Rutas de sucursal

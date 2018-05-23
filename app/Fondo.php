@@ -8,4 +8,9 @@ class Fondo extends Model
 {
     protected $table = 'fondo';
     public $timestamps = false;
+
+    public function Usuario()
+    {
+        return $this->hasOne('mgaccesorios\Usuario');
+    }
 }
