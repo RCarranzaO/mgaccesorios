@@ -19,27 +19,32 @@
 		<tbody>
 			
 			@foreach($usuarios as $usuario)
-				<tr>
-					<td>{{ $usuario->id_user }}</td>
-					<td>{{ $usuario->name }}</td>
-					<td>{{ $usuario->lastname }}</td>
-					<td>{{ $usuario->username }}</td>
-					<td>{{ $usuario->email }}</td>
-					<td>
-						@if($usuario->rol == 1)
-							{{ $rol = 'Administrador' }}
-						@else
-							{{ $rol = 'Vendedor' }}
-						@endif
-					</td>
-					<td>
-						<button formaction="{{ route('usuario.edit') }}"></button>
-						<a href="" class="btn btn-outline-info">Editar</a>
-					</td>
-				</tr>
+				@if($usuario->estatus==1)
+					<tr>
+						<td>{{ $usuario->id_user }}</td>
+						<td>{{ $usuario->name }}</td>
+						<td>{{ $usuario->lastname }}</td>
+						<td>{{ $usuario->username }}</td>
+						<td>{{ $usuario->email }}</td>
+						<td>
+							@if($usuario->rol == 1)
+								{{ $rol = 'Administrador' }}
+							@else
+								{{ $rol = 'Vendedor' }}
+							@endif
+						</td>
+						<td>
+							<a href="{{ action('UsuarioController@edit', $usuario->id_user) }}" class="btn btn-outline-info">Editar</a>
+						</td>
+					</tr>
+				@endif
 			@endforeach
 		</tbody>
 	</table>
 </div>
 
 @endsection
+
+<!--
+	route('usuario.edit') }}
+-->

@@ -89,7 +89,8 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        return view('usuario/editar');
+        $usuario = User::find($id);
+        return view('usuario/editar', compact('usuario', 'id_user'));
     }
 
     /**
@@ -101,7 +102,23 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'usuario' => 'required|string|max:255',
+            'correo' => 'required|email|string|max:255',
+            'password' => '|string|min:6|confirmed',
+            'rol' => 'required|integer|max:2'
+        ]);
+        $usuario = User::find($id);
+        $usuario->name = $request->get('nombre');
+        $usuario->lastname = $request->get('apellido');
+        $usuario->username = $request->get('usuario');
+        $usuario->email = $request->get('correo');
+        $usuario->password = bcrypt($request->get('password'));
+        $usuario->rol = $request->get('rol');
+        $usuario->save();
+        return redirect()->route('home');
     }
 
     /**
