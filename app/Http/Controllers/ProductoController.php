@@ -86,7 +86,8 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $producto = Producto::find($id);
+        return view('producto/editar', compact('producto', 'id_producto'));
     }
 
     /**
@@ -98,7 +99,37 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'referencia' => 'required|string',
+            'categoria' => 'required|string|max:255',
+            'tipo' => 'required|string|max:255',
+            'marca' => 'required|string|max:255',
+            'modelo' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'precio_compra' => 'required|numeric',
+            'precio_venta' => 'required|numeric',
+        ]);
+
+        $producto = Producto::find($id);
+        $producto->referencia = $request->input('referencia');
+        $producto->categoria_producto = $request->input('categoria');
+        $producto->tipo_producto = $request->input('tipo');
+        $producto->marca = $request->input('marca');
+        $producto->modelo = $request->input('modelo');
+        $producto->color = $request->input('color');
+        $producto->precio_compra = $request->input('precio_compra');
+        $producto->precio_venta = $request->input('precio_venta');
+
+        $producto->save();
+
+        switch ($request->input('action')) {
+          case 'ays':
+              return redirect()->route('home');
+              break;
+          case 'aym':
+              return redirect()->route('producto.index');
+              break;
+        }
     }
 
     /**
