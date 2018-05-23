@@ -52,7 +52,7 @@ class UsuarioController extends Controller
             'apellido' => 'required|string|max:255',
             'usuario' => 'required|string|max:255',
             'correo' => 'required|email|string|max:255',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|max:15|confirmed',
             'rol' => 'required|integer|max:2'
         ]);
 
@@ -87,7 +87,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id)//Muestra la informacion a cambiar del usuario
     {
         $usuario = User::find($id);
         return view('usuario/editar', compact('usuario', 'id_user'));
@@ -107,16 +107,16 @@ class UsuarioController extends Controller
             'apellido' => 'required|string|max:255',
             'usuario' => 'required|string|max:255',
             'correo' => 'required|email|string|max:255',
-            'password' => '|string|min:6|confirmed',
+            'password' => '|string|min:6|max:15|confirmed',
             'rol' => 'required|integer|max:2'
         ]);
         $usuario = User::find($id);
-        $usuario->name = $request->get('nombre');
-        $usuario->lastname = $request->get('apellido');
-        $usuario->username = $request->get('usuario');
-        $usuario->email = $request->get('correo');
-        $usuario->password = bcrypt($request->get('password'));
-        $usuario->rol = $request->get('rol');
+        $usuario->name = $request->input('nombre');
+        $usuario->lastname = $request->input('apellido');
+        $usuario->username = $request->input('usuario');
+        $usuario->email = $request->input('correo');
+        $usuario->password = bcrypt($request->input('password'));
+        $usuario->rol = $request->input('rol');
         $usuario->save();
         return redirect()->route('home');
     }
