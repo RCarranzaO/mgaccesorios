@@ -118,7 +118,16 @@ class UsuarioController extends Controller
         $usuario->password = bcrypt($request->input('password'));
         $usuario->rol = $request->input('rol');
         $usuario->save();
-        return redirect()->route('home');
+        switch ($request->input('action')) {
+            case 'ays':
+                return redirect()->route('home');
+                break;
+            
+            case 'aym':
+                return redirect()->route('usuario.index');
+                break;
+        }
+        
     }
 
     /**

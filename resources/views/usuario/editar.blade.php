@@ -75,7 +75,7 @@
 							<div class="form-group row">
 								<label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirmar password</label>
 								<div class="col-md-6">
-									<input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+									<input id="password-confirm" type="password" class="form-control" value="{{ $usuario->password }}" name="password_confirmation">
 								</div>
 							</div>
 
@@ -108,9 +108,9 @@
 
 							<div class="form-group">
 								<div class="col-md-8 offset-md-3">
-									<button type="submit" class="btn btn-outline-primary">Aceptar y salir</button>
-									<button type="submit" class="btn btn-outline-primary">Aceptar y modificar</button>
-									<button class="btn btn-outline-secondary">Cancelar</button>
+									<button class="btn btn-outline-primary" type="submit" name="action" value="ays">Aceptar y salir</button>
+									<button class="btn btn-outline-primary" type="submit"  name="action" value="aym">Aceptar y modificar</button>
+									<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 								</div>
 							</div>
 
