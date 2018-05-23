@@ -32,4 +32,15 @@ class SucursalController extends Controller
         return redirect()->route('home');
     }
 
+    public function lista()
+    {
+      $sucursales = Sucursal::all();
+      return view('Sucursal/lista', compact('sucursales'));
+    }
+
+    public function destroy($id)
+    {
+      // code...
+    }
+
 }

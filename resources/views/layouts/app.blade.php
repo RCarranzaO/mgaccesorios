@@ -135,7 +135,7 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Sucursal</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('alta') }}">Alta Sucursal</a>
-                                        <a class="dropdown-item" href="#">Baja Sucursal</a>
+                                        <a class="dropdown-item" href="{{ route('lista') }}">Baja Sucursal</a>
                                     </div>
                                 </li>
                             @endif
