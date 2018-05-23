@@ -2,7 +2,7 @@
 
 namespace mgaccesorios\Http\Controllers;
 
-use mgaccesorios\Usuario;
+use mgaccesorios\User;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -20,8 +20,12 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index()//Muestra la lista de usuarios registrados
     {
+
+        $usuarios = User::all();
+
+        return view('usuario/lista', compact('usuarios'));
 
     }
 
@@ -30,7 +34,7 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create()//Muestra el formulario para registrar un usuario nuevo
     {
         return view('usuario/registrar');
     }
@@ -41,18 +45,18 @@ class UsuarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)//Funcion que guarda al nuevo usuario
     {
         $validateData = $this->validate($request,[
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'usuario' => 'required|string|max:255',
             'correo' => 'required|email|string|max:255',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|max:15|confirmed',
             'rol' => 'required|integer|max:2'
         ]);
 
-        $usuario = new Usuario();
+        $usuario = new User();
         $usuario->name = $request->input('nombre');
         $usuario->lastname = $request->input('apellido');
         $usuario->username = $request->input('usuario');
@@ -74,7 +78,11 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $usuarios = User::all();
+
+        return view('usuario/baja', compact('usuarios'));
+
     }
 
     /**
@@ -83,9 +91,10 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id)//Muestra la informacion a cambiar del usuario
     {
-        //
+        $usuario = User::find($id);
+        return view('usuario/editar', compact('usuario', 'id_user'));
     }
 
     /**
@@ -95,9 +104,34 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id)//Actualiza la informacion que se modifico del usuario
     {
-        //
+        $this->validate($request,[
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'usuario' => 'required|string|max:255',
+            'correo' => 'required|email|string|max:255',
+            'password' => '|string|min:6|max:15|confirmed',
+            'rol' => 'required|integer|max:2'
+        ]);
+        $usuario = User::find($id);
+        $usuario->name = $request->input('nombre');
+        $usuario->lastname = $request->input('apellido');
+        $usuario->username = $request->input('usuario');
+        $usuario->email = $request->input('correo');
+        $usuario->password = bcrypt($request->input('password'));
+        $usuario->rol = $request->input('rol');
+        $usuario->save();
+        switch ($request->input('action')) {
+            case 'ays':
+                return redirect()->route('home');
+                break;
+            
+            case 'aym':
+                return redirect()->route('usuario.index');
+                break;
+        }
+        
     }
 
     /**

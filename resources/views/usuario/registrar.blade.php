@@ -123,7 +123,7 @@
 													<div class="col-md-6 offset-md-4">
 
 															<button type="submit" class="btn btn-outline-primary">Aceptar</button>
-															<button class="btn btn-outline-secondary">Cancelar</button>
+															<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 
 													</div>
 											</div>

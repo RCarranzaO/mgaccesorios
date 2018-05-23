@@ -4,6 +4,7 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Producto;
+use mgaccesorios\Usuario;
 
 class ProductoController extends Controller
 {
@@ -19,8 +20,8 @@ class ProductoController extends Controller
     }
     public function index()
     {
-      $producto = Producto::all()->toArray();
-      return view('producto.producto', compact('producto'));
+      $productos = Producto::all();
+      return view('producto.producto', compact('productos'));
     }
 
     /**
@@ -41,30 +42,30 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validate($request,[
-          'referencia'    => 'required',
-          'categoria'     => 'required',
-          'tipo'          => 'required',
-          'marca'         => 'required',
-          'modelo'        => 'required',
-          'color'         => 'required',
-          'precio_compra' => 'required',
-          'precio_venta'  => 'required',
-          'estatus'       => 'required'
+      $validateData = $this->validate($request,[
+          'referencia' => 'required|string',
+          'categoria' => 'required|string|max:255',
+          'tipo' => 'required|string|max:255',
+          'marca' => 'required|string|max:255',
+          'modelo' => 'required|string|max:255',
+          'color' => 'required|string|max:255',
+          'precio_compra' => 'required|numeric',
+          'precio_venta' => 'required|numeric',
       ]);
-      $producto = new Producto([
-          'referencia'    => $request->get('referencia'),
-          'categoria'     => $request->get('categoria_producto'),
-          'tipo'          => $request->get('tipo_producto'),
-          'marca'         => $request->get('marca'),
-          'modelo'        => $request->get('modelo'),
-          'color'         => $request->get('color'),
-          'precio_compra' => $request->get('precio_compra'),
-          'precio_venta'  => $request->get('precio_venta'),
-          'estatus'       => $request->get('estatus')
-      ]);
+
+      $producto = new Producto();
+      $producto->referencia = $request->input('referencia');
+      $producto->categoria_producto = $request->input('categoria');
+      $producto->tipo_producto = $request->input('tipo');
+      $producto->marca = $request->input('marca');
+      $producto->modelo = $request->input('modelo');
+      $producto->color = $request->input('color');
+      $producto->precio_compra = $request->input('precio_compra');
+      $producto->precio_venta = $request->input('precio_venta');
+      $producto->estatus = $request->input('estatus');
+
       $producto->save();
-      return redirect()->route('producto.producto')->with('success','Data Added');
+      return redirect()->route('home')->with('success','Data Added');
     }
 
     /**
@@ -86,7 +87,8 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $producto = Producto::find($id);
+        return view('producto/editar', compact('producto', 'id_producto'));
     }
 
     /**
@@ -98,7 +100,37 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'referencia' => 'required|string',
+            'categoria' => 'required|string|max:255',
+            'tipo' => 'required|string|max:255',
+            'marca' => 'required|string|max:255',
+            'modelo' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'precio_compra' => 'required|numeric',
+            'precio_venta' => 'required|numeric',
+        ]);
+
+        $producto = Producto::find($id);
+        $producto->referencia = $request->input('referencia');
+        $producto->categoria_producto = $request->input('categoria');
+        $producto->tipo_producto = $request->input('tipo');
+        $producto->marca = $request->input('marca');
+        $producto->modelo = $request->input('modelo');
+        $producto->color = $request->input('color');
+        $producto->precio_compra = $request->input('precio_compra');
+        $producto->precio_venta = $request->input('precio_venta');
+
+        $producto->save();
+
+        switch ($request->input('action')) {
+          case 'ays':
+              return redirect()->route('home');
+              break;
+          case 'aym':
+              return redirect()->route('producto.index');
+              break;
+        }
     }
 
     /**
