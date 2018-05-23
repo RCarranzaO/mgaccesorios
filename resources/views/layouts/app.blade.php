@@ -127,7 +127,7 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('usuario.create') }}">Alta Usuario</a>
-                                        <a class="dropdown-item" href="#">Modificar Usuario</a>
+                                        <a class="dropdown-item" href="{{ route('usuario.index') }}">Modificar Usuario</a>
                                         <a class="dropdown-item" href="#">Baja Usuario</a>
                                     </div>
                                 </li>

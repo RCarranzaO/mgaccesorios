@@ -2,7 +2,7 @@
 
 namespace mgaccesorios\Http\Controllers;
 
-use mgaccesorios\Usuario;
+use mgaccesorios\User;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -20,8 +20,12 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index()//Muestra la lista de usuarios registrados
     {
+
+        $usuarios = User::all();
+
+        return view('usuario/lista', compact('usuarios'));
 
     }
 
@@ -30,7 +34,7 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create()//Muestra el formulario para registrar un usuario nuevo
     {
         return view('usuario/registrar');
     }
@@ -41,7 +45,7 @@ class UsuarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)//Guarda al nuevo usuario
     {
         $validateData = $this->validate($request,[
             'nombre' => 'required|string|max:255',
@@ -52,7 +56,7 @@ class UsuarioController extends Controller
             'rol' => 'required|integer|max:2'
         ]);
 
-        $usuario = new Usuario();
+        $usuario = new User();
         $usuario->name = $request->input('nombre');
         $usuario->lastname = $request->input('apellido');
         $usuario->username = $request->input('usuario');
@@ -85,7 +89,7 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('usuario/editar');
     }
 
     /**
