@@ -25,7 +25,7 @@ Route::resource('/usuario', 'UsuarioController');
 
 //Rutas de sucursal
 Route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
-
+Route::post('/sucursal/guardar', 'SucursalController@store')->name('guardar');
 
 
 
