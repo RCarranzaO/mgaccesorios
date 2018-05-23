@@ -22,3 +22,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/usuario', 'UsuarioController');
 
 route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
+route::post('/sucursal/guardar', 'SucursalController@store')->name('guardar');
+//route::post('/guardar', 'SucursalController@agregar')->name('agregar');

@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Sucursal extends Model
 {
     protected $table = 'sucursales';
+    public $timestamps = false;
+    protected $fillable = [
+        'nombre_sucursal', 'direccion', 'telefono', 'estatus',
+    ];
 
     public function DetalleAlmacen()
       {
