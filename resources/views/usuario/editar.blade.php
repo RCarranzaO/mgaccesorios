@@ -120,10 +120,6 @@
 			</div>
 		</dov>
 	</div>
+	
 @endsection
-
-
-
-
-
 

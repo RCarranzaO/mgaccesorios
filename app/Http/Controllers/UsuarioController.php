@@ -45,7 +45,7 @@ class UsuarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)//Guarda al nuevo usuario
+    public function store(Request $request)//Funcion que guarda al nuevo usuario
     {
         $validateData = $this->validate($request,[
             'nombre' => 'required|string|max:255',
@@ -78,7 +78,11 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $usuarios = User::all();
+
+        return view('usuario/baja', compact('usuarios'));
+
     }
 
     /**
@@ -100,7 +104,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id)//Actualiza la informacion que se modifico del usuario
     {
         $this->validate($request,[
             'nombre' => 'required|string|max:255',
