@@ -19,7 +19,7 @@ class FondoController extends Controller
     public function saveFondo(Request $request)
     {
         $validateData = $this->validate($request,[
-            'cantidad' => 'required|numeric|numeric'
+            'cantidad' => 'required|numeric'
         ]);
 
         $fondo = new Fondo();
