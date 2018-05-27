@@ -87,7 +87,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav nav-link links">
-                        
+
 
                         @guest
 
@@ -114,13 +114,20 @@
                                     <a class="dropdown-item" href="#">Salida especial</a>
                                 </div>
                             </li>
+                            <li class="nav-item  links">
+                                <a class="nav-link " >Inventario</a>
+                                <!--<div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Ventas</a>
+                                    <a class="dropdown-item" href="#">Traspaso a Sucursal</a>
+                                    <a class="dropdown-item" href="#">Salida especial</a>
+                                </div>-->
+                            </li>
                             @if (Auth::user()->rol == 1)
                                 <li class="nav-item dropdown links">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{route('producto.create')}}">Alta Producto</a>
                                         <a class="dropdown-item" href="{{ route('producto.index') }}">Modificar Porducto</a>
-                                        <a class="dropdown-item" href="#">Baja Producto</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">
@@ -128,7 +135,6 @@
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('usuario.create') }}">Alta Usuario</a>
                                         <a class="dropdown-item" href="{{ route('usuario.index') }}">Modificar Usuario</a>
-                                        <a class="dropdown-item" href="#">Baja Usuario</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">

@@ -139,8 +139,19 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $opc)
     {
-        //
+        $producto = Producto::find($id);
+        $producto->estatus = '0';
+        $producto->save();
+        switch ($opc) {
+          case 'a1':
+              return redirect()->route('home');
+              break;
+          case 'a2':
+              return redirect()->route('producto.index');
+              break;
+        }
+
     }
 }
