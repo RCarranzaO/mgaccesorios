@@ -26,7 +26,6 @@ class SucursalController extends Controller
         $sucursal->direccion = $request->input('direccion');
         $sucursal->telefono = $request->input('telefono');
         $sucursal->estatus = $request->input('estatus');
-
         $sucursal->save();
 
         return redirect()->route('home');
@@ -38,9 +37,13 @@ class SucursalController extends Controller
       return view('Sucursal/lista', compact('sucursales'));
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-      // code...
+      $sucursal = Sucursal::find($id);
+      $sucursal->estatus = $request->button("estatus");
+      $sucursal->save();
+
+      return redirect()->route('home');
     }
 
 }
