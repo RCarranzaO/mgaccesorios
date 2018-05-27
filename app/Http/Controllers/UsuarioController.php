@@ -79,9 +79,9 @@ class UsuarioController extends Controller
     public function show($id)
     {
 
-        $usuarios = User::all();
+        
 
-        return view('usuario/baja', compact('usuarios'));
+        
 
     }
 
@@ -91,7 +91,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)//Muestra la informacion a cambiar del usuario
+    public function edit($id)//Muestra la informacion a editar del usuario
     {
         $usuario = User::find($id);
         return view('usuario/editar', compact('usuario', 'id_user'));
@@ -140,8 +140,17 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id)//Activa o desactiva al usuario
     {
-        //
+        $usuario = User::find($id);
+
+        if ($usuario->estatus == 1) {
+            $usuario->estatus = 0;
+        }else{
+            $usuario->estatus = 1;
+        }
+        $usuario->save();
+        return redirect()->route('home');
+        
     }
 }
