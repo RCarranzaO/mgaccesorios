@@ -102,7 +102,7 @@
                             <li class="nav-item dropdown links">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Entradas</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Compras</a>
+                                    <a class="dropdown-item" href="{{ route('compra') }}">Compras</a>
                                     <a class="dropdown-item" href="#">Devoluciones</a>
                                 </div>
                             </li>
