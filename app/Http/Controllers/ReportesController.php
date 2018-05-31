@@ -16,14 +16,15 @@ class ReportesController extends Controller
     public function index()
     {
         $productos = Producto::all();
-        return view('almacen.almacen', compact('productos'));
+        return view('reportes.inventario', compact('productos'));
     }
     public function pdf()
     {
         $productos = Producto::all();
+        $fecha = date('Y-m-d');
 
-        $pdf = PDF::loadView('almacen.almacen', ['productos' => $productos]);
+        $pdf = PDF::loadView('reportes.inventariopdf', compact('productos'));
 
-        return $pdf->download('inventario.pdf');
+        return $pdf->download('inventario_'.$fecha.'.pdf');
     }
 }
