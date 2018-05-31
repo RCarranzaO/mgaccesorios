@@ -14,8 +14,9 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <!-- Styles -->
         <link rel="stylesheet" href="css/style.css">
-        <!--<link href=" asset('css/app.css') }}" rel="stylesheet">-->
-        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">-->
+        <link href=" asset('css/app.css') }}" rel="stylesheet">
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
