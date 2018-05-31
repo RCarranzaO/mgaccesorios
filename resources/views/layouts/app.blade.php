@@ -115,7 +115,7 @@
                                 </div>
                             </li>
                             <li class="nav-item  links">
-                                <a class="nav-link " >Inventario</a>
+                                <a class="nav-link " href="{{ route('inventario') }}">Inventario</a>
                                 <!--<div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Ventas</a>
                                     <a class="dropdown-item" href="#">Traspaso a Sucursal</a>
@@ -126,7 +126,7 @@
                                 <li class="nav-item dropdown links">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{route('producto.create')}}">Alta Producto</a>
+                                        <a class="dropdown-item" href="{{ route('producto.create') }}">Alta Producto</a>
                                         <a class="dropdown-item" href="{{ route('producto.index') }}">Modificar Porducto</a>
                                     </div>
                                 </li>
@@ -149,7 +149,7 @@
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Reportes</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Venta</a>
-                                    <a class="dropdown-item" href="#">Inventario</a>
+                                    <a class="dropdown-item" href="{{ route('repalmacen') }}">Inventario</a>
                                 </div>
                             </li>
                         @endguest
