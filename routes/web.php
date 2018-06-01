@@ -36,6 +36,8 @@ Route::get('/caja/fondo', 'FondoController@index')->name('fondo');
 Route::post('/caja/guardar-fondo', 'FondoController@saveFondo')->name('guardar-fondo');
 
 
+
+
 //Rutas de almacen
 Route::get('/inventario', 'AlmacenController@index')->name('inventario');
 
