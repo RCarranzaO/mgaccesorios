@@ -34,3 +34,7 @@ Route::post('/sucursal/eliminar', 'SucursalController@destroy')->name('eliminar'
 //Rutas de caja
 Route::get('/caja/fondo', 'FondoController@index')->name('fondo');
 Route::post('/caja/guardar-fondo', 'FondoController@saveFondo')->name('guardar-fondo');
+
+//Ruta de egreso
+Route::get('/gasto/gasto', 'GastoController@index')->name('gasto');
+Route::post('/gasto/guardar-gasto', 'GastoController@saveGasto')->name('guardar-gasto');
