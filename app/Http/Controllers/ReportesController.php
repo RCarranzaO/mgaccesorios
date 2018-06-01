@@ -23,7 +23,7 @@ class ReportesController extends Controller
         $productos = Producto::all();
         $fecha = date('Y-m-d');
 
-        $pdf = PDF::loadView('reportes.inventariopdf', compact('productos'));
+        $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
 
         return $pdf->download('inventario_'.$fecha.'.pdf');
     }
