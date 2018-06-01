@@ -154,4 +154,5 @@ class ProductoController extends Controller
         }
 
     }
+
 }

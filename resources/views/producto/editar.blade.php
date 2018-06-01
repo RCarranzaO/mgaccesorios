@@ -1,12 +1,11 @@
 @extends('layouts.app')
-
 @section('content')
   @if (Auth::user()->rol == 1)
       <div class="container">
     			<div class="row justify-content-center">
     					<div class="col-md-8">
     							<div class="card">
-    									<div class="card-header"><h4>Dar alta un producto</h4></div>
+    									<div class="card-header"><h4></h4></div>
     									<div class="card-body">
     											<form method="post" action="/producto/{{ $producto->id_producto }}">
     													@csrf

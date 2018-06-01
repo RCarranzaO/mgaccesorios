@@ -21,7 +21,7 @@ Route::resource('/usuario', 'UsuarioController');
 
 //Rutas de producto
 Route::resource('/producto','ProductoController');
-
+Route::get('/entrada/compra','EntradasController@compra')->name('compra');
 
 //Rutas de sucursal
 Route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
@@ -38,3 +38,15 @@ Route::post('/caja/guardar-fondo', 'FondoController@saveFondo')->name('guardar-f
 //Ruta de egreso
 Route::get('/gasto/gasto', 'GastoController@index')->name('gasto');
 Route::post('/gasto/guardar-gasto', 'GastoController@saveGasto')->name('guardar-gasto');
+
+
+
+//Rutas de almacen
+Route::get('/inventario', 'AlmacenController@index')->name('inventario');
+
+
+
+//Rutas de reportes
+Route::get('/reporte/almacen', 'ReportesController@index')->name('repalmacen');
+Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almacen.pdf');
+
