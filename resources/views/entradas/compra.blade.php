@@ -10,29 +10,29 @@
 					<form class="" method="POST" action="">
 						@csrf
 						<div class="form-group row">
-							<label for="nombre" class="col-md-4 col-form-label text-md-right">Nombre Producto</label>
+							<label class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
 							<div class="col-md-6">
-								<input class="form-control" type="text" name="nombre" id="nombreproduc" placeholder="Nombre producto">
+								<input class="form-control" type="text" name="" id="refproduc" placeholder="Referencia producto">
 							</div>
 						</div>
 
 						<div class="form-group row">
-							<label for="apellido" class="col-md-4 col-form-label text-md-right"> </label>
+							<label  class="col-md-4 col-form-label text-md-right">Existencia Producto </label>
 							<div class="col-md-6">
-								<input class="form-control" type="text" name="" id="" placeholder="">
+								<input class="form-control" type="text" name="" id="exisproduc" placeholder="Existencia producto">
 							</div>
 						</div>
 
 						<div class="form-group row">
-							<label for="usuario" class="col-md-4 col-form-label text-md-right"> </label>
+							<label class="col-md-4 col-form-label text-md-right">Sucursal Producto</label>
 							<div class="col-md-6">
-								<input class="form-control" type="text" name="" id="" placeholder=" ">
+								<input class="form-control" type="text" name="" id="sucproduc" placeholder="Sucursal Producto ">
 							</div>
 						</div>
 
 						<div class="form-group row">
 							<div class="col-md-6 offset-md-4">
-								<button type="submit" class="btn btn-outline-primary">Aceptar</button>
+								<button type="button" class="btn btn-outline-primary">Aceptar</button>
 								<button type="button" class="btn btn-outline-secondary">Cancelar</button>
 							</div>
 						</div>

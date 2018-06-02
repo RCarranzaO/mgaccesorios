@@ -9,6 +9,6 @@ class EntradasController extends Controller
 {
   public function compra()
   {
-    return view('producto/compra');
+    return view('Entradas/compra');
   }
 }

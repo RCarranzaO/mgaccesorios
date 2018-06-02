@@ -21,7 +21,7 @@ Route::resource('/usuario', 'UsuarioController');
 
 //Rutas de producto
 Route::resource('/producto','ProductoController');
-Route::get('/producto/compra','EntradasController@compra')->name('compra');
+Route::get('/entradas/compra','EntradasController@compra')->name('compra');
 
 //Rutas de sucursal
 Route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
