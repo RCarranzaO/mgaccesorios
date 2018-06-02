@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
   @if (Auth::user()->rol == 1)
       <div class="container">

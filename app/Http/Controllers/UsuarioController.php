@@ -78,11 +78,7 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-
-        
-
-        
-
+        //
     }
 
     /**
@@ -150,7 +146,7 @@ class UsuarioController extends Controller
             $usuario->estatus = 1;
         }
         $usuario->save();
-        return redirect()->route('home');
+        return redirect()->route('usuario.index');
         
     }
 }
