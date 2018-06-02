@@ -15,7 +15,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="css/style.css">
         <!--<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">-->
-        <link href=" asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     </head>
     <body>

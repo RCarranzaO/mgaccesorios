@@ -15,26 +15,31 @@ class GastoController extends Controller
     }
     public function index()
     {
-      return view('gasto.gasto');
+        $fondos = Fondo::all();
+        $fondoId = $fondos->last();
+        return view('gasto.gasto', compact('fondoId'));
     }
     public function saveGasto(Request $request)
     {
         $validateData = $this->validate($request,[
-            'cantidad' => 'required|numeric'
+            'cantidad' => 'required|numeric',
+            'descripcion' => 'required|string|max:255'
         ]);
 
         $gastos = new Gasto();
         $fondo = Fondo::all();
+        $fondoId = $fondo->last();
         $date = Carbon::now();
         //$date = new \DateTime();
-        $gastos->id_fondo = $fondo->id_fondo;
+        $gastos->id_fondo = $fondoId->id_fondo;
         $gastos->descripcion = $request->input('descripcion');
         $gastos->cantidad = $request->input('cantidad');
         $gastos->fecha = $date;
         //$fondo->fecha = $date->format();
         $gastos->save();
+
         return redirect()->route('home')->with(array(
-            'message' => 'Gasto registrado'
+            'message' => 'El gasto se registro!'
         ));
     }
 }

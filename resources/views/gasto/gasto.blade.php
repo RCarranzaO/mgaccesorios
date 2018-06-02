@@ -48,13 +48,13 @@
                         <div class="form-group row">
                             <label for="cantidad" class="col-md-3 col-form-label text-md-right">Cantidad: $</label>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" id="cantidad" name="cantidad" value="{{ 0 }}">
+                                <input type="number" class="form-control" id="cantidad" name="cantidad" max="{{ $fondoId->cantidad }}" placeholder="Ingrese cantidad" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="cantidad" class="col-md-3 col-form-label text-md-right"> Descripción: </label>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion"/>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion" required/>
                             </div>
                         </div>
                     </div>

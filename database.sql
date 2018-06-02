@@ -135,3 +135,17 @@ CREATE TABLE traspasos(
     CONSTRAINT fk_traspasos_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
     CONSTRAINT fk_traspasos_users FOREIGN KEY(id_user) REFERENCES users(id_user)
 )ENGINE=InnoDb;
+
+CREATE TABLE saldo(
+    id_saldo INT(6) auto_increment NOT NULL,
+    id_fondo INT(6) NOT NULL,
+    id_cobro INT(6) NOT NULL,
+    id_gasto INT(6) NOT NULL,
+    id_devolucion INT(6) NOT NULL,
+    saldo_actual INT(10) NOT NULL,
+    CONSTRAINT pk_saldo PRIMARY KEY(id_saldo),
+    CONSTRAINT fk_saldo_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo),
+    CONSTRAINT fk_saldo_cobro FOREIGN KEY(id_cobro) REFERENCES cobro(id_cobro),
+    CONSTRAINT fk_saldo_gastos FOREIGN KEY(id_gasto) REFERENCES gastos(id_gasto),
+    CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion),
+)ENGINE=InnoDb;

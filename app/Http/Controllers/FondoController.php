@@ -5,6 +5,7 @@ namespace mgaccesorios\Http\Controllers;
 use Illuminate\Http\Request;
 use mgaccesorios\Fondo;
 use Carbon\Carbon;
+use mgaccesorios\Gasto;
 
 class FondoController extends Controller
 {
@@ -14,7 +15,9 @@ class FondoController extends Controller
     }
     public function index()
     {
-      return view('fondo.fondo');
+        $fondos = Fondo::all();
+        $fondoId = $fondos->last();
+        return view('fondo.fondo', compact('fondoId'));
     }
     public function saveFondo(Request $request)
     {
@@ -29,6 +32,7 @@ class FondoController extends Controller
         $fondo->id_user = $user->id_user;
         $fondo->cantidad = $request->input('cantidad');
         $fondo->fecha = $date;
+        $fondo->saldo_actual = $fondo->cantidad;
         //$fondo->fecha = $date->format();
         $fondo->save();
         return redirect()->route('home')->with(array(
