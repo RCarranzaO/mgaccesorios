@@ -5,6 +5,7 @@ namespace mgaccesorios\Http\Controllers;
 use Illuminate\Http\Request;
 use mgaccesorios\Gasto;
 use Carbon\Carbon;
+use mgaccesorios\Fondo;
 
 class GastoController extends Controller
 {
@@ -23,7 +24,7 @@ class GastoController extends Controller
         ]);
 
         $gastos = new Gasto();
-        $user = \Auth::user();
+        $fondo = Fondo::all();
         $date = Carbon::now();
         //$date = new \DateTime();
         $gastos->id_fondo = $fondo->id_fondo;

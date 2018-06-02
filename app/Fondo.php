@@ -13,4 +13,9 @@ class Fondo extends Model
     {
         return $this->hasOne('mgaccesorios\Usuario');
     }
+
+    public function Gasto()
+    {
+    	return $this->belongsTo('mgaccesorios\Gasto');
+    }
 }

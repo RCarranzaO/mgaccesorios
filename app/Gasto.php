@@ -9,8 +9,8 @@ class Gasto extends Model
     protected $table = 'gastos';
     public $timestamps = false;
 
-    public function Usuario()
+    public function Fondo()
     {
-        return $this->hasOne('mgaccesorios\Usuario');
+        return $this->hasMany('mgaccesorios\Fondo', 'id_gasto', 'id_fondo');
     }
 }
