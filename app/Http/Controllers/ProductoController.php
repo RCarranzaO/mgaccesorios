@@ -64,8 +64,12 @@ class ProductoController extends Controller
       $producto->precio_venta = $request->input('precio_venta');
       $producto->estatus = $request->input('estatus');
 
-      $producto->save();
-      return redirect()->route('home')->with('success','Data Added');
+      if ($producto->precio_venta < $producto->precio_compra) {
+        return redirect()->route('producto.create')->with('message','Precio de venta invalido.');
+      }else{
+        $producto->save();
+        return redirect()->route('home')->with('success','Data Added');
+      }
     }
 
     /**

@@ -118,7 +118,7 @@
 																	<label for="precio_compra" class="col-md-4 col-form-label text-md-right">Precio de compra</label>
 
 																	<div class="col-md-6">
-																			<input id="precio_compra" type="text" class="form-control{{ $errors->has('precio_compra') ? ' is-invalid' : '' }}" name="precio_compra" value="{{ old('precio_compra') }}" required>
+																			<input id="precio_compra" type="number" class="form-control{{ $errors->has('precio_compra') ? ' is-invalid' : '' }}" name="precio_compra" min="1" value="{{ old('precio_compra') }}" required>
 
 																			@if($errors->has('precio_compra'))
 																					<span class="invalid-feedback">
@@ -133,7 +133,7 @@
 																	<label for="precio_venta" class="col-md-4 col-form-label text-md-right">Precio de venta</label>
 
 																	<div class="col-md-6">
-																			<input id="precio_venta" type="text" class="form-control{{ $errors->has('precio_venta') ? ' is-invalid' : '' }}" name="precio_venta" value="{{ old('precio_venta') }}" required>
+																			<input id="precio_venta" type="number" class="form-control{{ $errors->has('precio_venta') ? ' is-invalid' : '' }}" name="precio_venta" min="1" value="{{ old('precio_venta') }}" required>
 
 																			@if($errors->has('precio_venta'))
 																					<span class="invalid-feedback">
