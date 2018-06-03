@@ -49,3 +49,8 @@ Route::get('/inventario', 'AlmacenController@index')->name('inventario');
 //Rutas de reportes
 Route::get('/reporte/almacen', 'ReportesController@index')->name('repalmacen');
 Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almacen.pdf');
+
+
+
+//Saldo
+Route::get('/saldo', 'SaldoController@index')->name('saldo');
