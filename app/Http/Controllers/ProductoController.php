@@ -65,8 +65,6 @@ class ProductoController extends Controller
       $producto->estatus = $request->input('estatus');
 
       if ($producto->precio_venta < $producto->precio_compra) {
-        //return redirect()->back()->with('message', 'Something went wrong.');
-        //return redirect()->route('producto.create')->withErrors('Precio de venta invalido.');
         return redirect()->back()->with('message','Precio de venta invalido.');
       }else{
         $producto->save();
