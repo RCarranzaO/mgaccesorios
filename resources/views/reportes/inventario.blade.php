@@ -2,6 +2,11 @@
 @section('content')
     @if (Auth::user()->rol == 1)
         <div class="container">
+            <p>
+                <a href="{{ route('almacen.pdf') }}" class="btn btn-sm btn-primary">
+                Descargar productos en PDF
+                </a>
+            </p>
             <table class="table text-center table-responsive-sm">
                 <thead class="thead-dark">
                     <tr>
@@ -38,11 +43,6 @@
                 </tbody>
             </table>
             <hr>
-            <p>
-                <a href="{{ route('almacen.pdf') }}" class="btn btn-sm btn-primary">
-                    Descargar productos en PDF
-                </a>
-            </p>
         </div>
     @else
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
