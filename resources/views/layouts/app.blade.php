@@ -102,6 +102,9 @@
                                     <a class="dropdown-item" href="{{ route('repalmacen') }}">Inventario</a>
                                 </div>
                             </li>
+                            <li class="nav-item  links">
+                                <a class="nav-link " href="{{ route('saldo') }}">Saldo</a>
+                            </li>
                         @endguest
                     </ul>
                     <!-- Right Side Of Navbar -->

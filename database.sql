@@ -138,10 +138,10 @@ CREATE TABLE traspasos(
 
 CREATE TABLE saldo(
     id_saldo INT(6) auto_increment NOT NULL,
-    id_fondo INT(6) NOT NULL,
-    id_cobro INT(6) NOT NULL,
-    id_gasto INT(6) NOT NULL,
-    id_devolucion INT(6) NOT NULL,
+    id_fondo INT(6) NULL,
+    id_cobro INT(6) NULL,
+    id_gasto INT(6) NULL,
+    id_devolucion INT(6) NULL,
     saldo_actual INT(10) NOT NULL,
     CONSTRAINT pk_saldo PRIMARY KEY(id_saldo),
     CONSTRAINT fk_saldo_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo),

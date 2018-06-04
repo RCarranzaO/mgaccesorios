@@ -13,7 +13,7 @@
                       @endif
                     Mg Accesorios
                 </div>
-                <footer >Saldo</footer>
+                <footer></footer>
             </div>
         </div>
     </div>
