@@ -80,7 +80,7 @@ class SaldoController extends Controller
 
         $saldo->save();
 
-        return redirect()->route('saldo')->with('success','Data Added');
+        return redirect()->route('home')->with('success','Data Added');
         //return view('home', compact('saldo'));
     }
 }

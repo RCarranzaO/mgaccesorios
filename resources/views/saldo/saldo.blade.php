@@ -33,7 +33,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-control">
+                <form class="form-control" action="{{ route('home') }}">
                     @csrf
                     @if($errors->any())
                         <div class="alert alert-danger">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-outline-primary" data-dismiss>Aceptar</button>
+                            <button type="submit" class="btn btn-outline-primary" >Aceptar</button>
                         </div>
 
                 </form>

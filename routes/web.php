@@ -53,5 +53,5 @@ Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almace
 
 
 //Saldo
-Route::get('/saldo/guardar', 'SaldoController@guardar')->name('guardar');
+Route::get('/saldo/guardar', 'SaldoController@guardar')->name('guardar-saldo');
 Route::get('/saldo', 'SaldoController@index')->name('saldo');
