@@ -34,7 +34,7 @@ class FondoController extends Controller
         $fondo->fecha = $date;
         //$fondo->fecha = $date->format();
         $fondo->save();
-        return redirect()->route('guardar')->with(array(
+        return redirect()->route('home')->with(array(
             'message' => 'El fondo fue registrado'
         ));
     }

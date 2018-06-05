@@ -103,7 +103,7 @@
                                 </div>
                             </li>
                             <li class="nav-item  links">
-                                <a class="nav-link " href="{{ route('saldo') }}">Saldo</a>
+                                <a class="nav-link " href="{{ route('guardar') }}">Saldo</a>
                             </li>
                         @endguest
                     </ul>

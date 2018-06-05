@@ -147,5 +147,5 @@ CREATE TABLE saldo(
     CONSTRAINT fk_saldo_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo),
     CONSTRAINT fk_saldo_cobro FOREIGN KEY(id_cobro) REFERENCES cobro(id_cobro),
     CONSTRAINT fk_saldo_gastos FOREIGN KEY(id_gasto) REFERENCES gastos(id_gasto),
-    CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion),
+    CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion)
 )ENGINE=InnoDb;

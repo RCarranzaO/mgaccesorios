@@ -38,7 +38,7 @@ class GastoController extends Controller
         //$fondo->fecha = $date->format();
         $gastos->save();
 
-        return redirect()->route('saldo')->with(array(
+        return redirect()->route('home')->with(array(
             'message' => 'El gasto se registro!'
         ));
     }
