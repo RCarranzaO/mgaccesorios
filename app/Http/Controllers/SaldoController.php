@@ -48,7 +48,7 @@ class SaldoController extends Controller
             $saldo->id_fondo = $fondoId->id_fondo;
         }
 
-        if ($saldoId->id_cobro == null) {
+        /*if ($saldoId->id_cobro == null) {
           $saldo->id_cobro = $cobroId->id_cobro;
           $saldo->saldo_actual = $saldoId->saldo_actual + $cobroId->monto_total;
         } elseif ($cobroId->id_cobro != $saldoId->id_cobro) {
@@ -56,7 +56,7 @@ class SaldoController extends Controller
             $saldo->saldo_actual = $saldoId->saldo_actual + $cobroId->monto_total;
         } else {
             $saldo->id_cobro = $cobroId->id_cobro;
-        }
+        }*/
 
         if ($saldoId->id_gasto == null) {
           $saldo->id_gasto = $gastoId->id_gasto;
@@ -68,7 +68,7 @@ class SaldoController extends Controller
             $saldo->id_gasto = $gastoId->id_gasto;
         }
 
-        if ($saldoId->id_devolucion == null) {
+        /*if ($saldoId->id_devolucion == null) {
           $saldo->id_devolucion = $devolucionId->id_devolucion;
           $saldo->saldo_actual = $saldoId->saldo_actual - $devolucionId->cantidad;
         } elseif ($devolucionId->id_devolucion != $saldoId->id_devolucion) {
@@ -76,7 +76,7 @@ class SaldoController extends Controller
             $saldo->saldo_actual = $saldoId->saldo_actual - $devolucionId->cantidad;
         } else {
             $saldo->id_devolucion = $devolucionId->id_devolucion;
-        }
+        }*/
 
         $saldo->save();
 
