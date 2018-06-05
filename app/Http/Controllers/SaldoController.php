@@ -38,27 +38,40 @@ class SaldoController extends Controller
         $devolucionId = $devolucion->last();
         $date = Carbon::now();
 
-        if ($fondoId->id_fondo != $saldoId->id_fondo) {
+        if ($saldoId->id_fondo == null) {
+          $saldo->id_fondo = $fondoId->id_fondo;
+          $saldo->saldo_actual = $fondoId->cantidad;
+        } elseif ($fondoId->id_fondo != $saldoId->id_fondo) {
             $saldo->id_fondo = $fondoId->id_fondo;
             $saldo->saldo_actual = $fondoId->cantidad;
         } else {
             $saldo->id_fondo = $fondoId->id_fondo;
         }
 
-        if ($cobroId->id_cobro != $saldoId->id_cobro) {
+        if ($saldoId->id_cobro == null) {
+          $saldo->id_cobro = $cobroId->id_cobro;
+          $saldo->saldo_actual = $saldoId->saldo_actual + $cobroId->monto_total;
+        } elseif ($cobroId->id_cobro != $saldoId->id_cobro) {
             $saldo->id_cobro = $cobroId->id_cobro;
             $saldo->saldo_actual = $saldoId->saldo_actual + $cobroId->monto_total;
         } else {
             $saldo->id_cobro = $cobroId->id_cobro;
         }
 
-        if ($gastoId->id_gasto != $saldoId->id_gasto) {
+        if ($saldoId->id_gasto == null) {
+          $saldo->id_gasto = $gastoId->id_gasto;
+          $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
+        } elseif ($gastoId->id_gasto != $saldoId->id_gasto) {
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
         } else {
             $saldo->id_gasto = $gastoId->id_gasto;
         }
-        if ($devolucionId->id_devolucion != $saldoId->id_devolucion) {
+
+        if ($saldoId->id_devolucion == null) {
+          $saldo->id_devolucion = $devolucionId->id_devolucion;
+          $saldo->saldo_actual = $saldoId->saldo_actual - $devolucionId->cantidad;
+        } elseif ($devolucionId->id_devolucion != $saldoId->id_devolucion) {
             $saldo->id_devolucion = $devolucionId->id_devolucion;
             $saldo->saldo_actual = $saldoId->saldo_actual - $devolucionId->cantidad;
         } else {
