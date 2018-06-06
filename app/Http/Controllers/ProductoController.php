@@ -68,7 +68,7 @@ class ProductoController extends Controller
         return redirect()->back()->with('message','Precio de venta invalido.');
       }else{
         $producto->save();
-        return redirect()->route('home')->with('success','Data Added');
+        return redirect()->route('home')->with('status','Producto agregado.');
       }
     }
 
