@@ -28,6 +28,7 @@ class FondoController extends Controller
         $fondo = new Fondo();
         $user = \Auth::user();
         $date = Carbon::now();
+        $date = $date->toDateString();
         //$date = new \DateTime();
         $fondo->id_user = $user->id_user;
         $fondo->cantidad = $request->input('cantidad');
