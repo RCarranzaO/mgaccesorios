@@ -90,8 +90,8 @@
                                 <li class="nav-item dropdown links">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Sucursal</a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{ route('alta') }}">Alta Sucursal</a>
-                                        <a class="dropdown-item" href="{{ route('lista') }}">Baja Sucursal</a>
+                                        <a class="dropdown-item" href="{{ route('sucursal.create') }}">Alta Sucursal</a>
+                                        <a class="dropdown-item" href="{{ route('sucursal.index') }}">Baja Sucursal</a>
                                     </div>
                                 </li>
                             @endif

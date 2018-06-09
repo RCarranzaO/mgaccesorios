@@ -31,7 +31,7 @@
           </td>
 
           <td>
-            <form method="get" action="{{url('/sucursal/eliminar/'.$sucursal->id_sucursal)}}">
+            <form method="post" action="/sucursal/{{ $sucursal->id_sucursal }}">
               @csrf
               @method('DELETE')
               @if($sucursal->estatus == 1)

@@ -8,7 +8,7 @@
 				<div class="card-header"><h4>Alta sucursal</h4></div>
 
 				<div class="card-body">
-					<form class="" method="POST" action="{{ route('guardar') }}">
+					<form class="" method="POST" action="{{ route('sucursal.store') }}">
 						@csrf
 						<div class="form-group row">
 							<label for="nombre" class="col-md-4 col-form-label text-md-right">Nombre sucursal</label>

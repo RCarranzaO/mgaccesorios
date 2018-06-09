@@ -24,10 +24,7 @@ Route::resource('/producto','ProductoController');
 Route::get('/entradas/compra','EntradasController@compra')->name('compra');
 
 //Rutas de sucursal
-Route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
-Route::post('/sucursal/guardar', 'SucursalController@store')->name('guardar');
-Route::get('/sucursal/lista', 'SucursalController@lista')->name('lista');
-Route::get('/sucursal/eliminar/{id_sucursal}', 'SucursalController@destroy')->name('eliminar');
+Route::resource('/sucursal', 'SucursalController');
 
 
 
