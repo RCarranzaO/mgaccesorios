@@ -1,5 +1,7 @@
 @extends('layouts.app')
+
 @section('content')
+
 @if (Auth::user()->rol == 1)
 <div class="container">
   <table class="table text-center">
@@ -8,7 +10,8 @@
         <th scope="col">Nombre</th>
         <th scope="col">Dirección</th>
         <th scope="col">Teléfono</th>
-        <th scope="col"></th>
+        <th scope="col">Estatus</th>
+        <th scope="col">Cambiar estatus</th>
       </tr>
     </thead>
 
@@ -18,13 +21,24 @@
           <td>{{ $sucursal->nombre_sucursal }}</td>
           <td>{{ $sucursal->direccion }}</td>
           <td>{{ $sucursal->telefono }}</td>
+
           <td>
-            <form method="POST" class="" action="/eliminar/{{ $sucursal->id_sucursal }}">
+            @if($sucursal->estatus == 1)
+              {{ $rol = 'Activo' }}
+            @else
+              {{ $rol = 'Inactivo' }}
+            @endif
+          </td>
+
+          <td>
+            <form method="post" action="/sucursal/{{ $sucursal->id_sucursal }}">
               @csrf
               @method('DELETE')
-              <button type="submit" value="{{$sucursal->estatus==1 ? '0' : '1'}}" name="estatus" class="btn btn-outline-danger">
-                Baja
-              </button>
+              @if($sucursal->estatus == 1)
+                <button class="btn btn-outline-danger" type="submit">Baja</button>
+              @else
+                <button class="btn btn-outline-success" type="submit">Alta</button>
+              @endif
             </form>
           </td>
         </tr>
