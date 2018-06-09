@@ -18,5 +18,9 @@ class AlmacenController extends Controller
         $productos = Producto::all();
         return view('almacen.almacen', compact('productos'));
     }
+    public function show()
+    {
+        
+    }
 
 }

@@ -12,11 +12,11 @@ class DetalleAlmacen extends Model
 
     public function Producto()
     {
-        return $this->hasMany('mgaccesorios\Producto', 'id_producto', 'referencia', 'categoria_producto', 'tipo_producto', 'marca', 'modelo', 'color', 'precio_venta');
+        return $this->hasMany('mgaccesorios\Producto');
     }
 
     public function Sucursal()
     {
-        return $this->hasMany('mgaccesorios\Sucursal', 'id_sucursal', 'nombre_sucursal');
+        return $this->hasMany('mgaccesorios\Sucursal');
     }
 }

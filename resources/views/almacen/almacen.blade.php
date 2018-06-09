@@ -2,11 +2,6 @@
 @section('content')
     @if (Auth::user()->rol == 1)
         <div class="container">
-            <p>
-                <a href="{{ route('almacen.pdf') }}" class="btn btn-sm btn-primary">
-                    Descargar productos en PDF
-                </a>
-            </p>
             <table class="table text-center table-responsive-sm">
                 <thead class="thead-dark">
                     <tr>

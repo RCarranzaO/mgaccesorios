@@ -3,6 +3,8 @@
 namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
+use mgaccesorios\Fondo;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $date = Carbon::now();
+        $fondos = Fondo::all();
+        $fondoId = $fondos->last();
+        if ($fondoId->fecha == $date) {
+            return view('home');
+        } else {
+            return redirect()->route('fondo');
+        }
     }
 }
