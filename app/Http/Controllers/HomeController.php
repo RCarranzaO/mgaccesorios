@@ -29,9 +29,9 @@ class HomeController extends Controller
         $fondos = Fondo::all();
         $fondoId = $fondos->last();
         if ($fondoId->fecha == $date) {
-            return view('home');
-        } else {
             return redirect()->route('fondo');
+        } else {
+            return view('home');
         }
     }
 }
