@@ -37,13 +37,16 @@ class SucursalController extends Controller
       return view('Sucursal/lista', compact('sucursales'));
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
       $sucursal = Sucursal::find($id);
-      $sucursal->estatus = $request->button("estatus");
+      if ($sucursal->estatus == 1) {
+          $sucursal->estatus == 0;
+      }else{
+          $sucursal->estatus = 1;
+      }
       $sucursal->save();
-
-      return redirect()->route('home');
+      return redirect()->route('lista');
     }
 
 }

@@ -27,7 +27,7 @@ Route::get('/entradas/compra','EntradasController@compra')->name('compra');
 Route::get('/sucursal/alta', 'SucursalController@alta')->name('alta');
 Route::post('/sucursal/guardar', 'SucursalController@store')->name('guardar');
 Route::get('/sucursal/lista', 'SucursalController@lista')->name('lista');
-Route::post('/sucursal/eliminar', 'SucursalController@destroy')->name('eliminar');
+Route::get('/sucursal/eliminar/{id_sucursal}', 'SucursalController@destroy')->name('eliminar');
 
 
 
@@ -55,3 +55,8 @@ Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almace
 //Saldo
 Route::get('/saldo/guardar', 'SaldoController@guardar')->name('guardar-saldo');
 Route::get('/saldo', 'SaldoController@index')->name('saldo');
+
+
+
+//PasswordReset
+Route::post('/email/reset', 'EmailController@envio')->name('password');
