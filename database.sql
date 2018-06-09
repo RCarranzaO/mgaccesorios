@@ -1,6 +1,15 @@
 CREATE DATABASE IF NOT EXISTS mgaccesorios;
 USE mgaccesorios;
 
+CREATE TABLE sucursales(
+    id_sucursal INT(6) auto_increment NOT NULL,
+    nombre_sucursal VARCHAR(50) NOT NULL,
+    direccion VARCHAR(100) NOT NULL,
+    telefono INT(10),
+    estatus INT(2) NOT NULL,
+    CONSTRAINT pk_sucursales PRIMARY KEY(id_sucursal)
+)ENGINE=InnoDb;
+
 CREATE TABLE users(
     id_user INT(6) auto_increment NOT NULL,
     name VARCHAR(20) NOT NULL,
@@ -9,18 +18,11 @@ CREATE TABLE users(
     email VARCHAR(20) NOT NULL,
     password VARCHAR(20) NOT NULL,
     rol INT(2) NOT NULL,
+    id_sucursal INT(6) NOT NULL,
     estatus INT(2) NOT NULL,
     remember_token VARCHAR(100),
-    CONSTRAINT pk_users PRIMARY KEY(id_user)
-)ENGINE=InnoDb;
-
-CREATE TABLE sucursales(
-    id_sucursal INT(6) auto_increment NOT NULL,
-    nombre_sucursal VARCHAR(50) NOT NULL,
-    direccion VARCHAR(100) NOT NULL,
-    telefono INT(10),
-    estatus INT(2) NOT NULL,
-    CONSTRAINT pk_sucursales PRIMARY KEY(id_sucursal)
+    CONSTRAINT pk_users PRIMARY KEY(id_user),
+    CONSTRAINT fk_users_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
 
 CREATE TABLE venta(

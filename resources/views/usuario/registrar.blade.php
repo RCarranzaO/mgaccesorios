@@ -113,6 +113,24 @@
 																</div>
 
 																<div class="form-group row">
+																		<label for="sucursal" class="col-md-4 col-form-label text-md-right">Sucursal</label>
+
+																		<div class="col-md-6">
+																				<select class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
+																						<option>Elija una opcion</option>
+																						@foreach ($sucursales as $sucursal)
+																								<option value={{$sucursal->id_sucursal}}>{{$sucursal->nombre_sucursal}}</option>
+																						@endforeach
+																				</select>
+																				@if($errors->has('sucursal'))
+																						<span class="invalid-feedback">
+																								<strong>{{ $errors->first('sucursal') }}</strong>
+																						</span>
+																				@endif
+																		</div>
+																</div>
+
+																<div class="form-group row">
 																		<label for="estatus" class="col-md-4 col-form-label text-md-right" hidden>{{ __('Estatus') }}</label>
 
 																		<div class="col-md-6">

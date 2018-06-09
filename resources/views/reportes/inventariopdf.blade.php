@@ -13,7 +13,7 @@
     <body>
         <br>
         <div class="container">
-                <div align="right">Fecha:</div>
+            <div align="right">Fecha:</div>
             <table align="center" width="100%" border="1" cellspacing="0" cellpadding="2">
                 <tr>
                     <td colspan="8" bgcolor="skyblue"><center><strong>REPORTE DE INVENTARIO</strong></center></td>
@@ -26,7 +26,7 @@
                     <td><strong>MODELO</strong></td>
                     <td><strong>COLOR</strong></td>
                     <td><strong>PRECIO</strong></td>
-                    <td><strong>SUCURSAL</strong></td> 
+                    <td><strong>SUCURSAL</strong></td>
                 </tr>
 
             </table>
