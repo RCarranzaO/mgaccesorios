@@ -8,6 +8,7 @@ class Sucursal extends Model
 {
     protected $table = 'sucursales';
     public $timestamps = false;
+    protected $primaryKey = 'id_sucursal';
     protected $fillable = [
         'nombre_sucursal', 'direccion', 'telefono', 'estatus',
     ];
@@ -30,5 +31,9 @@ class Sucursal extends Model
     public function Venta()
       {
         return $this->hasMany('mgaccesorios\Venta');
+      }
+      public function Usuario()
+      {
+          return $this->hasMany('mgaccesorios\Usuario');
       }
 }

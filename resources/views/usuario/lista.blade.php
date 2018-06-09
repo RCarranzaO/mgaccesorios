@@ -13,6 +13,7 @@
 						<th scope="col">Usuario</th>
 						<th scope="col">Correo</th>
 						<th scope="col">Rol</th>
+						<th scope="col">Sucursal</th>
 						<th scope="col">Estatus</th>
 						<th scope="col">Editar</th>
 						<th scope="col">Cambiar estatus</th>
@@ -20,7 +21,7 @@
 				</thead>
 
 				<tbody>
-					
+
 					@foreach($usuarios as $usuario)
 
 
@@ -37,6 +38,7 @@
 									{{ $rol = 'Vendedor' }}
 								@endif
 							</td>
+							<td>{{ $usuario->id_sucursal }}</td>
 							<td>
 								@if($usuario->estatus == 1)
 									{{ $rol = 'Activo' }}
@@ -57,7 +59,7 @@
 										<button class="btn btn-outline-success" type="submit">Alta</button>
 									@endif
 								</form>
-								
+
 							</td>
 						</tr>
 

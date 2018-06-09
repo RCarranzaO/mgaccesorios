@@ -23,6 +23,7 @@ class Usuario extends Model
         'email',
         'password',
         'rol',
+        'id_sucursal',
         'estatus',
     ];
 
@@ -35,5 +36,10 @@ class Usuario extends Model
         'password',
         'remember_token',
     ];
+
+    public function Sucursal()
+    {
+        return $this->belongsTo('mgaccesorios\Sucursal', 'id_sucursal', 'id_user');
+    }
 
 }

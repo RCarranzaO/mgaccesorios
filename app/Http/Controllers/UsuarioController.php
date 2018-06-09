@@ -4,6 +4,7 @@ namespace mgaccesorios\Http\Controllers;
 
 use mgaccesorios\User;
 use Illuminate\Http\Request;
+use mgaccesorios\Sucursal;
 
 class UsuarioController extends Controller
 {
@@ -24,8 +25,8 @@ class UsuarioController extends Controller
     {
 
         $usuarios = User::all();
-
-        return view('usuario/lista', compact('usuarios'));
+        $sucursales = Sucursal::all();
+        return view('usuario/lista', compact('usuarios', 'sucursales'));
 
     }
 
@@ -36,7 +37,8 @@ class UsuarioController extends Controller
      */
     public function create()//Muestra el formulario para registrar un usuario nuevo
     {
-        return view('usuario/registrar');
+        $sucursales = Sucursal::all();
+        return view('usuario/registrar', compact('sucursales'));
     }
 
     /**
@@ -53,7 +55,8 @@ class UsuarioController extends Controller
             'usuario' => 'required|string|max:255',
             'correo' => 'required|email|string|max:255',
             'password' => 'required|string|min:6|max:15|confirmed',
-            'rol' => 'required|integer|max:2'
+            'rol' => 'required|integer|max:2',
+            'sucursal' => 'required|integer|max:6',
         ]);
 
         $usuario = new User();
@@ -63,6 +66,7 @@ class UsuarioController extends Controller
         $usuario->email = $request->input('correo');
         $usuario->password = bcrypt($request->input('password'));
         $usuario->rol = $request->input('rol');
+        $usuario->id_sucursal = $request->input('sucursal');
         $usuario->estatus = $request->input('estatus');
         $usuario->save();
         //return 'Guardado';
@@ -90,7 +94,9 @@ class UsuarioController extends Controller
     public function edit($id)//Muestra la informacion a editar del usuario
     {
         $usuario = User::find($id);
-        return view('usuario/editar', compact('usuario', 'id_user'));
+        $sucursales = Sucursal::find($usuario->id_sucursal);
+        $sucursalId = Sucursal::all();
+        return view('usuario/editar', compact('usuario', 'id_user', 'sucursales', 'sucursalId'));
     }
 
     /**
@@ -107,8 +113,9 @@ class UsuarioController extends Controller
             'apellido' => 'required|string|max:255',
             'usuario' => 'required|string|max:255',
             'correo' => 'required|email|string|max:255',
-            'password' => '|string|min:6|max:15|confirmed',
-            'rol' => 'required|integer|max:2'
+            'password' => 'string|min:6|confirmed',
+            'rol' => 'required|integer|max:2',
+            'sucursal' => 'required|integer|max:6',
         ]);
         $usuario = User::find($id);
         $usuario->name = $request->input('nombre');
@@ -117,17 +124,18 @@ class UsuarioController extends Controller
         $usuario->email = $request->input('correo');
         $usuario->password = bcrypt($request->input('password'));
         $usuario->rol = $request->input('rol');
+        $usuario->id_sucursal = $request->input('sucursal');
         $usuario->save();
         switch ($request->input('action')) {
             case 'ays':
                 return redirect()->route('home');
                 break;
-            
+
             case 'aym':
                 return redirect()->route('usuario.index');
                 break;
         }
-        
+
     }
 
     /**
@@ -147,6 +155,6 @@ class UsuarioController extends Controller
         }
         $usuario->save();
         return redirect()->route('usuario.index');
-        
+
     }
 }
