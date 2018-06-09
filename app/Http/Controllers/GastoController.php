@@ -30,6 +30,7 @@ class GastoController extends Controller
         $fondo = Fondo::all();
         $fondoId = $fondo->last();
         $date = Carbon::now();
+        $date = $date->toDateString();
         //$date = new \DateTime();
         $gastos->id_fondo = $fondoId->id_fondo;
         $gastos->descripcion = $request->input('descripcion');

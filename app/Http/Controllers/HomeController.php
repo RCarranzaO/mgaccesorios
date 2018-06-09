@@ -26,6 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         $date = Carbon::now();
+        $date = $date->toDateString();
         $fondos = Fondo::all();
         $fondoId = $fondos->last();
         if ($fondoId->fecha == $date) {
