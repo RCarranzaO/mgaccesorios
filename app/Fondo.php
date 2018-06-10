@@ -8,6 +8,7 @@ class Fondo extends Model
 {
     protected $table = 'fondo';
     public $timestamps = false;
+    protected $primaryKey = 'id_fondo';
 
     public function Usuario()
     {

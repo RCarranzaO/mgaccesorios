@@ -6,12 +6,7 @@
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
                 <form class="form-inline" action="" method="post">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" name="data" aria-label="Search">
-                    <select class="form-control mr-sm-2" name="marca">
-                        <option value="0">Todas las marcas</option>
-                        @foreach ($productoM as $producto)
-                            <option value="{{ $producto->marca }}">{{ $producto->marca }}</option>
-                        @endforeach
-                    </select>
+
                     <select class="form-control mr-sm-2" name="sucursal">
                         <option value="0">Todas las sucursales</option>
                         @foreach ($sucursales as $sucursal)

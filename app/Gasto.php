@@ -8,6 +8,7 @@ class Gasto extends Model
 {
     protected $table = 'gastos';
     public $timestamps = false;
+    protected $primaryKey = 'id_gasto';
 
     public function Saldo()
     {

@@ -8,6 +8,7 @@ class Saldo extends Model
 {
     protected $table = 'saldo';
     public $timestamps = false;
+    protected $primaryKey = 'id_saldo';
 
     public function Fondo()
     {

@@ -27,8 +27,8 @@
                               <td>{{ $producto->marca }}</td>
                               <td>{{ $producto->modelo }}</td>
                               <td>{{ $producto->color }}</td>
-                              <td>{{ $producto->precio_compra}}</td>
-                              <td>{{ $producto->precio_venta }}</td>
+                              <td>$ {{ $producto->precio_compra}}</td>
+                              <td>$ {{ $producto->precio_venta }}</td>
                               <td>{{ $producto->estatus == 1 ? 'Activo' : 'Inactivo' }}</td>
                               <td>
                                   <a href="{{ route('producto.edit', $producto->id_producto) }}" class="btn btn-outline-info">Editar</a>

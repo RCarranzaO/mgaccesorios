@@ -34,6 +34,6 @@ class Sucursal extends Model
       }
       public function Usuario()
       {
-          return $this->hasMany('mgaccesorios\Usuario');
+          return $this->hasMany('mgaccesorios\User');
       }
 }

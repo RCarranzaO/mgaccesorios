@@ -91,7 +91,30 @@ class AlmacenController extends Controller
      */
     public function show($id)
     {
-        //
+        $sucursal = $request->input('sucursal');
+        $sucursales = Sucursal::all();
+        $sucursalId = Sucursal::find($request->input('sucursal'));
+        $productos = DB::table('detallealmacen')
+            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia');
+          if ($sucursal==0) {
+              $resultado = $productos->where('producto.referencia', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.marca', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.modelo', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.color', 'like', '%'.$request->input('data').'%');
+
+          } else {
+              $resultado = $productos->where('', 'pattern')
+                                    ->where('producto.referencia', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.modelo', 'like', '%'.$request->input('data').'%')
+                                    ->orWhere('producto.color', 'like', '%'.$request->input('data').'%');
+          }
+
     }
 
     /**
