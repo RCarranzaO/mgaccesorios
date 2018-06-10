@@ -52,7 +52,7 @@
                             <li class="nav-item dropdown links">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Entradas</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('compra') }}">Compras</a>
+                                    <a class="dropdown-item" href="{{ route('almacen.create') }}">Compras</a>
                                     <a class="dropdown-item" href="#">Devoluciones</a>
                                 </div>
                             </li>
@@ -65,7 +65,7 @@
                                 </div>
                             </li>
                             <li class="nav-item  links">
-                                <a class="nav-link " href="{{ route('inventario') }}">Inventario</a>
+                                <a class="nav-link " href="{{ route('almacen.index') }}">Inventario</a>
                                 <!--<div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Ventas</a>
                                     <a class="dropdown-item" href="#">Traspaso a Sucursal</a>

@@ -52,8 +52,8 @@ class UsuarioController extends Controller
         $validateData = $this->validate($request,[
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'usuario' => 'required|string|max:255',
-            'correo' => 'required|email|string|max:255',
+            'usuario' => 'required|string|max:255|unique:users',
+            'correo' => 'required|email|string|max:255|unique:users',
             'password' => 'required|string|min:6|max:15|confirmed',
             'rol' => 'required|integer|max:2',
             'sucursal' => 'required|integer|max:6',

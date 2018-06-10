@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
     @if (Auth::user()->rol == 1)
+
         <div class="container">
-            <table class="table text-center table-responsive-sm">
+            <table class="table text-center table-responsive-sm" id="general">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Refencia</th>
@@ -13,20 +14,22 @@
                         <th scope="col">Color</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Sucursal</th>
+                        <th scope="col">existencia</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if ($productos->count())
                         @foreach ($productos as $producto)
                             <tr>
-                                <td>{{ 1 }}</td>
-                                <td>{{ 2 }}</td>
-                                <td>{{ 3 }}</td>
-                                <td>{{ 4 }}</td>
-                                <td>{{ 5 }}</td>
-                                <td>{{ 6 }}</td>
-                                <td>{{ 7 }}</td>
-                                <td>{{ 8 }}</td>
+                                <td>{{ $producto->referencia }}</td>
+                                <td>{{ $producto->categoria_producto }}</td>
+                                <td>{{ $producto->tipo_producto }}</td>
+                                <td>{{ $producto->marca }}</td>
+                                <td>{{ $producto->modelo }}</td>
+                                <td>{{ $producto->color }}</td>
+                                <td>{{ $producto->precio_venta }}</td>
+                                <td>{{ $producto->nombre_sucursal }}</td>
+                                <td>{{ $producto->existencia }}</td>
                             </tr>
                         @endforeach
                     @else

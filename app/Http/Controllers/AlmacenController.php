@@ -4,89 +4,122 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use mgaccesorios\DetalleAlmacen;
+use mgaccesorios\Producto;
+use mgaccesorios\Sucursal;
 
 class AlmacenController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        $productos = DB::table('detallealmacen')
+            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+            ->get();
+        return view('almacen.almacen', compact('productos'));
+    }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $sucursales = Sucursal::all();
+        $productos = Producto::all();
+        return view('entradas.compra', compact('sucursales', 'productos'));
+    }
 
-      public function __construct()
-      {
-          $this->middleware('auth');
-      }
-      public function index()
-      {
-          $almacenes = DetalleAlmacen::all();
-          return view('almacen.almacen', compact('almacenes'));
-      }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $productos = Producto::all();
+        $sucursales = Sucursal::all();
 
-      /**
-       * Show the form for creating a new resource.
-       *
-       * @return \Illuminate\Http\Response
-       */
-      public function create()
-      {
-          //
-      }
+        $validateData = $this->validate($request, [
+            'refproduc' => 'required|string|max:255',
+            'exisproduc' => 'required|string|max:6',
+            'sucproduc' => 'required|string|max:255',
+        ]);
 
-      /**
-       * Store a newly created resource in storage.
-       *
-       * @param  \Illuminate\Http\Request  $request
-       * @return \Illuminate\Http\Response
-       */
-      public function store(Request $request)
-      {
-          //
-      }
+        $almacen = new DetalleAlmacen();
+        $almacen->id_producto = $request->input('refproduc');
+        $almacen->id_sucursal = $request->input('sucproduc');
+        $almacen->existencia = $request->input('exisproduc');
 
-      /**
-       * Display the specified resource.
-       *
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
-      public function show($id)
-      {
-          //
-      }
+        $almacen->save();
 
-      /**
-       * Show the form for editing the specified resource.
-       *
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
-      public function edit($id)
-      {
-          //
-      }
+        switch ($request->input('action')) {
+          case 'aya':
+              return redirect()->route('almacen.create');
+              break;
 
-      /**
-       * Update the specified resource in storage.
-       *
-       * @param  \Illuminate\Http\Request  $request
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
-      public function update(Request $request, $id)
-      {
-          //
-      }
+            case 'ays':
+                return redirect()->route('home')->with('message', 'Se agregaron todos los productos al inventario');
+                break;
+        }
 
-      /**
-       * Remove the specified resource from storage.
-       *
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
-      public function destroy($id)
-      {
-          //
-      }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }
