@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
-		<script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript">
 				$(document).ready(function() {
-				$('.select-search').select2();
+						$('.select-search').select2();
 				});
 		</script>
 		<div class="container">
@@ -17,7 +18,7 @@
 														<div class="form-group row">
 																<label class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
 																<div class="col-md-6">
-																	<select class="form-control select-search {{ $errors->has('refproduc') ? ' is-invalid' : '' }}" name="refproduc"  required filter>
+																	<select class="form-control select-search {{ $errors->has('refproduc') ? ' is-invalid' : '' }}" name="refproduc[]" required>
 																			<option>Elija una opcion</option>
 																			@foreach ($productos as $producto)
 																					<option value={{$producto->id_producto}}>{{$producto->referencia}}</option>
