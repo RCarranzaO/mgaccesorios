@@ -96,7 +96,7 @@ class SucursalController extends Controller
     {
         $sucursal = Sucursal::find($id);
         if ($sucursal->estatus == 1) {
-            $sucursal->estatus == 0;
+            $sucursal->estatus = 0;
         }else{
             $sucursal->estatus = 1;
         }
