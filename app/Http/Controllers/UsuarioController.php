@@ -96,7 +96,7 @@ class UsuarioController extends Controller
         $usuario = User::find($id);
         $sucursales = Sucursal::find($usuario->id_sucursal);
         $sucursalId = Sucursal::all();
-        return view('usuario/editar', compact('usuario', 'id_user', 'sucursales', 'id_sucursal'));
+        return view('usuario/editar', compact('usuario', 'id_user', 'sucursales', 'sucursalId'));
     }
 
     /**

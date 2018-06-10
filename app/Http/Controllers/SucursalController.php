@@ -42,6 +42,12 @@ class SucursalController extends Controller
      */
     public function store(Request $request)
     {
+        $validateData = $this->validate($request, [
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'telefono' => 'required|numeric|max:15',
+            'estatus' => 'required|numeric|max:2'
+        ]);
         $sucursal = new Sucursal();
         $sucursal->nombre_sucursal = $request->input('nombre');
         $sucursal->direccion = $request->input('direccion');
