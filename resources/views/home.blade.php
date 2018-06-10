@@ -10,6 +10,10 @@
                           <div class="alert alert-success">
                               {{ session('status') }}
                           </div>
+                      @elseif(session('message'))
+                          <div class="alert alert-success">
+                              {{ session('message') }}
+                          </div>
                       @endif
                     Mg Accesorios
                 </div>

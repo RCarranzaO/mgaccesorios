@@ -3,6 +3,17 @@
     @if (Auth::user()->rol == 1)
 
         <div class="container">
+            <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
+                <form class="form-inline" action="" method="post">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="data" aria-label="Search">
+                    <select class="form-control" name="marca">
+                        @foreach ($productoId as $producto)
+                            <option value="{{ $producto->marca }}">{{ $producto->marca }}</option>
+                        @endforeach
+                    </select>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                </form>
+            </nav>
             <table class="table text-center table-responsive-sm" id="general">
                 <thead class="thead-dark">
                     <tr>

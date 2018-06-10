@@ -22,12 +22,13 @@ class AlmacenController extends Controller
      */
     public function index()
     {
+        $productoId = Producto::all();
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
             ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
             ->get();
-        return view('almacen.almacen', compact('productos'));
+        return view('almacen.almacen', compact('productos', 'productoId'));
     }
 
     /**
