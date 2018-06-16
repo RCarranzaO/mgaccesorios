@@ -13,12 +13,12 @@
 										<div class="card-header"><h4>Compra Producto</h4></div>
 
 										<div class="card-body">
-												<form class="" method="POST" action="{{ route('almacen.store') }}">
+												<form class="form-control" method="POST" action="{{ route('almacen.store') }}">
 														@csrf
 														<div class="form-group row">
 																<label class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
 																<div class="col-md-6">
-																	<select class="form-control select-search {{ $errors->has('refproduc') ? ' is-invalid' : '' }}" name="refproduc[]" required>
+																	<select class="form-control select-search {{ $errors->has('refproduc') ? ' is-invalid' : '' }}" name="refproduc" required>
 																			<option>Elija una opcion</option>
 																			@foreach ($productos as $producto)
 																					<option value={{$producto->id_producto}}>{{$producto->referencia}}</option>
@@ -50,7 +50,7 @@
 																		<select class="form-control{{ $errors->has('sucproduc') ? ' is-invalid' : '' }}" name="sucproduc" required>
 																				<option>Elija una opcion</option>
 																				@foreach ($sucursales as $sucursal)
-																						<option value={{$sucursal->id_sucursal}}>{{$sucursal->nombre_sucursal}}</option>
+																						<option value="{{$sucursal->id_sucursal}}">{{$sucursal->nombre_sucursal}}</option>
 																				@endforeach
 																		</select>
 																		@if($errors->has('sucproduc'))

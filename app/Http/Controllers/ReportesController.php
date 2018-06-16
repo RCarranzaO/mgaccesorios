@@ -5,6 +5,7 @@ namespace mgaccesorios\Http\Controllers;
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 use mgaccesorios\Producto;
 
 class ReportesController extends Controller
@@ -15,12 +16,22 @@ class ReportesController extends Controller
     }
     public function index()
     {
-        $productos = Producto::all();
+      $productos = DB::table('detallealmacen')
+          ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+          ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+          ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+          ->get();
         return view('reportes.inventario', compact('productos'));
     }
     public function pdf()
     {
-        $productos = Producto::all();
+
+        //$sucursales = Sucursal::all();
+        $productos = DB::table('detallealmacen')
+            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+            ->get();
         $fecha = date('Y-m-d');
 
         $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));

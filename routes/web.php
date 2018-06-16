@@ -40,7 +40,7 @@ Route::post('/caja/guardar-gasto', 'GastoController@saveGasto')->name('guardar-g
 
 //Rutas de almacen
 Route::resource('/almacen', 'AlmacenController');
-
+Route::post('/almacen-search', 'BuscarController@BuscarAlm')->name('buscaralm');
 
 
 //Rutas de reportes

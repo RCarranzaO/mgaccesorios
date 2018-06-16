@@ -24,11 +24,26 @@
                     <td><strong>TIPO</strong></td>
                     <td><strong>MARCA</strong></td>
                     <td><strong>MODELO</strong></td>
-                    <td><strong>COLOR</strong></td>
-                    <td><strong>PRECIO</strong></td>
                     <td><strong>SUCURSAL</strong></td>
+                    <td><strong>EXISTENCIA</strong></td>
                 </tr>
-
+                @if ($productos->count())
+                    @foreach ($productos as $producto)
+                        <tr>
+                            <td>{{ $producto->referencia }}</td>
+                            <td>{{ $producto->categoria_producto }}</td>
+                            <td>{{ $producto->tipo_producto }}</td>
+                            <td>{{ $producto->marca }}</td>
+                            <td>{{ $producto->modelo }}</td>
+                            <td>{{ $producto->nombre_sucursal }}</td>
+                            <td>{{ $producto->existencia }}</td>
+                        </tr>
+                      @endforeach
+                    @else
+                      <tr>
+                          <td colspan="8"><h3>No hay registros!!</h3></td>
+                      </tr>
+                    @endif
             </table>
         </div>
     </body>

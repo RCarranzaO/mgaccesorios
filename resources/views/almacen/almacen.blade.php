@@ -4,7 +4,8 @@
 
         <div class="container">
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
-                <form class="form-inline" action="" method="post">
+                <form class="form-inline" action="{{ route('buscaralm') }}" method="post">
+                  @csrf
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" name="data" aria-label="Search">
 
                     <select class="form-control mr-sm-2" name="sucursal">
@@ -54,6 +55,7 @@
                 </tbody>
             </table>
             <hr>
+            {{ $productos->links() }}
         </div>
     @else
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
