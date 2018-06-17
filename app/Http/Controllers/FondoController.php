@@ -33,7 +33,12 @@ class FondoController extends Controller
         $date = $date->toDateString();
         //$date = new \DateTime();
 
-        if ($fondoId->fecha == $date) {
+        if ($fondoId->isEmpty();) {
+            $fondo->id_user = $user->id_user;
+            $fondo->cantidad = $request->input('cantidad');
+            $fondo->fecha = $date;
+            $fondo->save();
+        } elseif ($fondoId->fecha == $date) {
             $fondoId->id_user = $user->id_user;
             $fondoId->cantidad = $request->input('cantidad');
             $fondoId->save();
