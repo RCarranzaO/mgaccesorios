@@ -16,25 +16,37 @@ class FondoController extends Controller
     public function index()
     {
         $fondos = Fondo::all();
+        $user = \Auth::user();
         $fondoId = $fondos->last();
-        return view('fondo.fondo', compact('fondoId'));
+        return view('fondo.fondo', compact('fondoId', 'user'));
     }
     public function saveFondo(Request $request)
     {
         $validateData = $this->validate($request,[
             'cantidad' => 'required|numeric'
         ]);
-
+        $fondos = Fondo::all();
         $fondo = new Fondo();
+        $fondoId = $fondos->last();
         $user = \Auth::user();
         $date = Carbon::now();
         $date = $date->toDateString();
         //$date = new \DateTime();
-        $fondo->id_user = $user->id_user;
-        $fondo->cantidad = $request->input('cantidad');
-        $fondo->fecha = $date;
+
+        if ($fondoId->fecha == $date) {
+            $fondoId->id_user = $user->id_user;
+            $fondoId->cantidad = $request->input('cantidad');
+            $fondoId->save();
+        } else {
+            $fondo->id_user = $user->id_user;
+            $fondo->cantidad = $request->input('cantidad');
+            $fondo->fecha = $date;
+            $fondo->save();
+        }
+        //dd($fondoId);
+
         //$fondo->fecha = $date->format();
-        $fondo->save();
+
         return redirect()->route('guardar-saldo')->with(array(
             'message' => 'El fondo fue registrado'
         ));

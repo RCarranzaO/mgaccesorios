@@ -65,7 +65,7 @@ class ProductoController extends Controller
         $producto->estatus = $request->input('estatus');
 
         if ($producto->precio_venta < $producto->precio_compra) {
-          return redirect()->back()->with('message','Precio de venta invalido.');
+          return redirect()->back()->with('message','Precio de venta invalido, debe ser mayor al de compra.');
         }else{
           $producto->save();
           return redirect()->route('home')->with('status','Producto agregado.');
