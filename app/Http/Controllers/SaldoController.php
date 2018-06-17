@@ -38,7 +38,7 @@ class SaldoController extends Controller
         $devolucionId = $devolucion->last();
         $date = Carbon::now();
 
-        if ($saldos->isEmpty()) {
+        if (!$saldoId) {
             $saldo->id_fondo = $fondoId->id_fondo;
             $saldo->saldo_actual = $fondoId->cantidad;
             $saldo->fecha = $date;
@@ -65,11 +65,11 @@ class SaldoController extends Controller
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
             $saldo->fecha = $date;
-        } elseif ($gastoId->id_gasto == $saldoId->id_gasto) {
+        } elseif ($gastoId->id_gasto != $saldoId->id_gasto) {
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
             $saldo->fecha = $date;
-        }
+        } 
 
         /*if ($saldoId->id_devolucion == null) {
           $saldo->id_devolucion = $devolucionId->id_devolucion;
