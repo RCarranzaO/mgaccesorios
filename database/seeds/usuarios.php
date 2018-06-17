@@ -18,6 +18,16 @@ class usuarios extends Seeder
             'email' => 'leinad_6991@hotmail.com',
             'password' => bcrypt('admind'),
             'rol' => '1',
+            'id_sucursal' => '2',
+            'estatus' => '1'
+        ));
+        DB::table('users')->insert(array(
+            'name' => 'Rafael',
+            'lastname' => 'Carranza',
+            'username' => 'rcarranza',
+            'email' => 'rcarranza1390@gmail.com',
+            'password' => bcrypt('adminr'),
+            'rol' => '1',
             'id_sucursal' => '1',
             'estatus' => '1'
         ));
