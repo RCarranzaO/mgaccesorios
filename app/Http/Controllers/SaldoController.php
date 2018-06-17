@@ -38,14 +38,17 @@ class SaldoController extends Controller
         $devolucionId = $devolucion->last();
         $date = Carbon::now();
 
-        if ($saldoId->id_fondo == null) {
-          $saldo->id_fondo = $fondoId->id_fondo;
-          $saldo->saldo_actual = $fondoId->cantidad;
+        if ($saldos->isEmpty()) {
+            $saldo->id_fondo = $fondoId->id_fondo;
+            $saldo->saldo_actual = $fondoId->cantidad;
+            $saldo->fecha = $date;
         } elseif ($fondoId->id_fondo != $saldoId->id_fondo) {
             $saldo->id_fondo = $fondoId->id_fondo;
             $saldo->saldo_actual = $fondoId->cantidad;
+            $saldo->fecha = $date;
         } else {
-            $saldo->id_fondo = $fondoId->id_fondo;
+            $saldoId->saldo_actual = $fondoId->cantidad;
+            $saldoId->fecha = $date;
         }
 
         /*if ($saldoId->id_cobro == null) {
@@ -59,13 +62,13 @@ class SaldoController extends Controller
         }*/
 
         if ($saldoId->id_gasto == null) {
-          $saldo->id_gasto = $gastoId->id_gasto;
-          $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
-        } elseif ($gastoId->id_gasto != $saldoId->id_gasto) {
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
-        } else {
+            $saldo->fecha = $date;
+        } elseif ($gastoId->id_gasto == $saldoId->id_gasto) {
             $saldo->id_gasto = $gastoId->id_gasto;
+            $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
+            $saldo->fecha = $date;
         }
 
         /*if ($saldoId->id_devolucion == null) {

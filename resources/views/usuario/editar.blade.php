@@ -108,7 +108,7 @@
 
 										<div class="col-md-6">
 												<select class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
-														<option>{{$sucursales->nombre_sucursal}}</option>
+														<option value="{{$sucursales->id_sucursal}}">{{$sucursales->nombre_sucursal}}</option>
 														@foreach ($sucursalId as $sucursal)
 																@if ($sucursal->id_sucursal != $sucursales->id_sucursal)
 																		<option value={{$sucursal->id_sucursal}}>{{$sucursal->nombre_sucursal}}</option>

@@ -43,10 +43,10 @@
 																</div>
 
 																<div class="form-group row {{ $errors->has('usuario') ? 'has-error' : '' }}">
-																		<label for="usuario" class="col-md-4 col-form-label text-md-right">Usuario</label>
+																		<label for="username" class="col-md-4 col-form-label text-md-right">Usuario</label>
 
 																		<div class="col-md-6">
-																				<input id="usuario" type="text" class="form-control" name="usuario" value="{{ old('usuario') }}" required maxlength="20">
+																				<input id="usuario" type="text" class="form-control" name="username" value="{{ old('usuario') }}" required maxlength="20">
 
 																				@if($errors->has('usuario'))
 																						<span class="help-block">
@@ -58,10 +58,10 @@
 																</div>
 
 																<div class="form-group row {{ $errors->has('correo') ? 'has-error' : '' }}">
-																		<label for="correo" class="col-md-4 col-form-label text-md-right">Correo</label>
+																		<label for="email" class="col-md-4 col-form-label text-md-right">Correo</label>
 
 																		<div class="col-md-6">
-																				<input id="correo" type="text" class="form-control" name="correo" value="{{ old('correo') }}" required>
+																				<input id="correo" type="text" class="form-control" name="email" value="{{ old('correo') }}" required>
 
 																				@if($errors->has('correo'))
 																						<span class="invalid-feedback">

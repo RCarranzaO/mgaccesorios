@@ -52,8 +52,8 @@ class UsuarioController extends Controller
         $validateData = $this->validate($request,[
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'usuario' => 'required|string|max:255|unique:users',
-            'correo' => 'required|email|string|max:255|unique:users',
+            'username' => 'required|string|max:255|unique:users',
+            'email' => 'required|email|string|max:255|unique:users',
             'password' => 'required|string|min:6|max:15|confirmed',
             'rol' => 'required|integer|max:2',
             'sucursal' => 'required|integer|max:6',
@@ -62,8 +62,8 @@ class UsuarioController extends Controller
         $usuario = new User();
         $usuario->name = $request->input('nombre');
         $usuario->lastname = $request->input('apellido');
-        $usuario->username = $request->input('usuario');
-        $usuario->email = $request->input('correo');
+        $usuario->username = $request->input('username');
+        $usuario->email = $request->input('email');
         $usuario->password = bcrypt($request->input('password'));
         $usuario->rol = $request->input('rol');
         $usuario->id_sucursal = $request->input('sucursal');
