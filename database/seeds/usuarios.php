@@ -12,12 +12,13 @@ class usuarios extends Seeder
     public function run()
     {
         DB::table('users')->insert(array(
-            'name' => 'Rafael',
-            'lastname' => 'Carranza',
-            'username' => 'rcarranza',
-            'email' => 'rcarranza1390@gmail.com',
-            'password' => bcrypt('adminr'),
+            'name' => 'Daniel',
+            'lastname' => 'Domínguez',
+            'username' => 'ddominguez',
+            'email' => 'leinad_6991@hotmail.com',
+            'password' => bcrypt('admind'),
             'rol' => '1',
+            'id_sucursal' => '1',
             'estatus' => '1'
         ));
     }
