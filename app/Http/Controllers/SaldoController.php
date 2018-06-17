@@ -69,6 +69,8 @@ class SaldoController extends Controller
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
             $saldo->fecha = $date;
+        } else {
+            $saldo->id_gasto = null;
         }
 
         /*if ($saldoId->id_devolucion == null) {
