@@ -46,9 +46,10 @@ class SaldoController extends Controller
             $saldo->id_fondo = $fondoId->id_fondo;
             $saldo->saldo_actual = $fondoId->cantidad;
             $saldo->fecha = $date;
-        } else {
-            $saldoId->saldo_actual = $fondoId->cantidad;
-            $saldoId->fecha = $date;
+        } elseif ($fondoId->id_fondo == $saldoId->id_fondo) {
+            $saldo->id_fondo = $fondoId->id_fondo;
+            $saldo->saldo_actual = $fondoId->cantidad;
+            $saldo->fecha = $date;
         }
 
         /*if ($saldoId->id_cobro == null) {
@@ -61,7 +62,7 @@ class SaldoController extends Controller
             $saldo->id_cobro = $cobroId->id_cobro;
         }*/
 
-        if ($saldoId->id_gasto == null) {
+        if ($gastoId->fecha == $date) {
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
             $saldo->fecha = $date;
@@ -69,7 +70,7 @@ class SaldoController extends Controller
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
             $saldo->fecha = $date;
-        } 
+        }
 
         /*if ($saldoId->id_devolucion == null) {
           $saldo->id_devolucion = $devolucionId->id_devolucion;

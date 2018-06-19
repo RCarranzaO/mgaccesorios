@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <div class="flex-center position-ref full-height">
         <div class="row justify-content-center">
             <div class="content">
@@ -12,7 +12,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <div class="card mb-3" style="width: 30rem;">
+                        <div class="card" style="width: 30rem;">
                             <form class="form-control" action="{{ route('guardar-fondo') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @if($errors->any())
@@ -26,6 +26,9 @@
                                 @endif
                                 @if ($user->rol == 0)
                                     @if ($fondoId->fecha == date("Y-m-d"))
+                                        <div class="card-header">
+                                            <h5 class="card-title">Fondo</h5>
+                                        </div>
                                         <div class="card-body">
                                             <div class="form-group row">
                                                 <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
@@ -39,6 +42,9 @@
                                             <!--<button type="button" class="btn btn-outline-secondary" >Cancelar</button>-->
                                         </div>
                                     @else
+                                        <div class="card-header">
+                                            <h3 class="card-title">Fondo</h3>
+                                        </div>
                                         <div class="card-body">
                                             <div class="form-group row">
                                                 <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
@@ -52,6 +58,9 @@
                                         </div>
                                     @endif
                                 @else
+                                    <div class="card-header">
+                                        <h3 class="card-title">Fondo</h3>
+                                    </div>
                                     <div class="card-body">
                                         <div class="form-group row">
                                             <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
@@ -90,7 +99,7 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <!--<script type="text/javascript">
         $(document).ready(function()
         {
