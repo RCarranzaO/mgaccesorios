@@ -3871,6 +3871,7 @@ class ComposerStaticInit965144401f8bcf1908bd2ceb96cc258a
         'phpDocumentor\\Reflection\\Types\\String_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/String_.php',
         'phpDocumentor\\Reflection\\Types\\This' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/This.php',
         'phpDocumentor\\Reflection\\Types\\Void_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/Void_.php',
+        'sucursales' => __DIR__ . '/../..' . '/database/seeds/sucursales.php',
         'usuarios' => __DIR__ . '/../..' . '/database/seeds/usuarios.php',
     );
 
