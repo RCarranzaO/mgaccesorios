@@ -10,15 +10,7 @@
                         <div class="card" style="width: 30rem;">
                             <form class="form-control" action="{{ route('guardar-fondo') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @if($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{$error}}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+                                @include('alerts.errores')
                                 @if ($user->rol == 0)
                                     @if ($fondoId->fecha == date("Y-m-d"))
                                         <div class="card-header">
