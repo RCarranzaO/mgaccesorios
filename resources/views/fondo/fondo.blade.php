@@ -7,11 +7,6 @@
             <div class="content">
                 <div class="row">
                     <div class="col-offset-md-4 col-md-6">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
                         <div class="card" style="width: 30rem;">
                             <form class="form-control" action="{{ route('guardar-fondo') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -86,7 +81,7 @@
                                                 <p class="card-text">¿Desea agregar esa cantidad?</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="submit" class="btn btn-outline-primary" data-toogle="modal" data-target="#myModal">Aceptar</button>
+                                                <button type="submit" class="btn btn-outline-primary">Aceptar</button>
                                                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
                                             </div>
                                         </div>

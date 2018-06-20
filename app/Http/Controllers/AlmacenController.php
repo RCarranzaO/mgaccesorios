@@ -71,15 +71,7 @@ class AlmacenController extends Controller
 
         $almacen->save();
 
-        switch ($request->input('action')) {
-          case 'aya':
-              return redirect()->route('almacen.create');
-              break;
-
-            case 'ays':
-                return redirect()->route('home')->with('message', 'Se agregaron todos los productos al inventario');
-                break;
-        }
+        return redirect()->route('almacen.index')->with('message', 'Agregado correctamente!');
 
     }
 
