@@ -3,6 +3,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <div class="container">
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
+                @include('alerts.success')
                 <form class="form-inline" action="{{ route('buscaralm') }}" method="post">
                     @csrf
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" name="data" aria-label="Search">

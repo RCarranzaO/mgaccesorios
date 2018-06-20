@@ -7,11 +7,7 @@
             <div class="content">
                 <div class="row">
                     <div class="col-offset-md-4 col-md-6">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                        @include('alerts.success')
                         <div class="card" style="width: 35rem; ">
                             <form class="form-control" action="{{ route('guardar-gasto') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
