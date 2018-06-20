@@ -1,56 +1,96 @@
 @extends('layouts.app')
 @section('content')
 @if (Auth::user()->rol == 1)
-<div class="container">
-	<div class="row justify-content-center">
-		<div class="col-md-8">
-			<div class="card">
-				<div class="card-header"><h4>Alta sucursal</h4></div>
+		<div class="container">
+				<div class="row justify-content-center">
+						<div class="col-md-8">
 
-				<div class="card-body">
-					<form class="" method="POST" action="{{ route('sucursal.store') }}">
-						@csrf
-						<div class="form-group row">
-							<label for="nombre" class="col-md-4 col-form-label text-md-right">Nombre sucursal</label>
-							<div class="col-md-6">
-								<input class="form-control" type="text" name="nombre" id="nombresuc" placeholder="Nombre sucursal">
-							</div>
-						</div>
+								<div class="card">
+										<div class="card-header"><h4>Alta sucursal</h4></div>
+										<div class="card-body">
+												<form class="form-control" method="post" action="{{ route('sucursal.store') }}">
+														@csrf
+														@if($errors->any())
+																<div class="alert alert-danger">
+																		<ul>
+																				@foreach($errors->all() as $error)
+																						<li>{{$error}}</li>
+																				@endforeach
+																		</ul>
+																</div>
+														@endif
+														<div class="form-group row">
+																<label for="nombre_sucursal" class="col-md-4 col-form-label text-md-right">Nombre sucursal</label>
+																<div class="col-md-6">
+																		<input class="form-control {{ $errors->has('nombre_sucrusal') ? ' is-invalid' : '' }}" type="text" name="nombre_sucursal" placeholder="Nombre sucursal">
+																		@if($errors->has('nombre_sucursal'))
+																				<span class="help-block">
+																						<strong>{{ $errors->first('nombre_sucursal') }}</strong>
+																				</span>
+																		@endif
+																</div>
+														</div>
 
-						<div class="form-group row">
-							<label for="apellido" class="col-md-4 col-form-label text-md-right">Dirección</label>
-							<div class="col-md-6">
-								<input class="form-control" type="text" name="direccion" id="direccionsuc" placeholder="Dirección">
-							</div>
-						</div>
+														<div class="form-group row">
+																<label for="direccion" class="col-md-4 col-form-label text-md-right">Dirección</label>
+																<div class="col-md-6">
+																		<input class="form-control {{ $errors->has('direccion') ? ' is-invalid' : '' }}" type="text" name="direccion" placeholder="Dirección">
+																		@if($errors->has('direccion'))
+																				<span class="invalid-feedback">
+																						<strong>{{ $errors->first('direccion') }}</strong>
+																				</span>
+																		@endif
+																</div>
+														</div>
 
-						<div class="form-group row">
-							<label for="usuario" class="col-md-4 col-form-label text-md-right">Teléfono</label>
-							<div class="col-md-6">
-								<input class="form-control" type="text" name="telefono" id="telefonosuc" placeholder="Teléfono">
-							</div>
-						</div>
+														<div class="form-group row">
+																<label for="telefono" class="col-md-4 col-form-label text-md-right">Teléfono</label>
+																<div class="col-md-6">
+																		<input class="form-control {{ $errors->has('telefono') ? ' is-invalid' : '' }}" type="text" name="telefono" placeholder="Teléfono">
+																		@if($errors->has('telefono'))
+																				<span class="invalid-feedback">
+																						<strong>{{ $errors->first('telefono') }}</strong>
+																				</span>
+																		@endif
+																</div>
+														</div>
 
-						<div class="form-group row">
-								<label for="estatus" class="col-md-4 col-form-label text-md-right" hidden>{{ __('Estatus') }}</label>
-								<div class="col-md-6">
-								<input id="estatus_alta" type="number" class="form-control" name="estatus" value="{{ 1 }}" hidden required>
+														<div class="form-group row">
+																<label for="estatus" class="col-md-4 col-form-label text-md-right" hidden>{{ __('Estatus') }}</label>
+																<div class="col-md-6">
+																		<input type="number" class="form-control" name="estatus" value="{{ 1 }}" hidden required>
+																</div>
+														</div>
+														<div class="form-group row">
+																<div class="col-md-6 offset-md-4">
+																		<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
+																</div>
+														</div>
+														<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																<div class="modal-dialog" role="document">
+																		<div class="modal-content">
+																				<div class="modal-header">
+																						<h5 class="modal-title"  id="exampleModalLabel">Alta Sucursal</h5>
+																						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																								<span aria-hidden="true">&times;</span>
+																						</button>
+																				</div>
+																				<div class="modal-body">
+																						<p class="card-text">¿Desea registrar la sucursal?</p>
+																				</div>
+																				<div class="modal-footer">
+																						<button type="submit" class="btn btn-outline-primary" data-toogle="modal" data-target="#myModal">Aceptar</button>
+																						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+																				</div>
+																		</div>
+																</div>
+														</div>
+												</form>
+										</div>
 								</div>
 						</div>
-
-						<div class="form-group row">
-							<div class="col-md-6 offset-md-4">
-								<button type="submit" class="btn btn-outline-primary">Aceptar</button>
-								<button type="button" class="btn btn-outline-secondary">Cancelar</button>
-							</div>
-						</div>
-
-					</form>
 				</div>
-			</div>
 		</div>
-	</div>
-</div>
 @else
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript">

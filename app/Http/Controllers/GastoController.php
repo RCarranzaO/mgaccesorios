@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use mgaccesorios\Gasto;
 use Carbon\Carbon;
 use mgaccesorios\Fondo;
+use mgaccesorios\Saldo;
 
 class GastoController extends Controller
 {
@@ -17,12 +18,13 @@ class GastoController extends Controller
     {
         $fondos = Fondo::all();
         $fondoId = $fondos->last();
-        return view('gasto.gasto', compact('fondoId'));
+        $saldoId = Saldo::all()->last();
+        return view('gasto.gasto', compact('fondoId', 'saldoId'));
     }
     public function saveGasto(Request $request)
     {
         $validateData = $this->validate($request,[
-            'cantidad' => 'required|numeric',
+            'cantidad' => 'required|numeric|min:500',
             'descripcion' => 'required|string|max:255'
         ]);
 

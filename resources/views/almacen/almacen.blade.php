@@ -4,7 +4,7 @@
         <div class="container">
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
                 <form class="form-inline" action="{{ route('buscaralm') }}" method="post">
-                  @csrf
+                    @csrf
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" name="data" aria-label="Search">
 
                     <select class="form-control mr-sm-2" name="sucursal">

@@ -6,11 +6,11 @@
             <div class="col-md-8">
                 <div class="content">
                     <div class="title ">
-                          @if (session('status'))
-                              <div class="alert alert-success">
-                                  {{ session('status') }}
-                              </div>
-                          @endif
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         Mg Accesorios
                     </div>
                 </div>
@@ -35,28 +35,17 @@
                 </div>
                 <form class="form-control" action="{{ route('home') }}">
                     @csrf
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label for="cantidad" class="col-md-3 col-form-label text-md-right">Saldo: $</label>
-                                <div class="col-md-7">
-                                    <input type="text" class="form-control" id="cantidad" name="cantidad" value="{{ $saldo->saldo_actual }}" disabled placeholder="Ingrese cantidad para iniciar">
-                                </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="cantidad" class="col-md-3 col-form-label text-md-right">Saldo: $</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="cantidad" name="cantidad" value="{{ $saldo->saldo_actual }}" disabled placeholder="Ingrese cantidad para iniciar">
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-outline-primary" >Aceptar</button>
-                        </div>
-
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Aceptar</button>
+                    </div>
                 </form>
             </div>
         </div>

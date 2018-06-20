@@ -7,7 +7,8 @@ CREATE TABLE sucursales(
     direccion VARCHAR(100) NOT NULL,
     telefono INT(10),
     estatus INT(2) NOT NULL,
-    CONSTRAINT pk_sucursales PRIMARY KEY(id_sucursal)
+    CONSTRAINT pk_sucursales PRIMARY KEY(id_sucursal),
+    CONSTRAINT sucursales_nombre_sucursal_unique UNIQUE(nombre_sucursal)
 )ENGINE=InnoDb;
 
 CREATE TABLE users(

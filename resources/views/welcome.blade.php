@@ -13,7 +13,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <!-- Styles -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <!--<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">-->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -26,7 +26,7 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-                        <!--<a href="{{ route('register') }}">Register</a>-->
+
                     @endauth
                 </div>
             @endif

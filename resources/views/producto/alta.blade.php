@@ -4,18 +4,15 @@
 			<div class="container">
 					<div class="row justify-content-center">
 							<div class="col-md-8">
+									@if (session('status'))
+											<div class="alert alert-success">
+													{{ session('status') }}
+											</div>
+									@endif
 									<div class="card">
 											<div class="card-header"><h4>Dar alta un producto</h4></div>
 											<div class="card-body">
-													@if(count($errors)>0)
-															<div class="alert alert-danger">
-																	<ul>
-																			@foreach($errors->all as $error)
-																					<li>{{$errors}}</li>
-																			@endforeach
-																	</ul>
-															</div>
-													@endif
+
 													@if (session('message'))
 															<div class="alert alert-danger">
 																	{{ session('message') }}
@@ -24,6 +21,15 @@
 
 													<form method="post" action="{{ route('producto.store') }}">
 															@csrf
+															@if($errors->any())
+																	<div class="alert alert-danger">
+																			<ul>
+																					@foreach($errors->all() as $error)
+																							<li>{{$error}}</li>
+																					@endforeach
+																			</ul>
+																	</div>
+															@endif
 															<div class="form-group row">
 																	<label for="referencia" class="col-md-4 col-form-label text-md-right">Referencia</label>
 
