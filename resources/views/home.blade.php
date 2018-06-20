@@ -5,8 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="content">
+                @include('alerts.success')
                 <div class="title ">
-                      @include('alerts.success')
+
                     Mg Accesorios
                 </div>
                 <footer></footer>

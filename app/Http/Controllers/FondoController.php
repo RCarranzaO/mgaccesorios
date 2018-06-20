@@ -5,7 +5,7 @@ namespace mgaccesorios\Http\Controllers;
 use Illuminate\Http\Request;
 use mgaccesorios\Fondo;
 use Carbon\Carbon;
-use mgaccesorios\Gasto;
+use mgaccesorios\Saldo;
 
 class FondoController extends Controller
 {
@@ -27,6 +27,7 @@ class FondoController extends Controller
         ]);
         $fondos = Fondo::all();
         $fondo = new Fondo();
+        $saldoId = Saldo::all()->last();
         $fondoId = $fondos->last();
         $user = \Auth::user();
         $date = Carbon::now();
@@ -39,10 +40,12 @@ class FondoController extends Controller
             $fondo->cantidad = $request->input('cantidad');
             $fondo->fecha = $date;
             $fondo->save();
-        } elseif ($fondoId->fecha == $date) {
-            $fondoId->id_user = $user->id_user;
-            $fondoId->cantidad = $request->input('cantidad');
-            $fondoId->save();
+        } elseif ($saldoId->id_gasto==null || $saldoId->id_cobro==null || $saldoId->id_devolucion==null) {
+            if ($fondoId->fecha == $date) {
+                $fondoId->id_user = $user->id_user;
+                $fondoId->cantidad = $request->input('cantidad');
+                $fondoId->save();
+            }
         } else {
             $fondo->id_user = $user->id_user;
             $fondo->cantidad = $request->input('cantidad');
