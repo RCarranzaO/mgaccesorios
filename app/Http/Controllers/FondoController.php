@@ -40,12 +40,12 @@ class FondoController extends Controller
             $fondo->cantidad = $request->input('cantidad');
             $fondo->fecha = $date;
             $fondo->save();
-        } elseif ($saldoId->id_gasto==null || $saldoId->id_cobro==null || $saldoId->id_devolucion==null) {
-            if ($fondoId->fecha == $date) {
-                $fondoId->id_user = $user->id_user;
-                $fondoId->cantidad = $request->input('cantidad');
-                $fondoId->save();
-            }
+        } elseif ($saldoId->id_gasto!=null || $saldoId->id_cobro!=null || $saldoId->id_devolucion!=null) {
+            return redirect()->route('fondo')->with('fail','Ya se registro una salida de dinero no se puede modificar el fondo');
+        } elseif ($fondoId->fecha == $date) {
+            $fondoId->id_user = $user->id_user;
+            $fondoId->cantidad = $request->input('cantidad');
+            $fondoId->save();
         } else {
             $fondo->id_user = $user->id_user;
             $fondo->cantidad = $request->input('cantidad');
