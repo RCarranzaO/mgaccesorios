@@ -56,6 +56,6 @@ class FondoController extends Controller
 
         //$fondo->fecha = $date->format();
 
-        return redirect()->route('guardar-saldo')->with('success', 'El fondo fue registrado!');
+        return redirect()->route('guardar-saldo');
     }
 }

@@ -16,33 +16,39 @@ class GastoController extends Controller
     }
     public function index()
     {
-        $fondos = Fondo::all();
-        $fondoId = $fondos->last();
-        $saldoId = Saldo::all()->last();
-        return view('gasto.gasto', compact('fondoId', 'saldoId'));
+
+        return view('gasto.gasto');
     }
     public function saveGasto(Request $request)
     {
         $validateData = $this->validate($request,[
-            'cantidad' => 'required|numeric|min:500',
+            'cantidad' => 'required|numeric',
             'descripcion' => 'required|string|max:255'
         ]);
 
         $gastos = new Gasto();
+        $saldoId = Saldo::all()->last();
         $fondo = Fondo::all();
         $fondoId = $fondo->last();
         $date = Carbon::now();
         $date = $date->toDateString();
         //$date = new \DateTime();
-        $gastos->id_fondo = $fondoId->id_fondo;
-        $gastos->descripcion = $request->input('descripcion');
-        $gastos->cantidad = $request->input('cantidad');
-        $gastos->fecha = $date;
-        //$fondo->fecha = $date->format();
-        $gastos->save();
 
-        return redirect()->route('guardar-saldo')->with(array(
-            'message' => 'El gasto se registro!'
-        ));
+        if ($request->input('cantidad') >=0 && $request->input('cantidad') <= $saldoId->saldo_actual) {
+            if (($saldoId->saldo_actual - $request->input('cantidad')) <= 500) {
+                return redirect()->route('gasto')->with('fail', 'La cantidad insertada no esta autorizada!');
+            } else {
+                $gastos->id_fondo = $fondoId->id_fondo;
+                $gastos->descripcion = $request->input('descripcion');
+                $gastos->cantidad = $request->input('cantidad');
+                $gastos->fecha = $date;
+                $gastos->save();
+                return redirect()->route('guardar-saldo');
+            }
+        } else {
+            return redirect()->route('gasto')->with('fail', 'La cantidad insertada no es valida!');
+        }
+        //$fondo->fecha = $date->format();
+
     }
 }

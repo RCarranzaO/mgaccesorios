@@ -11,15 +11,7 @@
                         <div class="card" style="width: 35rem; ">
                             <form class="form-control" action="{{ route('guardar-gasto') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @if($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{$error}}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+                                @include('alerts.errores')
                                 <div class="card-header">
                                     <h5 class="card-title">Gastos</h5>
                                 </div>
@@ -27,7 +19,7 @@
                                     <div class="form-group row">
                                         <label for="cantidad" class="col-md-3 col-form-label text-md-right">Cantidad: $</label>
                                         <div class="col-md-7">
-                                            <input type="number" class="form-control" id="cantidad" name="cantidad" max="{{ $saldoId->saldo_actual }}" placeholder="Ingrese cantidad" required>
+                                            <input type="number" class="form-control" name="cantidad" placeholder="Ingrese cantidad" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -38,8 +30,26 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-outline-primary">Aceptar</button>
-                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
+                                </div>
+                                <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"  id="exampleModalLabel">Gasto</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="card-text">¿Desea ingresar el gasto?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-outline-primary">Aceptar</button>
+                                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
