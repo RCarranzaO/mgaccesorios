@@ -18,7 +18,7 @@ class usuarios extends Seeder
             'email' => 'leinad_6991@hotmail.com',
             'password' => bcrypt('admind'),
             'rol' => '1',
-            'id_sucursal' => '2',
+            'id_sucursal' => '1',
             'estatus' => '1'
         ));
         DB::table('users')->insert(array(
