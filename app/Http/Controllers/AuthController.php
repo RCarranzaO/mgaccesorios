@@ -27,21 +27,24 @@ class AuthController extends Controller
 
         //Comprueba si el input coincide con el formato de email
         $field = filter_var($login, FILTER_VALIDATE_EMAIL)? 'email':'username';
-        $userId = User::where($field, '=', $login)->get();
+        $userId = User::where($field, $login)->first();
       	$userData = array(
             $field => $login,
             'password' => $request->input('password')
       	);
-        dd($userId);
-      	if (Auth::attempt($userData)) {
-            if ($userId->estatus != 0) {
+
+        if ($userId->estatus != 0) {
+            //dd($userId);
+            if (Auth::attempt($userData)) {
                 return redirect()->route('fondo');
-            } else {
-                return back()->with('fail', 'Usuario esta dado de baja');
-            }
-      	}else{
-      		  return back()->with('fail', 'Información incorrecta.');
-      	}
+          	}else{
+          		  return back()->with('fail', 'Información incorrecta.');
+          	}
+
+        } elseif ($userId->estatus == 0) {
+            return back()->with('fail', 'Usuario esta dado de baja');
+        }
+
     }
 
     function logout()
