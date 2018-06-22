@@ -13,12 +13,12 @@
 																@csrf
 
 																<div class="form-group row">
-																		<label for="nombre" class="col-md-4 col-form-label text-md-right">Nombre</label>
+																		<label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
 																		<div class="col-md-6">
-																				<input id="nombre" type="text" class="form-control{{ $errors->has('nombre') ? ' is-invalid' : '' }}" name="nombre" value="{{ old('nombre') }}" required>
-																				@if($errors->has('nombre'))
+																				<input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required>
+																				@if($errors->has('name'))
 																						<span class="invalid-feedback">
-																								<strong>{{ $errors->first('nombre') }}</strong>
+																								<strong>{{ $errors->first('name') }}</strong>
 																						</span>
 																				@endif
 																		</div>
@@ -27,7 +27,7 @@
 																<div class="form-group row">
 																		<label for="apellido" class="col-md-4 col-form-label text-md-right">Apellido</label>
 																		<div class="col-md-6">
-																				<input id="apellido" type="text" class="form-control{{ $errors->has('apellido') ? ' is-invalid' : '' }}" name="apellido" value="{{ old('apellido') }}" required>
+																				<input type="text" class="form-control {{ $errors->has('apellido') ? ' is-invalid' : '' }}" name="apellido" value="{{ old('apellido') }}" required>
 																				@if($errors->has('apellido'))
 																						<span class="invalid-feedback">
 																								<strong>{{ $errors->first('apellido') }}</strong>
@@ -36,25 +36,25 @@
 																		</div>
 																</div>
 
-																<div class="form-group row {{ $errors->has('usuario') ? 'has-error' : '' }}">
+																<div class="form-group row ">
 																		<label for="username" class="col-md-4 col-form-label text-md-right">Usuario</label>
 																		<div class="col-md-6">
-																				<input id="usuario" type="text" class="form-control" name="username" value="{{ old('usuario') }}" required maxlength="20">
-																				@if($errors->has('usuario'))
+																				<input type="text" class="form-control {{ $errors->has('username') ? 'has-error' : '' }}" name="username" value="{{ old('username') }}" required maxlength="20">
+																				@if($errors->has('username'))
 																						<span class="help-block">
-																								<strong>{{ $errors->first('usuario') }}</strong>
+																								<strong>{{ $errors->first('username') }}</strong>
 																						</span>
 																				@endif
 																		</div>
 																</div>
 
-																<div class="form-group row {{ $errors->has('correo') ? 'has-error' : '' }}">
+																<div class="form-group row">
 																		<label for="email" class="col-md-4 col-form-label text-md-right">Correo</label>
 																		<div class="col-md-6">
-																				<input id="correo" type="text" class="form-control" name="email" value="{{ old('correo') }}" required>
-																				@if($errors->has('correo'))
+																				<input type="text" class="form-control {{ $errors->has('email') ? 'has-error' : '' }}" name="email" value="{{ old('email') }}" required>
+																				@if($errors->has('email'))
 																						<span class="invalid-feedback">
-																								<strong>{{ $errors->first('correo') }}</strong>
+																								<strong>{{ $errors->first('email') }}</strong>
 																						</span>
 																				@endif
 																		</div>
@@ -63,7 +63,7 @@
 																<div class="form-group row">
 																		<label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 																		<div class="col-md-6">
-																				<input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+																				<input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 																				@if($errors->has('password'))
 																						<span class="invalid-feedback">
 																								<strong>{{ $errors->first('password') }}</strong>
@@ -101,7 +101,9 @@
 																				<select class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
 																						<option>Elija una opcion</option>
 																						@foreach ($sucursales as $sucursal)
-																								<option value={{$sucursal->id_sucursal}}>{{$sucursal->nombre_sucursal}}</option>
+																								@if ($sucursal->estatus != 0)
+																										<option value="{{$sucursal->id_sucursal}}">{{$sucursal->nombre_sucursal}}</option>
+																								@endif
 																						@endforeach
 																				</select>
 																				@if($errors->has('sucursal'))

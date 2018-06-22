@@ -50,10 +50,29 @@
 																@csrf
 																@method('DELETE')
 																@if($usuario->estatus == 1)
-																		<button class="btn btn-outline-danger" type="submit">Baja</button>
+																		<button class="btn btn-outline-danger" type="button" data-toggle="modal" data-target="#myModalu">Baja</button>
 																@else
-																		<button class="btn btn-outline-success" type="submit">Alta</button>
+																		<button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#myModalu">Alta</button>
 																@endif
+																<div class="modal" id="myModalu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelu" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"  id="exampleModalLabelu">Usuarios</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="card-text">¿Desea dar de baja?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-outline-primary">Aceptar</button>
+                                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 														</form>
 												</td>
 										</tr>
