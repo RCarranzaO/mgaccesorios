@@ -2,7 +2,7 @@
 
 @section('content')
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <div class="flex-center position-ref full-height">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="content">
                 <div class="row">

@@ -21,7 +21,9 @@ class SaldoController extends Controller
     {
         $saldos = Saldo::all();
         $saldo = $saldos->last();
-        return view('saldo.saldo', compact('saldo'));
+        $date = Carbon::now();
+        $date = $date->toDateString();
+        return view('saldo.saldo', compact('saldo', 'date'));
     }
     public function guardar()
     {

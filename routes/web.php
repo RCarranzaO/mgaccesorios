@@ -13,7 +13,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
+//Rutas  de logueo
+Route::get('/login', 'AuthController@index')->name('login');
+Route::post('/login/check', 'AuthController@checklogin')->name('check');
+Route::post('/logout' ,'AuthController@logout')->name('logout');
+
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 //Rutas de usuario

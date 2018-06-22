@@ -8,10 +8,11 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    @include('alerts.errores')
+                    <form method="POST" action="{{ route('check') }}">
                         @csrf
 
-                        <div class="form-group row {{ $errors->has('username') ? 'has-error' : '' }}">
+                        <div class="form-group row {{ $errors->has('login') ? 'has-error' : '' }}">
                             <label for="login" class="col-sm-4 col-form-label text-md-right">{{ __('Email o Usuario') }}</label>
 
                             <div class="col-md-6">
@@ -29,7 +30,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="Introduce contraseña">
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback">
@@ -45,7 +46,7 @@
                                     {{ __('Login') }}
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <a class="btn btn-link" href=""> <!-- falta ruta de contraseña -->
                                     {{ __('¿Olvidaste tu contraseña?') }}
                                 </a>
                             </div>
