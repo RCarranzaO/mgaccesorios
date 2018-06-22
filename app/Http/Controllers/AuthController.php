@@ -34,11 +34,14 @@ class AuthController extends Controller
             'password' => $request->input('password')
       	);
 
-        if ($userId->estatus != 0) {
+        if ($userId->estatus == 1) {
             //dd($userId);
             if (Auth::attempt($userData)) {
+              //dd($userId);
                 return redirect()->route('fondo');
           	}else{
+              //dd($userId);
+              //dd($userData);
           		  return back()->with('fail', 'Información incorrecta.');
           	}
 

@@ -11,7 +11,7 @@
 												<div class="card-body">
 														<form method="post" action="{{ route('usuario.store') }}">
 																@csrf
-
+																@include('alerts.errores')
 																<div class="form-group row">
 																		<label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
 																		<div class="col-md-6">

@@ -71,7 +71,7 @@ class UsuarioController extends Controller
         $usuario->save();
         //return 'Guardado';
         //return $request->all();
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Usuario registrado correctamente!');
     }
 
     /**
@@ -126,15 +126,8 @@ class UsuarioController extends Controller
         $usuario->rol = $request->input('rol');
         $usuario->id_sucursal = $request->input('sucursal');
         $usuario->save();
-        switch ($request->input('action')) {
-            case 'ays':
-                return redirect()->route('home');
-                break;
 
-            case 'aym':
-                return redirect()->route('usuario.index');
-                break;
-        }
+        return redirect()->route('usuario.index')->with('success', 'Usuario actualizado!');
 
     }
 
@@ -146,8 +139,9 @@ class UsuarioController extends Controller
      */
     public function destroy($id)//Activa o desactiva al usuario
     {
+        //dd($id);
         $usuario = User::find($id);
-
+        //dd($usuario);
         if ($usuario->estatus == 1) {
             $usuario->estatus = 0;
         }else{

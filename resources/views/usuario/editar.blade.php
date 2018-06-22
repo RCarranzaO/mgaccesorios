@@ -123,7 +123,7 @@
 
 														<div class="form-group">
 																<div class="col-md-8 offset-md-3">
-																		<button class="btn btn-outline-primary" type="submit" name="action" value="ays">Aceptar y salir</button>
+																		<button type="submit" class="btn btn-outline-primary">Aceptar</button>
 																		<button class="btn btn-outline-primary" type="submit"  name="action" value="aym">Aceptar y modificar</button>
 																		<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 																</div>

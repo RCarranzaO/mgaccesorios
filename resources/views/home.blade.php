@@ -7,7 +7,6 @@
             <div class="content">
                 @include('alerts.success')
                 <div class="title ">
-
                     Mg Accesorios
                 </div>
                 <footer></footer>
