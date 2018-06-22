@@ -35,7 +35,7 @@ class GastoController extends Controller
         //$date = new \DateTime();
 
         if ($request->input('cantidad') >=0 && $request->input('cantidad') <= $saldoId->saldo_actual) {
-            if (($saldoId->saldo_actual - $request->input('cantidad')) <= 500) {
+            if (($saldoId->saldo_actual - $request->input('cantidad')) < 500) {
                 return redirect()->route('gasto')->with('fail', 'La cantidad insertada no esta autorizada!');
             } else {
                 $gastos->id_fondo = $fondoId->id_fondo;
