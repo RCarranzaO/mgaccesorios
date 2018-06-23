@@ -35,7 +35,6 @@
                     @if ($productos->count())
                         @foreach ($productos as $producto)
                             <tr>
-                                <td>{{ $producto->id_detallea }}</td>
                                 <td>{{ $producto->referencia }}</td>
                                 <td>{{ $producto->categoria_producto }}</td>
                                 <td>{{ $producto->tipo_producto }}</td>

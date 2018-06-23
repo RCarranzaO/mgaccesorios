@@ -34,7 +34,7 @@ class ReportesVController extends Controller
             ->get();
         $fecha = date('Y-m-d');
 
-        $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+        $pdf = PDF::loadView('reportes.ventaspdf', compact('productos', 'fecha'));
 
         return $pdf->download('inventario_'.$fecha.'.pdf');
     }
