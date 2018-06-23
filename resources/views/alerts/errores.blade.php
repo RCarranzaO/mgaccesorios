@@ -1,5 +1,11 @@
+<script src="{{ asset('js/jquery-3.1.1.min.js') }}" charset="utf-8"></script>
+<script type="text/javascript">
+    $("#danger-alert").fadeTo(2000, 500).slideUp(500, function(){
+        $("#danger-alert").slideUp(500);
+    });
+</script>
 @if($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert">
         <ul>
             @foreach ($errors->all() as $error)
                 <li>
@@ -12,7 +18,7 @@
         </ul>
     </div>
 @elseif (session('fail'))
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
       </button>

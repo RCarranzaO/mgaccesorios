@@ -65,10 +65,10 @@ class ProductoController extends Controller
         $producto->estatus = $request->input('estatus');
 
         if ($producto->precio_venta < $producto->precio_compra) {
-          return redirect()->back()->with('message','Precio de venta invalido, debe ser mayor al de compra.');
+            return redirect()->back()->with('fail','Precio de venta invalido, debe ser mayor al de compra.');
         }else{
-          $producto->save();
-          return redirect()->route('home')->with('status','Producto agregado.');
+            $producto->save();
+            return redirect()->route('producto.create')->with('success','Producto agregado.');
         }
     }
 
@@ -127,14 +127,8 @@ class ProductoController extends Controller
 
         $producto->save();
 
-        switch ($request->input('action')) {
-          case 'ays':
-              return redirect()->route('home');
-              break;
-          case 'aym':
-              return redirect()->route('producto.index');
-              break;
-        }
+        return redirect()->route('producto.index')->with('success', 'Producto actualizado!');
+
     }
 
     /**

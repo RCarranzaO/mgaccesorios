@@ -133,9 +133,7 @@
 
     													<div class="form-group row">
     															<div class="col-md-9 offset-md-3">
-
-    																	<button type="submit" class="btn btn-outline-primary" name="action" value="ays">Aceptar y salir</button>
-                                      <button type="submit" class="btn btn-outline-primary" name="action" value="aym">Aceptar y modificar</button>
+    																	<button type="submit" class="btn btn-outline-primary">Aceptar</button>
     																	<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 
     															</div>
