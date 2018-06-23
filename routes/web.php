@@ -63,10 +63,10 @@ Route::get('/saldo', 'SaldoController@index')->name('saldo');
 
 
 //PasswordReset
-Route::post('/email/reset', 'EmailController@envio')->name('password');
-
-
-
+Route::get('/mail', 'ForgotPasswordController@showForm')->name('show');
+Route::post('/send', 'ForgotPasswordController@sendResetEmail')->name('send');
+Route::get('/password/reset/{token}', 'ResetPasswordController@showResetForm')->name('reset');
+Route::post('/password/reset', 'ResetPasswordController@reset')->name('reseted');
 
 
 //SalidaEsp
