@@ -53,8 +53,8 @@ Route::post('/almacen-search', 'BuscarController@BuscarAlm')->name('buscaralm');
 //Rutas de reportes
 Route::get('/reporte/almacen', 'ReportesController@index')->name('repalmacen');
 Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almacen.pdf');
-
-
+Route::get('/reporte/venta', 'ReportesVController@index')->name('repventa');
+Route::get('/reporte/descargar-venta', 'ReportesVController@pdf')->name('venta.pdf');
 
 //Saldo
 Route::get('/saldo/guardar', 'SaldoController@guardar')->name('guardar-saldo');
@@ -64,3 +64,10 @@ Route::get('/saldo', 'SaldoController@index')->name('saldo');
 
 //PasswordReset
 Route::post('/email/reset', 'EmailController@envio')->name('password');
+
+
+
+
+
+//SalidaEsp
+Route::get('/salidaesp', 'SalidaespController@index')->name('salidaesp');
