@@ -70,4 +70,4 @@ Route::post('/email/reset', 'EmailController@envio')->name('password');
 
 
 //SalidaEsp
-Route::get('/salidaesp', 'SalidaespController@index')->name('salidaesp');
+Route::resource('/salidasesp', 'SalidasespController');

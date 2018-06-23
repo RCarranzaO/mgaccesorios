@@ -122,7 +122,7 @@ CREATE TABLE salidaEspecial(
     id_user INT(6) NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
     cantidad INT(4) NOT NULL,
-    fecha date NOT NULL,
+    fecha datetime NOT NULL,
     CONSTRAINT pk_salidaEspecial PRIMARY KEY(id_especial),
     CONSTRAINT fk_salidaEspecial_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal),
     CONSTRAINT fk_salidaEspecial_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),

@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+        @foreach ($sucursales as $sucursal)
+            <form class="form-control" action="/salidasesp/{{ $sucursal->id_sucursal }}" method="post">
+                <button type="submit" class="btn btn-outline-primary" name="sucursal{{ $sucursal->id_sucursal }}" value="{{ $sucursal->id_sucursal }}">{{ $sucursal->nombre_sucursal }}</button>
+            </form>
+        @endforeach
         <table class="table text-center">
             <thead class="thead-dark">
                 <tr>
