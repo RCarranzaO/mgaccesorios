@@ -2,11 +2,11 @@
 
 @section('content')
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <div class="container">
+    <div class="container center">
         <div class="row justify-content-center">
             <div class="content">
-                <div class="col-md-8">
-                    <div class="col-offset-md-4 col-md-6">
+                <div class="">
+                    <div class="">
                         @include('alerts.success')
                         <div class="card">
                             <form class="form-control" action="{{ route('guardar-gasto') }}" method="POST" enctype="multipart/form-data">
