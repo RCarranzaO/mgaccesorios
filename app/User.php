@@ -4,6 +4,8 @@ namespace mgaccesorios;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use mgaccesorios\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -31,5 +33,9 @@ class User extends Authenticatable
     public function Sucursal()
     {
         return $this->belongsTo('mgaccesorios\Sucursal');
+    }
+
+    public function sendPasswordResetNotification($token){
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
