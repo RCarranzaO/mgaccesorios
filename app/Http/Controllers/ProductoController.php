@@ -137,19 +137,21 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $opc)
+    public function destroy($id)
     {
         $producto = Producto::find($id);
-        $producto->estatus = '0';
-        $producto->save();
-        switch ($opc) {
-          case 'a1':
-              return redirect()->route('home');
-              break;
-          case 'a2':
-              return redirect()->route('producto.index');
-              break;
+        //$producto->estatus = '0';
+        //dd($id);
+        if ($producto->estatus == 1) {
+            $producto->estatus = 0;
+            $producto->save();
+            return redirect()->route('producto.index')->with('success', 'Porducto dado de baja'.$producto);
+        }elseif ($producto->estatus == 0){
+            $producto->estatus = 1;
+            $producto->save();
+            return redirect()->route('producto.index')->with('success', 'Porducto dado de alta');
         }
+
 
     }
 

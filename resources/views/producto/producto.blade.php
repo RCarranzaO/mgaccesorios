@@ -2,6 +2,7 @@
 @section('content')
   @if (Auth::user()->rol == 1)
       <div class="container">
+          @include('alerts.success')
           <table class="table text-center table-responsive-sm">
               <thead class="thead-dark">
                   <tr>
@@ -14,6 +15,7 @@
                       <th scope="col">Precio Compra</th>
                       <th scope="col">Precio Venta</th>
                       <th scope="col">Estatus</th>
+                      <th scope="col"></th>
                       <th scope="col"></th>
                   </tr>
               </thead>
@@ -32,33 +34,38 @@
                               <td>{{ $producto->estatus == 1 ? 'Activo' : 'Inactivo' }}</td>
                               <td>
                                   <a href="{{ route('producto.edit', $producto->id_producto) }}" class="btn btn-outline-info">Editar</a>
-                                  <button type="button" class="{{ $producto->estatus==1 ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-toggle="modal" data-target="#ModalDelete">{{ $producto->estatus == 1 ? _('Baja') : _('Alta') }}</button>
+                              </td>
+                              <td>
+                                  <form method="post" action="/producto/{{ $producto->id_producto }}" >
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="button" class="{{ $producto->estatus==1 ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-toggle="modal" data-target="#ModalDelete{{$producto->id_producto}}">{{ $producto->estatus == 1 ? _('Baja') : _('Alta') }}</button>
+                                      <div class="modal fade" id="ModalDelete{{$producto->id_producto}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                  <div class="modal-header">
+                                                      <h5 class="modal-title" id="ModalLabel">Alerta!</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                          <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                      <h3>{{ $producto->estatus==1 ? 'Desea dar de baja el producto?' : 'Desea dar de alta el producto?' }}</h3>
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                          <!--<a class="btn btn-outline-primary" href="">Aceptar</button>-->
+                                                          <button type="submit" class="btn btn-outline-primary">Aceptar</button>
+                                                          <button type='button' class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </form>
                   						</td>
                           </tr>
+
                       @endforeach
-                      <div class="modal fade" id="ModalDelete" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <h5 class="modal-title" id="ModalLabel">Alerta!</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                      </button>
-                                  </div>
-                                  <div class="modal-body">
-                                      <h3>{{ $producto->estatus==1 ? 'Desea dar de baja el producto?' : 'Desea dar de alta el producto?' }}</h3>
-                                  </div>
-                                  <div class="modal-footer">
-                                      <form class="" action="" method="post">
-                                          @method('DELETE')
-                                          <a class="btn btn-outline-primary" href="{{ route('producto.destroy', $producto->id_producto) }}">Aceptar y salir</button>
-                                          <a class="btn btn-outline-primary" href="{{ route('producto.destroy', $producto->id_producto) }}">Aceptar y continuar</button>
-                                          <a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
-                                      </form>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+
                   @else
                       <tr>
                           <td colspan="8"><h3>No hay registros!!</h3></td>

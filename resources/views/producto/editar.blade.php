@@ -134,7 +134,7 @@
     													<div class="form-group row">
     															<div class="col-md-9 offset-md-3">
     																	<button type="submit" class="btn btn-outline-primary">Aceptar</button>
-    																	<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
+    																	<a href="{{ route('producto.index') }}" class="btn btn-outline-secondary">Cancelar</a>
 
     															</div>
     													</div>

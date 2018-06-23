@@ -10,17 +10,9 @@
 										<div class="card-body">
 												<form class="form-control" method="POST" action="{{ route('almacen.store') }}">
 														@csrf
-														@if($errors->any())
-																<div class="alert alert-danger">
-																		<ul>
-																				@foreach($errors->all() as $error)
-																						<li>{{$error}}</li>
-																				@endforeach
-																		</ul>
-																</div>
-														@endif
+														@include('alerts.errores')
 														<div class="form-group row">
-																<label class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
+																<label for="refproduc" class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
 																<div class="col-md-6">
 																	<select class="form-control select-search {{ $errors->has('refproduc') ? ' is-invalid' : '' }}" name="refproduc" required>
 																			<option>Elija una opcion</option>

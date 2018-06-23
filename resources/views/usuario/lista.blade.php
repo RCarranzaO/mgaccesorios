@@ -50,11 +50,28 @@
 														<form  method="post" action="/usuario/{{ $usuario->id_user }}">
 																@csrf
 																@method('DELETE')
-																@if($usuario->estatus == 1)
-																		<button type="submit" class="btn btn-outline-danger">Baja</button>
-																@else
-																		<button type="submit" class="btn btn-outline-success">Alta</button>
-																@endif
+
+																<button type="button" class="{{ $usuario->estatus==1 ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-toggle="modal" data-target="#ModalDelete{{$usuario->id_user}}">{{ $usuario->estatus == 1 ? _('Baja') : _('Alta') }}</button>
+																<div class="modal fade" id="ModalDelete{{$usuario->id_user}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+																		<div class="modal-dialog" role="document">
+																				<div class="modal-content">
+																						<div class="modal-header">
+																								<h5 class="modal-title" id="ModalLabel">Alerta!</h5>
+																								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																										<span aria-hidden="true">&times;</span>
+																								</button>
+																						</div>
+																						<div class="modal-body">
+																								<h3>{{ $usuario->estatus==1 ? 'Desea dar de baja el usuario?' : 'Desea dar de alta el usuario?' }}</h3>
+																						</div>
+																						<div class="modal-footer">
+																										<!--<a class="btn btn-outline-primary" href="">Aceptar</button>-->
+																										<button type="submit" class="btn btn-outline-primary">Aceptar</button>
+																										<button type='button' class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+																						</div>
+																				</div>
+																		</div>
+																</div>
 														</form>
 												</td>
 										</tr>

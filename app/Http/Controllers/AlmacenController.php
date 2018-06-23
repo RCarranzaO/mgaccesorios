@@ -30,7 +30,7 @@ class AlmacenController extends Controller
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+            ->select('detallealmacen.id_detallea','producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
             ->paginate(10);
         return view('almacen.almacen', compact('productos', 'productoM', 'sucursales'));
     }
@@ -55,24 +55,38 @@ class AlmacenController extends Controller
      */
     public function store(Request $request)
     {
-        $productos = Producto::all();
-        $sucursales = Sucursal::all();
-
+        $producto = Producto::find($request->input('refproduc'));
+        $sucursal = Sucursal::find($request->input('sucproduc'));
+        /*$almacenes = DB::table('detallealmacen')
+            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+            ->where('producto.referencia', $producto->referencia)
+            ->where('sucursales.nombre_sucursal', $sucursal->nombre_sucursal)
+            ->get();*/
+        $almacenes = DB::table('detallealmacen')
+              ->where('id_producto',$request->input('refproduc'))
+              ->where('id_sucursal',$request->input('sucproduc'))
+              ->first();
+        //dd($almacenes->id_detallea);
+        //dd($productos);
         $validateData = $this->validate($request, [
-            'refproduc' => 'required|string|max:255',
-            'exisproduc' => 'required|string|max:6',
-            'sucproduc' => 'required|string|max:255',
+            'refproduc' => 'required|integer|max:255',
+            'exisproduc' => 'required|integer|min:1',
+            'sucproduc' => 'required|integer|max:255|',
         ]);
-
-        $almacen = new DetalleAlmacen();
-        $almacen->id_producto = $request->input('refproduc');
-        $almacen->id_sucursal = $request->input('sucproduc');
-        $almacen->existencia = $request->input('exisproduc');
-
-        $almacen->save();
-
-        return redirect()->route('almacen.index')->with('message', 'Agregado correctamente!');
-
+        if (!$almacenes) {
+            $almacen = new DetalleAlmacen();
+            $almacen->id_producto = $request->input('refproduc');
+            $almacen->id_sucursal = $request->input('sucproduc');
+            $almacen->existencia = $request->input('exisproduc');
+            $almacen->save();
+        } else {
+            $almacenId = DetalleAlmacen::find($almacenes->id_detallea);
+            $almacenId->existencia = $almacenId->existencia + $request->input('exisproduc');
+            $almacenId->save();
+        }
+        return redirect()->route('almacen.index')->with('success', 'Agregado correctamente!');
     }
 
     /**
@@ -83,30 +97,7 @@ class AlmacenController extends Controller
      */
     public function show($id)
     {
-        $sucursal = $request->input('sucursal');
-        $sucursales = Sucursal::all();
-        $sucursalId = Sucursal::find($request->input('sucursal'));
-        $productos = DB::table('detallealmacen')
-            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia');
-          if ($sucursal==0) {
-              $resultado = $productos->where('producto.referencia', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.marca', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.modelo', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.color', 'like', '%'.$request->input('data').'%');
-
-          } else {
-              $resultado = $productos->where('', 'pattern')
-                                    ->where('producto.referencia', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.modelo', 'like', '%'.$request->input('data').'%')
-                                    ->orWhere('producto.color', 'like', '%'.$request->input('data').'%');
-          }
-
+        //
     }
 
     /**
