@@ -4,6 +4,9 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
+use mgaccesorios\Producto;
 
 class ReportesVController extends Controller
 {
