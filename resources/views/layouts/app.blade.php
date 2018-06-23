@@ -98,7 +98,7 @@
                             <li class="nav-item dropdown links">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Reportes</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Venta</a>
+                                    <a class="dropdown-item" href="{{ route('repventa') }}">Venta</a>
                                     <a class="dropdown-item" href="{{ route('repalmacen') }}">Inventario</a>
                                 </div>
                             </li>

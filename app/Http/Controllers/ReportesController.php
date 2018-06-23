@@ -38,4 +38,9 @@ class ReportesController extends Controller
 
         return $pdf->download('inventario_'.$fecha.'.pdf');
     }
+
+    public function ventas()
+    {
+      return view('reportes/venta');
+    }
 }
