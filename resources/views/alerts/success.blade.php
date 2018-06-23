@@ -1,5 +1,5 @@
-<script src="{{ asset('js/jquery-3.1.1.min.js') }}" charset="utf-8"></script>
-<script type="text/javascript">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
         $("#success-alert").slideUp(500);
     });
