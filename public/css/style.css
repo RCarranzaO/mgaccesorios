@@ -31,9 +31,7 @@ html, body {
     text-align: center;
 }
 
-.title {
-    font-size: 84px;
-}
+
 
 .links > a {
     color: #636b6f;
@@ -47,4 +45,51 @@ html, body {
 
 .m-b-md {
     margin-bottom: 30px;
+}
+
+@media screen and (max-width: 1024px){
+  body{
+  font-size:50px;
+  }
+  .title {
+  font-size: 110px;
+  }
+
+}
+
+@media screen and (max-width: 768px){
+  body{
+  font-size:20px;
+  }
+  .title {
+  font-size: 90px;
+  }
+
+}
+
+@media screen and (max-width: 700px){
+  body{
+  font-size:12px;
+  }
+  .title {
+  font-size: 50px;
+  }
+
+}
+/* Por debajo de 400px */
+@media screen and (max-width: 400px){
+  body{
+  font-size:10px;
+  }
+  .title {
+  font-size: 50px;
+}
+
+@media screen and (max-width: 300px){
+  body{
+  font-size:8px;
+  }
+  .title {
+  font-size: 50px;
+  }
 }

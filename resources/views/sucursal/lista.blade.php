@@ -4,7 +4,7 @@
 
 @if (Auth::user()->rol == 1)
 <div class="container">
-    <table class="table text-center">
+    <table class="table text-center table-responsive-sm">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Nombre</th>
