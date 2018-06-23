@@ -61,7 +61,7 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Ventas</a>
                                     <a class="dropdown-item" href="#">Traspaso a Sucursal</a>
-                                    <a class="dropdown-item" href="#">Salida especial</a>
+                                    <a class="dropdown-item" href="{{ route('salidaesp') }}">Salida especial</a>
                                 </div>
                             </li>
                             <li class="nav-item  links">

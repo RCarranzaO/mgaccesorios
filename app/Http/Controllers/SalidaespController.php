@@ -13,6 +13,7 @@ class SalidaespController extends Controller
     }
     public function index()
     {
-
+        $salidas = SalidaEsp::all();
+        return view('salidas.salidaesp', compat('salidas'));
     }
 }
