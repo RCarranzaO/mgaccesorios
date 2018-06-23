@@ -18,7 +18,7 @@ class ReportesVController extends Controller
           ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
           ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
           ->get();
-        return view('reportes.inventario', compact('productos'));
+        return view('reportes.ventas', compact('productos'));
     }
     public function pdf()
     {
@@ -31,7 +31,7 @@ class ReportesVController extends Controller
             ->get();
         $fecha = date('Y-m-d');
 
-        $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+        $pdf = PDF::loadView('reportes.ventaspdf', compact('productos', 'fecha'));
 
         return $pdf->download('inventario_'.$fecha.'.pdf');
     }
