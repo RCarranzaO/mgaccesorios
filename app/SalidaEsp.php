@@ -10,16 +10,20 @@ class SalidaEsp extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_especial';
 
+    public function User()
+    {
+        return $this->belongsTo('mgaccesorios\User', 'id_user', 'id_sucursal');
+    }
     public function Sucursal()
     {
-        return $this->hasOne('mgaccesorios\Sucursal');
+        return $this->belongsTo('mgaccesorios\Sucursal', 'id_sucursal', 'nombre_sucursal');
     }
     public function Producto()
     {
-        return $this->hasMany('mgaccesorios\Producto');
+        return $this->hasMany('mgaccesorios\Producto', 'id_producto', 'referencia');
     }
     public function DetalleAlmacen()
     {
-        return $this->hasOne('mgaccesorios\DetalleAlmacen');
+        return $this->hasOne('mgaccesorios\DetalleAlmacen', 'id_detallea', 'id_producto', 'id_sucursal', 'existencia');
     }
 }

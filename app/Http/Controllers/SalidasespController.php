@@ -4,7 +4,11 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use mgaccesorios\Sucursal;
+use mgaccesorios\DetalleAlmacen;
+use mgaccesorios\Producto;
+use mgaccesorios\SalidaEsp;
 
 class SalidasespController extends Controller
 {
@@ -19,7 +23,16 @@ class SalidasespController extends Controller
      */
     public function index()
     {
-        
+        $usuario = \Auth::user();
+
+        //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
+        $salidas = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
+                    ->get();
+        //dd($salidas);
         $sucursales = Sucursal::all();
         return view('salidas.salidaesp', compact('sucursales', 'salidas'));
     }
