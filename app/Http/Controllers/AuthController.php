@@ -34,20 +34,26 @@ class AuthController extends Controller
             'password' => $request->input('password')
       	);
 
-        if ($userId->estatus == 1) {
-            //dd($userId);
-            if (Auth::attempt($userData)) {
+        if ($userId->username || $userId->email) {
+          if ($userId->estatus == 1) {
               //dd($userId);
-                return redirect()->route('fondo');
-          	}else{
-              //dd($userId);
-              //dd($userData);
-          		  return back()->with('fail', 'Información incorrecta.');
-          	}
+              if (Auth::attempt($userData)) {
+                //dd($userId);
+                  return redirect()->route('fondo');
+              }else{
+                //dd($userId);
+                //dd($userData);
+                  return back()->with('fail', 'Información incorrecta.');
+              }
 
-        } elseif ($userId->estatus == 0) {
-            return back()->with('fail', 'Usuario esta dado de baja');
+          } elseif ($userId->estatus == 0) {
+              return back()->with('fail', 'Usuario esta dado de baja');
+          }
+        }else{
+          return back()->with('fail', 'El usuario no existe.');
         }
+
+        
 
     }
 
