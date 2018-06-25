@@ -156,3 +156,9 @@ CREATE TABLE saldo(
     CONSTRAINT fk_saldo_gastos FOREIGN KEY(id_gasto) REFERENCES gastos(id_gasto),
     CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion)
 )ENGINE=InnoDb;
+
+CREATE TABLE password_resets(
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(100) NOT NULL,
+    created_at timestamp NULL
+)ENGINE=InnoDb;

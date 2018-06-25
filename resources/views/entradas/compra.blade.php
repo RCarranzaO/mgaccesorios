@@ -4,6 +4,10 @@
 
 		<div class="container">
 				<div class="row justify-content-center">
+<<<<<<< HEAD
+=======
+					<div class="col-md-8">
+>>>>>>> ad5d97262efac72ab34334c04d28042626575419
 						<div class="">
 								<div class="">
 										<div class="card">
@@ -43,6 +47,7 @@
 																		@endif
 																</div>
 
+<<<<<<< HEAD
 																<div class="form-group row">
 																		<label class="col-md-4 col-form-label text-md-right">Sucursal Producto</label>
 																		<div class="col-md-6">
@@ -67,6 +72,12 @@
 																				<button type="submit" class="btn btn-outline-primary">Aceptar</button>
 																				<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 																		</div>
+=======
+														<div class="form-group row">
+																<div class="col-md-8 offset-md-4">
+																		<button type="submit" class="btn btn-outline-primary">Aceptar</button>
+																		<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
+>>>>>>> ad5d97262efac72ab34334c04d28042626575419
 																</div>
 														</form>
 												</div>
