@@ -149,7 +149,7 @@ CREATE TABLE saldo(
     id_gasto INT(6) NULL,
     id_devolucion INT(6) NULL,
     saldo_actual INT(10) NOT NULL,
-    fecha datetime NOT NULL,
+    fecha date NOT NULL,
     CONSTRAINT pk_saldo PRIMARY KEY(id_saldo),
     CONSTRAINT fk_saldo_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo),
     CONSTRAINT fk_saldo_cobro FOREIGN KEY(id_cobro) REFERENCES cobro(id_cobro),
