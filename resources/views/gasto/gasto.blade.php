@@ -19,14 +19,24 @@
                                     <div class="form-group row">
                                         <label for="cantidad" class="col-md-3 col-form-label text-md-right">Cantidad: $</label>
                                         <div class="col-md-7">
-                                            <input type="number" class="form-control" name="cantidad" placeholder="Ingrese cantidad" required>
+                                            <input type="number" class="form-control {{ $errors->has('cantidad') ? ' is-invalid' : '' }}" name="cantidad" placeholder="Ingrese cantidad" required>
                                         </div>
+                                        @if($errors->has('cantidad'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('cantidad') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
                                     <div class="form-group row">
-                                        <label for="cantidad" class="col-md-3 col-form-label text-md-right"> Descripción: </label>
+                                        <label for="descripcion" class="col-md-3 col-form-label text-md-right"> Descripción: </label>
                                         <div class="col-md-7">
-                                            <textarea class="form-control" name="descripcion" rows="5" cols="80" placeholder="Descripcion..." required></textarea>
+                                            <textarea class="form-control {{ $errors->has('descripcion') ? ' is-invalid' : '' }}" name="descripcion" rows="5" cols="80" placeholder="Descripcion..." required></textarea>
                                         </div>
+                                        @if($errors->has('descripcion'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('descripcion') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="modal-footer">

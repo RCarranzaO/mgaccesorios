@@ -57,9 +57,9 @@ Route::get('/reporte/venta', 'ReportesVController@index')->name('repventa');
 Route::get('/reporte/descargar-venta', 'ReportesVController@pdf')->name('venta.pdf');
 
 //Saldo
-Route::get('/saldo/guardar', 'SaldoController@guardar')->name('guardar-saldo');
+Route::get('/saldo/guardarF', 'SaldoController@guardarFondo')->name('guardarFondo');
 Route::get('/saldo', 'SaldoController@index')->name('saldo');
-
+Route::get('/saldo/guardarG', 'SaldoController@guardarGasto')->name('guardarGasto');
 
 
 //PasswordReset

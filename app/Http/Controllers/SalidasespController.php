@@ -66,7 +66,8 @@ class SalidasespController extends Controller
      */
     public function show($id)
     {
-        //
+        //dd($id);
+        return view('salidas.formesp', compact('id'));
     }
 
     /**

@@ -58,6 +58,6 @@ class FondoController extends Controller
 
         //$fondo->fecha = $date->format();
 
-        return redirect()->route('guardar-saldo');
+        return redirect()->route('guardarFondo');
     }
 }

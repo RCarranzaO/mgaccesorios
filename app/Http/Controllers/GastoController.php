@@ -43,7 +43,7 @@ class GastoController extends Controller
                 $gastos->cantidad = $request->input('cantidad');
                 $gastos->fecha = $date;
                 $gastos->save();
-                return redirect()->route('guardar-saldo');
+                return redirect()->route('guardarGasto');
             }
         } else {
             return redirect()->route('gasto')->with('fail', 'La cantidad insertada no es valida!');
