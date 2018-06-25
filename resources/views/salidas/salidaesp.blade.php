@@ -16,8 +16,13 @@
                             <td>{{ $salida->referencia }}</td>
                             <td>{{ $salida->existencia }}</td>
                             <td colspan="2">
-                                <form class="" action="index.html" method="post">
-                                   <input type="number" name="cantidad">
+                                <form class="" action="{{ route('salidaesp.store') }}" method="post">
+                                   <input class="form-control{{ $errors->has('cantidad') ? ' is-invalid' : '' }}" type="number" name="cantidad"required>
+                                   @if($errors->has('cantidad'))
+   																		<span class="invalid-feedback">
+   																				<strong>{{ $errors->first('cantidad') }}</strong>
+   																		</span>
+   																@endif
                                    &nbsp;&nbsp;&nbsp;
                                    <button type="submit" class="btn btn-outline-primary">Retirar</button>
                                 </form>
