@@ -4,11 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @include('alerts.errores')
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    @include('alerts.errores')
                     <form method="POST" action="{{ route('check') }}">
                         @csrf
 

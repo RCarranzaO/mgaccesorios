@@ -57,7 +57,7 @@ class SucursalController extends Controller
 
         //dd($sucursal);
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Sucursal registrada exitosamente');
     }
 
     /**
