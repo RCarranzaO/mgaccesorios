@@ -30,7 +30,7 @@ class AlmacenController extends Controller
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('detallealmacen.id_detallea','producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+            ->select('detallealmacen.id_detallea','producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
             ->paginate(10);
         return view('almacen.almacen', compact('productos', 'productoM', 'sucursales'));
     }

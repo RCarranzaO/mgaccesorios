@@ -34,17 +34,19 @@
                 <tbody>
                     @if ($productos->count())
                         @foreach ($productos as $producto)
-                            <tr>
-                                <td>{{ $producto->referencia }}</td>
-                                <td>{{ $producto->categoria_producto }}</td>
-                                <td>{{ $producto->tipo_producto }}</td>
-                                <td>{{ $producto->marca }}</td>
-                                <td>{{ $producto->modelo }}</td>
-                                <td>{{ $producto->color }}</td>
-                                <td>{{ $producto->precio_venta }}</td>
-                                <td>{{ $producto->nombre_sucursal }}</td>
-                                <td>{{ $producto->existencia }}</td>
-                            </tr>
+                            @if ($producto->estatus != 0)
+                                <tr>
+                                    <td>{{ $producto->referencia }}</td>
+                                    <td>{{ $producto->categoria_producto }}</td>
+                                    <td>{{ $producto->tipo_producto }}</td>
+                                    <td>{{ $producto->marca }}</td>
+                                    <td>{{ $producto->modelo }}</td>
+                                    <td>{{ $producto->color }}</td>
+                                    <td>{{ $producto->precio_venta }}</td>
+                                    <td>{{ $producto->nombre_sucursal }}</td>
+                                    <td>{{ $producto->existencia }}</td>
+                                </tr>
+                            @endif
                         @endforeach
                     @else
                         <tr>

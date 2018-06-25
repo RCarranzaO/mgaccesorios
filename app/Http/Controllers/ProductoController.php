@@ -145,7 +145,7 @@ class ProductoController extends Controller
         if ($producto->estatus == 1) {
             $producto->estatus = 0;
             $producto->save();
-            return redirect()->route('producto.index')->with('success', 'Porducto dado de baja'.$producto);
+            return redirect()->route('producto.index')->with('success', 'Porducto dado de baja');
         }elseif ($producto->estatus == 0){
             $producto->estatus = 1;
             $producto->save();
