@@ -5,6 +5,8 @@ namespace mgaccesorios\Http\Controllers;
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Session;
 use mgaccesorios\Sucursal;
 use mgaccesorios\DetalleAlmacen;
 use mgaccesorios\Producto;
@@ -55,7 +57,36 @@ class SalidasespController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $salidaesp = new SalidaEsp();
+        $id = Session::get('id');
+        $usuario = \Auth::user();
+        $productoId = Producto::find($id);
+        $detalleaId = DetalleAlmacen::all()->where('id_producto', $id)->first();
+        $date = Carbon::now();
+        //dd($productoId);
+        //dd($detalleaId);
+        $max = $detalleaId->existencia;
+        $validate = $this->validate($request, [
+            'cantidad' => 'required|numeric',
+            'descripcion' => 'required|string|max:255'
+        ]);
+
+        if ($request->input('cantidad')<=$max) {
+            $salidaesp->id_sucursal = $usuario->id_sucursal;
+            $salidaesp->id_producto = $id;
+            $salidaesp->id_user = $usuario->id_user;
+            $salidaesp->descripcion = $request->input('descripcion');
+            $salidaesp->cantidad = $request->input('cantidad');
+            $salidaesp->fecha = $date;
+            $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');
+            //dd($salidaesp);
+            $salidaesp->save();
+            $detalleaId->save();
+            return redirect()->route('almacen.index');
+        } else {
+            return redirect()->route('salidasesp.show', $id)->with('fail', 'La cantidad excede la existencia en el inventario');
+        }
+
     }
 
     /**
@@ -67,6 +98,7 @@ class SalidasespController extends Controller
     public function show($id)
     {
         //dd($id);
+        Session::flash('id', $id);
         return view('salidas.formesp', compact('id'));
     }
 
