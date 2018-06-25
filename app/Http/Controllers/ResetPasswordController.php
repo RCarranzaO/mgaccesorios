@@ -15,8 +15,12 @@ class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
 
-    protected $redirectTo = '/login';
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
+    protected $redirectTo = '/login';
 
     public function showResetForm(Request $request, $token = null){
     	return view('auth/passwords/reset')->with(

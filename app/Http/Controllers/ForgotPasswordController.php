@@ -9,6 +9,10 @@ use Password;
 
 class ForgotPasswordController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function showForm(){
     	return view('auth/passwords/email');
     }
