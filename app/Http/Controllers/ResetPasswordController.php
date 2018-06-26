@@ -15,10 +15,10 @@ class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
 
-    /*public function __construct()
+    public function __construct()
     {
-        $this->middleware('auth');
-    }*/
+        $this->middleware('guest')->except('logout');
+    }
 
     protected $redirectTo = '/login';
 
