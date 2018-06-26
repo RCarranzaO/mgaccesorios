@@ -13,7 +13,6 @@
                 @if ($salidas->count())
                     @foreach ($salidas as $salida)
                         <tr>
-                            <td>{{ $salida->id_producto }}</td>
                             <td>{{ $salida->referencia }}</td>
                             <td>{{ $salida->existencia }}</td>
                             <td>
