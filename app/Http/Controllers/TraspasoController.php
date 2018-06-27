@@ -10,9 +10,9 @@ use Session;
 use mgaccesorios\Sucursal;
 use mgaccesorios\DetalleAlmacen;
 use mgaccesorios\Producto;
-use mgaccesorios\SalidaEsp;
+use mgaccesorios\Traspaso;
 
-class SalidasespController extends Controller
+class TraspasoController extends Controller
 {
     public function __construct()
     {
@@ -28,15 +28,15 @@ class SalidasespController extends Controller
         $usuario = \Auth::user();
 
         //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
-        $salidas = DB::table('detallealmacen')
+        $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->get();
         //dd($salidas);
-        $sucursales = Sucursal::all();
-        return view('salidas.salidaesp', compact('sucursales', 'salidas'));
+
+        return view('salidas.traspaso', compact('traspasos'));
     }
 
     /**
@@ -57,7 +57,7 @@ class SalidasespController extends Controller
      */
     public function store(Request $request)
     {
-        $salidaesp = new SalidaEsp();
+        $traspaso = new Traspaso();
         $id = Session::get('id');
         $usuario = \Auth::user();
         $productoId = Producto::find($id);
@@ -65,27 +65,46 @@ class SalidasespController extends Controller
               ->where('id_producto', $id)
               ->where('id_sucursal', $usuario->id_sucursal)
               ->first();
-
+        $detalleaID = DetalleAlmacen::all()
+              ->where('id_producto', $id)
+              ->where('id_sucursal', $request->input('sucursal'))
+              ->first();
         $date = Carbon::now();
-        //dd($productoId);
+        $sucursalO = Sucursal::find($usuario->id_sucursal);
+        $sucursalD = Sucursal::find($request->input('sucursal'));
         //dd($detalleaId);
         $max = $detalleaId->existencia;
         $validate = $this->validate($request, [
             'cantidad' => 'required|numeric',
-            'descripcion' => 'required|string|max:255'
+            'sucursal' => 'required|numeric'
         ]);
 
         if ($request->input('cantidad') <= $max && $request->input('cantidad') > 0) {
-            $salidaesp->id_sucursal = $usuario->id_sucursal;
-            $salidaesp->id_producto = $id;
-            $salidaesp->id_user = $usuario->id_user;
-            $salidaesp->descripcion = $request->input('descripcion');
-            $salidaesp->cantidad = $request->input('cantidad');
-            $salidaesp->fecha = $date;
-            $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');
-            //dd($salidaesp);
-            $salidaesp->save();
-            $detalleaId->save();
+            $traspaso->id_producto = $id;
+            $traspaso->id_user = $usuario->id_user;
+            $traspaso->sucursal_origen = $sucursalO->nombre_sucursal;
+            $traspaso->sucursal_destino = $sucursalD->nombre_sucursal;
+            $traspaso->cantidad = $request->input('cantidad');
+            $traspaso->fecha = $date;
+            //$traspaso->save();
+            //dd($traspaso);
+            if ($detalleaID) {
+                $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');
+                $detalleaID->existencia = $detalleaID->existencia + $request->input('cantidad');
+                //dd($detalleaId);
+                $detalleaId->save();
+                $detalleaID->save();
+            } else {
+
+                $almacen = new DetalleAlmacen();
+                $almacen->id_producto = $id;
+                $almacen->id_sucursal = $request->input('sucursal');
+                $almacen->existencia = $request->input('cantidad');
+                $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');
+                //dd($detalleaId);
+                $almacen->save();
+                $detalleaId->save();
+            }
             return redirect()->route('almacen.index')->with('success', 'El traspaso se realizo exitosamente');
         } else {
             return redirect()->route('salidasesp.show', $id)->with('fail', 'La cantidad excede la existencia en el inventario');
@@ -101,9 +120,10 @@ class SalidasespController extends Controller
      */
     public function show($id)
     {
-        //dd($id);
         Session::flash('id', $id);
-        return view('salidas.formesp', compact('id'));
+        $usuario = \Auth::user();
+        $sucursales = Sucursal::all();
+        return view('salidas.formtras', compact('id', 'sucursales', 'usuario'));
     }
 
     /**

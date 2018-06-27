@@ -71,3 +71,7 @@ Route::post('/password/reset', 'ResetPasswordController@reset')->name('reseted')
 
 //SalidaEsp
 Route::resource('/salidasesp', 'SalidasespController');
+
+
+//traspasos
+Route::resource('/traspaso', 'TraspasoController');
