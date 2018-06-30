@@ -20,7 +20,8 @@ class ReportesController extends Controller
           ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
           ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
           ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
-          ->get();
+          ->orderBy('detallealmacen.id_detallea')
+          ->paginate(15);
         return view('reportes.inventario', compact('productos'));
     }
     public function pdf()

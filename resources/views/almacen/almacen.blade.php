@@ -42,7 +42,7 @@
                                     <td>{{ $producto->marca }}</td>
                                     <td>{{ $producto->modelo }}</td>
                                     <td>{{ $producto->color }}</td>
-                                    <td>{{ $producto->precio_venta }}</td>
+                                    <td>$ {{ number_format($producto->precio_venta,2) }}</td>
                                     <td>{{ $producto->nombre_sucursal }}</td>
                                     <td>{{ $producto->existencia }}</td>
                                 </tr>
