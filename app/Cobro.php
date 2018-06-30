@@ -12,6 +12,6 @@ class Cobro extends Model
 
     public function User()
     {
-        return $this->belongsTo('mgaccesorios\User')
+        return $this->belongsTo('mgaccesorios\User');
     }
 }
