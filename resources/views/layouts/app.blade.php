@@ -11,7 +11,11 @@
     <title>MgAccesorios</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/popper/popper.min.js') }}"></script>
+    <script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -19,7 +23,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <!--<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
@@ -37,13 +41,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav nav-link links">
-
-
                         @guest
 
                         @else
                             <li class="nav-item dropdown links" >
-                                <a class="nav-link dropdown-toggle" id="navbarDropdowncajaLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Caja</a>
+                                <a class="nav-link dropdown-toggle" id="navbarDropdowncajaLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Caja</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdowncajaLink">
                                     <a class="dropdown-item" href="{{ route('fondo') }}">Fondo</a>
                                     <a class="dropdown-item" href="{{ route('gasto') }}">Egreso</a>
@@ -51,7 +53,7 @@
                             </li>
                             <li class="nav-item dropdown links">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Entradas</a>
-                                <div class="dropdown-menu">
+                                <div class="dropdown-menu" aria-labelledby>
                                     <a class="dropdown-item" href="{{ route('almacen.create') }}">Compras</a>
                                     <a class="dropdown-item" href="#">Devoluciones</a>
                                 </div>

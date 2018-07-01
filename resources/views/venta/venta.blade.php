@@ -63,29 +63,33 @@
                             </div>
                         </form>
                         <div id="ModalProd" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                          <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel">Buscar productos</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                  <form class="form-horizontal" action="index.html" method="post">
-                                      <div class="form-group">
-                                          <div class="col-sm-6">
-                                              <input type="text" id="search" class="form-control" name="" placeholder="Buscar productos" onkeyup="">
-                                          </div>
-                                          <button type="button" class="btn btn-outline-default">Buscar</button>
-                                      </div>
-                                  </form>
-                              </div>
-                              <div class="modal-footer">
-                                ...
-                              </div>
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel">Buscar productos</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" action="index.html" method="post">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <input type="text" id="search" class="form-control" name="" placeholder="Buscar productos" onkeyup="">
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <button type="button" class="btn btn-outline-dark">Buscar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                      ...
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
                     </div>
                 </div>

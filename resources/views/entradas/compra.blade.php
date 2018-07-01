@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
 
 		<div class="container">
 				<div class="row justify-content-center">
