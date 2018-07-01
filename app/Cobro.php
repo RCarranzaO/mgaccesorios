@@ -14,4 +14,8 @@ class Cobro extends Model
     {
         return $this->belongsTo('mgaccesorios\User');
     }
+    public function Venta()
+    {
+      return $this->hasOne('mgaccesorios\Venta');
+    }
 }

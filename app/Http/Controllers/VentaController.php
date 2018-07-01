@@ -4,9 +4,10 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
 
-class SucursalController extends Controller
+class VentaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +18,15 @@ class SucursalController extends Controller
     {
         $this->middleware('auth');
     }
-
     public function index()
     {
+        $ventas = Venta::all();
+        $venta = $ventas->last();
         $sucursales = Sucursal::all();
-        return view('sucursal/lista', compact('sucursales'));
+        $user = \Auth::user();
+
+
+        return view('venta.venta', compact('sucursales', 'user', 'venta'));
     }
 
     /**
@@ -31,7 +36,7 @@ class SucursalController extends Controller
      */
     public function create()
     {
-        return view('sucursal/alta');
+        //
     }
 
     /**
@@ -42,22 +47,7 @@ class SucursalController extends Controller
      */
     public function store(Request $request)
     {
-        $validateData = $this->validate($request, [
-            'nombre_sucursal' => 'required|string|max:255|unique:sucursales',
-            'direccion' => 'required|string|max:255',
-            'telefono' => 'required|string|min:7|max:13',
-            'estatus' => 'required|numeric|max:2'
-        ]);
-        $sucursal = new Sucursal();
-        $sucursal->nombre_sucursal = $request->input('nombre_sucursal');
-        $sucursal->direccion = $request->input('direccion');
-        $sucursal->telefono = $request->input('telefono');
-        $sucursal->estatus = $request->input('estatus');
-        $sucursal->save();
-
-        //dd($sucursal);
-
-        return redirect()->route('home')->with('success', 'Sucursal registrada exitosamente');
+        //
     }
 
     /**
@@ -102,13 +92,6 @@ class SucursalController extends Controller
      */
     public function destroy($id)
     {
-        $sucursal = Sucursal::find($id);
-        if ($sucursal->estatus == 1) {
-            $sucursal->estatus = 0;
-        }else{
-            $sucursal->estatus = 1;
-        }
-        $sucursal->save();
-        return redirect()->route('sucursal.index');
+        //
     }
 }
