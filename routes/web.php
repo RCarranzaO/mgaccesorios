@@ -56,22 +56,20 @@ Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almace
 Route::get('/reporte/venta', 'ReportesVController@index')->name('repventa');
 Route::get('/reporte/descargar-venta', 'ReportesVController@pdf')->name('venta.pdf');
 
-//Saldo
+//Rutas de Saldo
 Route::get('/saldo/guardarF', 'SaldoController@guardarFondo')->name('guardarFondo');
 Route::get('/saldo', 'SaldoController@index')->name('saldo');
 Route::get('/saldo/guardarG', 'SaldoController@guardarGasto')->name('guardarGasto');
 
 
-//PasswordReset
+//Rutas de PasswordReset
 Route::get('/mail', 'ForgotPasswordController@showForm')->name('show');
 Route::post('/send', 'ForgotPasswordController@sendResetEmail')->name('send');
 Route::get('/password/reset/{token}', 'ResetPasswordController@showResetForm')->name('reset');
 Route::post('/password/reset', 'ResetPasswordController@reset')->name('reseted');
 
 
-//SalidaEsp
+//Rutas de salida
 Route::resource('/salidasesp', 'SalidasespController');
-
-
-//traspasos
 Route::resource('/traspaso', 'TraspasoController');
+Route::resource('/venta', 'VentaController');

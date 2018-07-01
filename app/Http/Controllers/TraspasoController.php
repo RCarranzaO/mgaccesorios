@@ -36,7 +36,7 @@ class TraspasoController extends Controller
                     ->get();
         //dd($salidas);
 
-        return view('salidas.traspaso', compact('traspasos'));
+        return view('traspaso.traspaso', compact('traspasos'));
     }
 
     /**
@@ -123,7 +123,7 @@ class TraspasoController extends Controller
         Session::flash('id', $id);
         $usuario = \Auth::user();
         $sucursales = Sucursal::all();
-        return view('salidas.formtras', compact('id', 'sucursales', 'usuario'));
+        return view('traspaso.formtras', compact('id', 'sucursales', 'usuario'));
     }
 
     /**
