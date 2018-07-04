@@ -4,6 +4,7 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
 
@@ -24,9 +25,14 @@ class VentaController extends Controller
         $venta = $ventas->last();
         $sucursales = Sucursal::all();
         $user = \Auth::user();
+        $productos = DB::table('detallealmacen')
+            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+            ->orderBy('detallealmacen.id_detallea')
+            ->get();
 
-
-        return view('venta.venta', compact('sucursales', 'user', 'venta'));
+        return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
     }
 
     /**

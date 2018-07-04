@@ -11,9 +11,9 @@
     <title>MgAccesorios</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/popper/popper.min.js') }}"></script>
     <script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>
 
@@ -23,8 +23,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css') }}">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
 </head>
 <body>
@@ -113,7 +113,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesion') }}</a></li>
                         @else
 
                             <li class="nav-item dropdown">
@@ -125,7 +125,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Cerrar Sesion') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

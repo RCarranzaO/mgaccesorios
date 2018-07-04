@@ -1,4 +1,4 @@
-<script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}" charset="utf-8"></script>
+
 <script type="text/javascript">
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
         $("#success-alert").slideUp(500);

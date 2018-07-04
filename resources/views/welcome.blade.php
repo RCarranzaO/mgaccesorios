@@ -10,15 +10,15 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <!--Script-->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.min.js') }}"></script>
         <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}" charset="utf-8"></script>
-        <script src="{{ asset('js/popper/popper.min.js') }}" charset="utf-8"></script>
-        <script src="{{ asset('js/tooltip/tooltip.min.js') }}" charset="utf-8"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/popper/popper.min.js') }}"></script>
+        <script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css') }}">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     </head>
     <body>
@@ -30,7 +30,6 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-
                     @endauth
                 </div>
             @endif
