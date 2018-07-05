@@ -140,6 +140,7 @@
         </nav>
         <main class="py-4 m-b-md">
             @yield('content')
+            @yield('script')
         </main>
         </div>
     </div>

@@ -56,7 +56,20 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <table class="table text-center table-responsive-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><strong>Referencia</strong></th>
+                                                        <th scope="col"><strong>Cantidad</strong></th>
+                                                        <th scope="col"><strong>Descripción</strong></th>
+                                                        <th scope="col" class="text-right"><strong>Precio unit.</strong></th>
+                                                        <th scope="col" class="text-right"><strong>Precio total</strong></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +85,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-horizontal" action="index.html" method="post">
+                                        <form class="form-horizontal">
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="col-sm-4">
@@ -94,20 +107,24 @@
                                                     <th scope="col" class="text-left">Sucursal</th>
                                                     <th scope="col">Existencia</th>
                                                     <th scope="col" class="text-right">Precio</th>
-                                                    <th scope="col" class="text-right">Total</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="formproduc">
                                                 @if ($productos->count())
                                                     @foreach ($productos as $producto)
-                                                        <tr>
-                                                          <td>{{ $producto->referencia }}</td>
-                                                          <td class="text-left">{{ $producto->categoria_producto }} {{ $producto->tipo_producto }} {{ $producto->marca }} {{ $producto->modelo }} {{ $producto->color }}</td>
-                                                          <td class="text-left">{{ $producto->nombre_sucursal }}</td>
-                                                          <td>{{ $producto->existencia }}</td>
-                                                          <td class="text-right">$ {{ number_format($producto->precio_venta, 2) }}</td>
-                                                          <td class="text-right">$ {{ number_format($producto->precio_venta*$producto->existencia, 2) }}</td>
-                                                        </tr>
+                                                        @if ($producto->estatus != 0)
+                                                            <tr>
+                                                              <td>{{ $producto->referencia }}</td>
+                                                              <td class="text-left">{{ $producto->categoria_producto }} {{ $producto->tipo_producto }} {{ $producto->marca }} {{ $producto->modelo }} {{ $producto->color }}</td>
+                                                              <td class="text-left">{{ $producto->nombre_sucursal }}</td>
+                                                              <td>{{ $producto->existencia }}</td>
+                                                              <td class="text-right">${{ number_format($producto->precio_venta, 2) }}</td>
+                                                              <td><input type="number" id="cantidad" name="cantidad" class="text-center" style="width:50px" value="1"></td>
+                                                              <td> <a href="#" class="btn btn-outline-primary">Agregar</a></td>
+                                                            </tr>
+                                                        @endif
                                                     @endforeach
                                                 @else
                                                     <tr>
@@ -126,4 +143,27 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $('#search').on('keyup', function(){
+            $value=$(this).val();
+
+            $.ajax({
+
+                type: 'get',
+                url: '{{ route('buscarV') }}',
+                data: {'search':$value},
+                success:function(data){
+                    $('#formproduc').html(data);
+                }
+            });
+        })
+    </script>
+    <script>
+
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });
+    </script>
 @endsection

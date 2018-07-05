@@ -4,17 +4,16 @@
         <div class="container">
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
                 @include('alerts.success')
-                <form class="form-inline" action="{{ route('buscaralm') }}" method="post">
-                    @csrf
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="data" aria-label="Search">
+                <form class="form-inline" action="#" method="get">
+                    <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar producto" onkeyup="">
 
-                    <select class="form-control mr-sm-2" name="sucursal">
+                    <!--<select class="form-control mr-sm-2" name="sucursal">
                         <option value="0">Todas las sucursales</option>
                         @foreach ($sucursales as $sucursal)
                             <option value="{{ $sucursal->id_sucursal }}">{{ $sucursal->nombre_sucursal }}</option>
                         @endforeach
-                    </select>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                    </select>-->
+                    <!--<button type="submit" class="btn btn-outline-success my-2 my-sm-0">Buscar</button>-->
                 </form>
             </nav>
             <table class="table text-center table-responsive-sm" id="general">
@@ -59,4 +58,22 @@
             <hr>
             {{ $productos->links() }}
         </div>
+@endsection
+@section('script')
+    <script>
+        $('#buscar').on('keyup', function(){
+            $value=$(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{ route('buscarA') }}',
+                data: {'buscar':$value},
+                success:function(data){
+                    $('tbody').html(data);
+                }
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });
+    </script>
 @endsection

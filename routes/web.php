@@ -47,8 +47,8 @@ Route::post('/caja/guardar-gasto', 'GastoController@saveGasto')->name('guardar-g
 
 //Rutas de almacen
 Route::resource('/almacen', 'AlmacenController');
-Route::post('/almacen-search', 'BuscarController@BuscarAlm')->name('buscaralm');
-
+Route::get('/buscarA', 'BuscarController@BuscarA')->name('buscarA');
+Route::get('/buscarV', 'BuscarController@BuscarV')->name('buscarV');
 
 //Rutas de reportes
 Route::get('/reporte/almacen', 'ReportesController@index')->name('repalmacen');
