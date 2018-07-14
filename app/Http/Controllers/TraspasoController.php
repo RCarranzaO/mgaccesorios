@@ -107,7 +107,7 @@ class TraspasoController extends Controller
             }
             return redirect()->route('almacen.index')->with('success', 'El traspaso se realizo exitosamente');
         } else {
-            return redirect()->route('salidasesp.show', $id)->with('fail', 'La cantidad excede la existencia en el inventario');
+            return redirect()->route('traspaso.show', $id)->with('fail', 'La cantidad excede la existencia en el inventario');
         }
 
     }
