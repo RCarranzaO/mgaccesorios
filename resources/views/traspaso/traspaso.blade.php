@@ -8,7 +8,7 @@
                         <tr>
                             <th scope="col">Referencia</th>
                             <th scope="col">Categoria</th>
-                            <th scope="col">existencia</th>
+                            <th scope="col">Existencia</th>
                             <th scope="col" colspan="2">Cantidad a retirar</th>
                         </tr>
                     </thead>

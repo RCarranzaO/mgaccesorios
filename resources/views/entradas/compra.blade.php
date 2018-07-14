@@ -35,7 +35,7 @@
 																<div class="form-group row">
 																		<label  class="col-md-4 col-form-label text-md-right">Existencia Producto</label>
 																		<div class="col-md-6">
-																				<input class="form-control{{ $errors->has('exisproduc') ? ' is-invalid' : '' }}" type="text" name="exisproduc" id="exisproduc" placeholder="Existencia producto" required>
+																				<input class="form-control{{ $errors->has('exisproduc') ? ' is-invalid' : '' }}" type="number" min="1" name="exisproduc" id="exisproduc" placeholder="Existencia producto" required>
 																		</div>
 																		@if($errors->has('exisproduc'))
 																				<span class="invalid-feedback">

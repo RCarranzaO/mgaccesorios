@@ -19,7 +19,7 @@
                                     <div class="form-group row">
                                         <label for="cantidad" class="col-md-3 col-form-label text-md-right">Cantidad: $</label>
                                         <div class="col-md-7">
-                                            <input type="number" class="form-control {{ $errors->has('cantidad') ? ' is-invalid' : '' }}" name="cantidad" placeholder="Ingrese cantidad" required>
+                                            <input type="number" min="1" class="form-control {{ $errors->has('cantidad') ? ' is-invalid' : '' }}" name="cantidad" placeholder="Ingrese cantidad" required>
                                         </div>
                                         @if($errors->has('cantidad'))
                                             <span class="invalid-feedback">

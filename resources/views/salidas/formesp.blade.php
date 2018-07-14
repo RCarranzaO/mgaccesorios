@@ -14,7 +14,7 @@
                                     <div class="form-group row">
                                         <label for="cantidad" class="col-md-4 col-form-label text-md-right">Cantidad a retirar:</label>
                                         <div class="col-md-6">
-                                            <input class="form-control{{ $errors->has('cantidad') ? ' is-invalid' : '' }}" type="text" name="cantidad" placeholder="Ingrese cantidad a retirar" required>
+                                            <input class="form-control{{ $errors->has('cantidad') ? ' is-invalid' : '' }}" type="number" min="1" name="cantidad" placeholder="Ingrese cantidad a retirar" required>
                                         </div>
                                         @if($errors->has('cantidad'))
                                             <span class="invalid-feedback">
