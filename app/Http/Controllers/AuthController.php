@@ -11,7 +11,7 @@ use mgaccesorios\User;
 class AuthController extends Controller
 {
     /**
-     * La funcion function _construct utilizando middleware verifica que el usuario que intenta accesar a la aplicacion esté autenticado.
+     * La funcion function _construct utilizando middleware verifica que el usuario que intenta accesar a la aplicación esté autenticado.
      * @return Si el usuario no es autenticado será regresado a la página de inicio de sesión.
      */
     public function __construct()
@@ -25,9 +25,9 @@ class AuthController extends Controller
     }
 
     /**
-     * La funcion checklogin solicita la informacion para el inicio de sesión y valida que el nombre del usuario o el correo con el que se intenta iniciar sesión coincidan con los registrados en la base de datos User
+     * La funcion checklogin solicita la informacion para el inicio de sesión y valida que el nombre del usuario o el correo con el que se intenta iniciar sesión coincidan con los registrados en la base de datos en la tabla User.
      * @param  Los parámetros solicitados para validar son email o username y password.
-     * @return Si la validación falla por proporcionar informacion incorrecta regresa a la misma vista de inicio de sesión con el mensaje de error. 
+     * @return Si la validación falla por proporcionar información incorrecta regresa a la misma vista de inicio de sesión con el mensaje de error. 
      * Si la información es correcta al ser validada, se inicia la sesión de ese usuario y será redireccionado a la vista fondo.
      */
     function checklogin(Request $request)

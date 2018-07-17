@@ -19,6 +19,12 @@ class GastoController extends Controller
 
         return view('gasto.gasto');
     }
+
+    /**
+     * Description
+     * @param Request $request 
+     * @return type
+     */
     public function saveGasto(Request $request)
     {
         $validateData = $this->validate($request,[

@@ -18,6 +18,11 @@ class ProductoController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Descripcion
+     * @return type
+     */
     public function index()
     {
         $productos = Producto::all();
@@ -39,6 +44,16 @@ class ProductoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     */
+
+    /**
+     * Con la función store se guarda la información del nuevo producto a registrar en la base de datos.
+     * Para ello, se valida que se cumpla con el llenado de los campos: referencia, categoría, tipo, marca, modelo, color, precio_compra y precio_venta. Todos son campos de tipo string a excepción de precio_compra y precio_venta, los cuales son de tipo numérico y con un máximo de 255 caracteres.
+     * La variable referencia es de tipo unique, impidiendo que existan duplicados del valor de referencia para cada producto.
+     * @param Losparámetros requeridos son todos los campos en la tabla Producto de la base de datos. Estos son: referencia, categoria, tipo, marca, modelo, color, precio_compra y precio_venta. 
+     * @return También se define que el precio de venta no puede ser menor que el precio de compra para evitar pérdidas de efectivo por causa de un error de captura de información.
+     * Si estos campos no son llenados de manera correcta, se mostrará un mensaje de error indicando que el precio de venta debe ser mayor al precio de compra. 
+     * Si los campos son completados de manera correcta, se mostrará un mensaje confirmándonos que el producto ha sido agregado.
      */
     public function store(Request $request)
     {
@@ -89,6 +104,12 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * La función edit permite editar la información de el producto que seleccionemos.
+     * @param El parámetro que pasamos para editar la información es $id.  
+     * @return El botón de editar está ligado al id del producto que seleccionamos. Al seleccionar editar, se desplegará una vista con la información de ese producto para poder ser actualizada.
+     */
     public function edit($id)
     {
         $producto = Producto::find($id);
@@ -101,6 +122,13 @@ class ProductoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     */
+
+    /**
+     * La función update sirve para guardar los cambios que se hayan realizado en la información del producto seleccionado para su edición.
+     * @param Los parámetros a validar son los campos referencia, categoria, tipo, marca, modelo, color, precio_compra y precio_venta. Todos son de tipo string con un valor máximo de 255 caracteres a excepión de precio_compra y precio_venta, los cuales son de tipo numérico. 
+     * @param El parámetro $producto hace uso de Producto::find($id) para hacer referencia al producto seleccionado para editar y actualizará la información de los campos validados con la nueva información capturada. 
+     * @return Al seleccionar el botón Aceptar, la función save() guardará la información del formulario y nos redirigirá a producto.index con la lista con los productos que están registrados junto con un mensaje de "Producto actualizado!" indicandonos que los cambios se han guardado con éxito.
      */
     public function update(Request $request, $id)
     {
@@ -136,6 +164,15 @@ class ProductoController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     */
+
+    /**
+     * La función destroy() se utiliza para cambiar el estatus de un producto. 
+     * Si el valor del estatus es de 1, el estatus del producto es Activo.
+     * Si el valor del estatus es de 0, el estatus del producto es Inactivo.
+     * @param El parámetro utilizado es $id, con Producto::find($id) se realiza el cambio de estatus del producto cuyo id está relacionado con el botón para cambio de estatus. Cada botón está relacionado con el id de la misma fila en el cual está puesto.
+     * @return Al hacer click en el botón cunado este dice Baja, el estatus es cambiado de Activo a Inactivo, indicando que el producto no puede ser utilizado para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producto ha sido dado de baja.
+     * Al hacer click en el botón cuando dice Alta, el estatus es cambiado de Inactivo a Activo, indicando que el producto se encuentra de nuevo disponible para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producoto ha sido dado de alta.
      */
     public function destroy($id)
     {
