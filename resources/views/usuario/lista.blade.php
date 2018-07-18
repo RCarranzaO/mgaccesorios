@@ -44,7 +44,7 @@
 														@endif
 												</td>
 												<td>
-														<a href="{{ route('usuario.edit', $usuario->id_user) }}" class="btn btn-outline-info">Editar</a>
+														<a href="{{ route('usuario.edit', $usuario->id_user) }}" class="btn btn-outline-info"><i class="fa fa-edit"></i> Editar</a>
 												</td>
 												<td>
 														<form  method="post" action="/usuario/{{ $usuario->id_user }}">

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+      <div class="card">
+        <div class="card-body">
         <table class="table text-center">
             <thead class="thead-dark">
                 <tr>
@@ -27,6 +29,7 @@
                 @endif
             </tbody>
         </table>
-        <hr>
+        </div>
+      </div>
     </div>
 @endsection
