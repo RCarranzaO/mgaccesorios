@@ -75,3 +75,20 @@ Route::resource('/traspaso', 'TraspasoController');
 Route::resource('/venta', 'VentaController');
 Route::get('/cart', 'VentaController@cart_temp')->name('cart');
 Route::resource('/devolucion', 'DevolucionesController');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Rutas de inventario
+Route::get('/buscarR', 'ReportesController@BuscarR')->name('buscarR');//Busqueda en reporte de inventario por referencia
+
