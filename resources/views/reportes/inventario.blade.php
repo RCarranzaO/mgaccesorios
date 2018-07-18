@@ -5,10 +5,20 @@
             @include('alerts.success')
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
                 <form class="form-inline" action="#" method="get">
-                    <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar por referencia" onkeyup="">
+                    <input type="text" id="buscarR" class="form-control mr-sm-2" name="buscarR" placeholder="Buscar por referencia" onkeyup="">
                     <input type="text" id="buscarN" class="form-control mr-sm-2" name="buscarN" placeholder="Buscar por nombre">
                     @if (Auth::user()->rol == 1)
+                        <select id="buscarS" class="form-control mr-sm-2" name="buscarS">
+                            <option value="">{{ 'Seleccionar sucursal' }}</option>
+                            @foreach ($sucursales as $sucursal)
+                                @if ($sucursal->estatus != 0)
+                                    <option value="{{$sucursal->id_sucursal}}">{{$sucursal->nombre_sucursal}}</option>
+                                @endif
+                            @endforeach
+                        </select>
                         <a href="{{ route('almacen.pdf') }}" class="btn btn-outline-primary">Descargar productos en PDF</a>
+                    @else
+                        <!--Aquí va la búsqueda cerrada de vendedor solo viendo su almacen-->
                     @endif
                 </form>
             </nav>
@@ -21,7 +31,7 @@
                     <table class="table text-center table-responsive-sm">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Referencia</th>
+                                <th scope="col">{{ 'Referencia' }}</th>
                                 <th scope="col">Producto</th>
                                 <th scope="col" class="text-left">Sucursal</th>
                                 <th scope="col">Existencia</th>
@@ -58,17 +68,20 @@
 @endsection
 @section('script')
     <script>
-        $('#buscar').on('keyup', function(){
-            $value=$(this).val();
-            $.ajax({
-                type: 'get',
-                url: '{{ route('buscarA') }}',
-                data: {'buscar':$value},
-                success:function(data){
-                    $('tbody').html(data);
-                }
+        $(document).ready(function(){
+            $('#buscarR').on('keyup', function(){
+                $value=$(this).val();
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('buscarR') }}',
+                    data: {'buscarR':$value},
+                    success:function(data){
+                        $('tbody').html(data);
+                    }
+                });
             });
         });
+            
 
     </script>
     <script type="text/javascript">
