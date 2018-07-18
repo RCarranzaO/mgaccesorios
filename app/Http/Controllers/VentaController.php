@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
 use mgaccesorios\Cuenta;
+use Carbon\Carbon;
 
 class VentaController extends Controller
 {
@@ -121,15 +122,24 @@ class VentaController extends Controller
                         ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
                         ->orderBy('detallealmacen.id_detallea')
                         ->where('detallealmacen.id_detallea', $request->id)
-                        ->get();
+                        ->first();
                         //dd($carrito);
             if ($carrito) {
                 $cuenta->id_venta = $request->venta;
-                $cuenta->detallea = $carrito->id_detallea;
+                $cuenta->id_detallea = $carrito->id_detallea;
                 $cuenta->cantidad = $request->cantidad;
                 $cuenta->precio = $carrito->precio_venta*$request->cantidad;
                 $cuenta->fecha = $date;
-                foreach ($carrito as $cart) {
+                //$cuenta->save();
+                //dd($cuenta);
+                $cuentas = DB::table('cuenta')
+                            ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                            ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
+                            ->orderBy('detallealmacen.id_detallea')
+                            ->where('detallealmacen.id_detallea', $request->id)
+                            ->first();
+                foreach ($cuentas as $cart) {
                     $result.= '<tr>'.
                               '   <td>'.$cart->referencia.'</td>'.
                               '   <td class="text-center">'.$request->cantidad.'</td>'.
