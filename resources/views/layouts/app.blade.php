@@ -70,14 +70,14 @@
                                     <a class="dropdown-item" href="{{ route('salidasesp.index') }}">Salida especial</a>
                                 </div>
                             </li>
-                            <li class="nav-item  links">
+                            <!--<li class="nav-item  links">
                                 <a class="nav-link " href="{{ route('almacen.index') }}">Inventario</a>
-                                <!--<div class="dropdown-menu">
+                                <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Ventas</a>
                                     <a class="dropdown-item" href="#">Traspaso a Sucursal</a>
                                     <a class="dropdown-item" href="#">Salida especial</a>
-                                </div>-->
-                            </li>
+                                </div>
+                            </li>-->
                             @if (Auth::user()->rol == 1)
                                 <li class="nav-item dropdown links">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
