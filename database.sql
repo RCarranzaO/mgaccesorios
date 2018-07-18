@@ -134,7 +134,7 @@ CREATE TABLE traspasos(
     id_producto INT(6) NOT NULL,
     id_user INT(6) NOT NULL,
     sucursal_origen VARCHAR(20) NOT NULL,
-    sucursal_descuida VARCHAR(20) NOT NULL,
+    sucursal_destino VARCHAR(20) NOT NULL,
     cantidad INT(5) NOT NULL,
     fecha date NOT NULL,
     CONSTRAINT pk_traspasos PRIMARY KEY(id_traspaso),

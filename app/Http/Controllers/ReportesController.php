@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
+use mgaccesorios\DetalleAlmacen;
 use mgaccesorios\Producto;
+use mgaccesorios\Sucursal;
 
 class ReportesController extends Controller
 {
@@ -16,6 +18,7 @@ class ReportesController extends Controller
     }
     public function index()
     {
+        $sucursales = Sucursal::all();
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
