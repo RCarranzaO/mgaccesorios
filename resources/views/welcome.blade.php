@@ -4,20 +4,20 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>MgAccesorios</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <!--Script-->
-        <script src="{{ asset('js/app.min.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bootstrap-4.1.1/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/popper/popper.min.js') }}"></script>
         <script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bootstrap-4.1.1/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     </head>

@@ -11,11 +11,15 @@
     <title>MgAccesorios</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.min.js') }}"></script>
+    <!--<script src="{{ asset('js/app.js') }}" defer></script>-->
     <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bootstrap-4.1.1/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/popper/popper.min.js') }}"></script>
     <script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -23,7 +27,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap-4.1.1/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
 </head>

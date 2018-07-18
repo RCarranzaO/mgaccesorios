@@ -10,6 +10,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <form class="form" action="" method="post">
+                          @csrf
                             <div class="card card-info">
                                 <div class="card-header background-light">
                                     <div class="row">
@@ -18,7 +19,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="text-right">
-                                                <button type="submit" class="btn btn-outline-success pull-right" name="button">Imprimir ticket</button>
+                                                <button type="submit" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print">Imprimir ticket</i></span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -55,26 +56,29 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <table class="table text-center table-responsive-sm">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col"><strong>Referencia</strong></th>
-                                                        <th scope="col"><strong>Cantidad</strong></th>
-                                                        <th scope="col"><strong>Descripción</strong></th>
-                                                        <th scope="col" class="text-right"><strong>Precio unit.</strong></th>
-                                                        <th scope="col" class="text-right"><strong>Precio total</strong></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
 
-                                                </tbody>
-                                            </table>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
+                        <div class="row">
+                            <table class="table text-center table-responsive-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><strong>Referencia</strong></th>
+                                        <th scope="col"><strong>Cantidad</strong></th>
+                                        <th scope="col"><strong>Descripción</strong></th>
+                                        <th scope="col" class="text-right"><strong>Precio unit.</strong></th>
+                                        <th scope="col" class="text-right"><strong>Precio total</strong></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    {{ csrf_field() }}
+                                </thead>
+                                <tbody id="carrito">
+
+                                </tbody>
+                            </table>
+                        </div>
                         <div id="ModalProd" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -121,8 +125,8 @@
                                                               <td class="text-left">{{ $producto->nombre_sucursal }}</td>
                                                               <td>{{ $producto->existencia }}</td>
                                                               <td class="text-right">${{ number_format($producto->precio_venta, 2) }}</td>
-                                                              <td><input type="number" id="cantidad" name="cantidad" class="text-center" style="width:50px" value="1"></td>
-                                                              <td> <a href="#" class="btn btn-outline-primary">Agregar</a></td>
+                                                              <td><input type="number" id="cantidad" name="cantidad" class="text-center" style="width:50px"></td>
+                                                              <td><button type="button" class="btn btn-outline-primary" onclick="agregar({{ $producto->id_detallea }})">Agregar</button></td>
                                                             </tr>
                                                         @endif
                                                     @endforeach
@@ -161,9 +165,24 @@
         })
     </script>
     <script>
+        function agregar(id) {
+            var cantidad = $('#cantidad').val();
+            var _token = $('input[name=_token]').val();
+            console.log(id);
+            if(cantidad != ''){
+                $.ajax({
+                    url: '{{ route('venta.store') }}',
+                    type: 'get',
+                    data: {'cantidad':cantidad, 'id':id, '_token':_token},
+                    success:function(data){
+                        $('#carrito').html(data);
 
+                    }
+                });
+            }
+        }
     </script>
     <script type="text/javascript">
-        $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
     </script>
 @endsection

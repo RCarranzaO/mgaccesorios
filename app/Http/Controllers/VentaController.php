@@ -30,6 +30,7 @@ class VentaController extends Controller
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
             ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
             ->orderBy('detallealmacen.id_detallea')
+            ->where('detallealmacen.id_sucursal', $user->id_sucursal)
             ->get();
 
         return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
@@ -53,7 +54,38 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = \Auth::user();
+        //$venta = new Venta();
+        if($request->ajax()) {
+            $result = "";
+            $total = 0;
+            //$venta->id_sucursal = $user->id_sucursal;
+            $carrito = DB::table('detallealmacen')
+                        ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                        ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                        ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
+                        ->orderBy('detallealmacen.id_detallea')
+                        ->where('detallealmacen.id_sucursal', $user->id_sucursal)
+                        ->where('detallealmacen.id_detallea', $request->id)
+                        ->get();
+            if ($carrito) {
+                $result.= '<tr>'.
+                          '   <td>'.$carrito->referencia.'</td>'.
+                          '   <td class="text-center">'.$request->cantidad.'</td>'.
+                          '   <td>'.$carrito->categoria_producto.', '.$carrito->tipo_producto.', '.$carrito->marca.', '.$carrito->modelo.', '.$carrito->color.'</td>'.
+                          '   <td>$'.number_format($carrito->precio_venta, 2).'</td>'.
+                          '   <td>$'.number_format($carrito->precio_venta*$request->cantidad, 2).'</td>'.
+                          '   <td><a href="#" onclick="eliminar('.$carrito->id_detallea.')">Eliminar</a></td>'.
+                          '</tr>'.
+                          '<tr>'.
+                          '<td colspan="4">Neto $</td>'.
+                          '<td>'.$total = number(($total + ($carrito->precio_venta*$request->cantidad)), 2 ).'</td>'.
+                          '<td></td>'.
+                          '</tr>';
+                          dd($result);
+                //return Response($result);
+            }
+        }
     }
 
     /**
@@ -64,7 +96,7 @@ class VentaController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

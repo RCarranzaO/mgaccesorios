@@ -42,13 +42,13 @@ class BuscarController extends Controller
                             '<td>'.$producto->marca.'</td>'.
                             '<td>'.$producto->modelo.'</td>'.
                             '<td>'.$producto->color.'</td>'.
-                            '<td>$'.number_format($producto->precio_venta).'</td>'.
+                            '<td>$'.number_format($producto->precio_venta, 2).'</td>'.
                             '<td>'.$producto->nombre_sucursal.'</td>'.
                             '<td>'.$producto->existencia.'</td>'.
                             '</tr>';
                     }
                     elseif($producto->estatus == 0){
-                        $salida .= '<p class="card-title texte-center">El producto esta dado de baja</p>';
+                        $result .= '<p class="card-title texte-center">El producto esta dado de baja</p>';
                         break;
                     }
                 }
@@ -81,12 +81,12 @@ class BuscarController extends Controller
                     if ($producto->estatus != 0) {
                         $salida.= '<tr>'.
                             '<td>'.$producto->referencia.'</td>'.
-                            '<td class="text-left">'.$producto->categoria_producto.' '.$producto->tipo_producto.' '.$producto->marca.' '.$producto->modelo.' '.$producto->color.'</td>'.
+                            '<td class="text-left">'.$producto->categoria_producto.', '.$producto->tipo_producto.', '.$producto->marca.', '.$producto->modelo.', '.$producto->color.'</td>'.
                             '<td class="text-left">'.$producto->nombre_sucursal.'</td>'.
                             '<td>'.$producto->existencia.'</td>'.
-                            '<td class="text-right">$'.number_format($producto->precio_venta).'</td>'.
+                            '<td class="text-right">$'.number_format($producto->precio_venta, 2).'</td>'.
                             '<td><input type="number" id="cantidad" name="cantidad" style="width:50px"></td>'.
-                            '<td>'.$producto->id_detallea.'</td>'.
+                            '<td><button type="button" class="btn btn-outline-primary" onclick="agregar('.$producto->id_detallea.')">Agregar</button></td>'.
                             '</tr>';
                     } elseif($producto->estatus == 0){
                         $salida .= '<p class="card-title texte-center">El producto esta dado de baja</p>';
