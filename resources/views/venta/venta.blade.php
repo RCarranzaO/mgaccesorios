@@ -19,7 +19,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="text-right">
-                                                <button type="submit" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print">Imprimir ticket</i></span></button>
+                                                <button type="submit" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print"></i> Imprimir ticket</button>
                                             </div>
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                   <label for="buscar">Agregar productos</label>
-                                                  <button type="button" class="btn btn-block btn-outline-info" name="button" data-toggle="modal" data-target="#ModalProd">Buscar Producto</button>
+                                                  <button type="button" class="btn btn-block btn-outline-info" name="button" data-toggle="modal" data-target="#ModalProd"><i class="fa fa-search"></i> Buscar Producto</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,7 +98,7 @@
                                                         <input type="text" id="search" class="form-control" name="search" placeholder="Buscar productos" onkeyup="">
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <button type="button" class="btn btn-outline-dark">Buscar</button>
+                                                        <button type="button" class="btn btn-outline-dark"><i class="fa fa-search"></i> Buscar</button>
                                                     </div>
                                                 </div>
                                             </div>
