@@ -64,13 +64,13 @@ CREATE TABLE producto(
 CREATE TABLE cuenta(
     id_cuenta INT(6) auto_increment NOT NULL,
     id_venta INT(6) NOT NULL,
-    id_producto INT(6) NOT NULL,
+    id_detallea INT(6) NOT NULL,
     cantidad INT(5) NOT NULL,
     precio DECIMAL(7,0) NOT NULL,
     fecha date NOT NULL,
     CONSTRAINT pk_cuenta PRIMARY KEY(id_cuenta),
     CONSTRAINT fk_cuenta_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
-    CONSTRAINT fk_cuenta_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto)
+    CONSTRAINT fk_cuenta_detalleAlmacen FOREIGN KEY(id_detallea) REFERENCES detalleAlmacen(id_detallea)
 )ENGINE=InnoDb;
 
 CREATE TABLE detalleAlmacen(

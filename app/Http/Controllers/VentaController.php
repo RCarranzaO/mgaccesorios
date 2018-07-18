@@ -7,6 +7,7 @@ use mgaccesorios\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
+use mgaccesorios\Cuenta;
 
 class VentaController extends Controller
 {
@@ -54,38 +55,7 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        $user = \Auth::user();
-        //$venta = new Venta();
-        if($request->ajax()) {
-            $result = "";
-            $total = 0;
-            //$venta->id_sucursal = $user->id_sucursal;
-            $carrito = DB::table('detallealmacen')
-                        ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                        ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                        ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
-                        ->orderBy('detallealmacen.id_detallea')
-                        ->where('detallealmacen.id_sucursal', $user->id_sucursal)
-                        ->where('detallealmacen.id_detallea', $request->id)
-                        ->get();
-            if ($carrito) {
-                $result.= '<tr>'.
-                          '   <td>'.$carrito->referencia.'</td>'.
-                          '   <td class="text-center">'.$request->cantidad.'</td>'.
-                          '   <td>'.$carrito->categoria_producto.', '.$carrito->tipo_producto.', '.$carrito->marca.', '.$carrito->modelo.', '.$carrito->color.'</td>'.
-                          '   <td>$'.number_format($carrito->precio_venta, 2).'</td>'.
-                          '   <td>$'.number_format($carrito->precio_venta*$request->cantidad, 2).'</td>'.
-                          '   <td><a href="#" onclick="eliminar('.$carrito->id_detallea.')">Eliminar</a></td>'.
-                          '</tr>'.
-                          '<tr>'.
-                          '<td colspan="4">Neto $</td>'.
-                          '<td>'.$total = number(($total + ($carrito->precio_venta*$request->cantidad)), 2 ).'</td>'.
-                          '<td></td>'.
-                          '</tr>';
-                          dd($result);
-                //return Response($result);
-            }
-        }
+
     }
 
     /**
@@ -131,5 +101,51 @@ class VentaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cart_temp(Request $request)
+    {
+        $user = \Auth::user();
+        $cuenta = new Cuenta();
+        $date = Carbon::now();
+        //$venta = new Venta();
+        //$venta->id_sucursal = $user->id_sucursal;
+        //$venta->save();
+        if($request->ajax()) {
+            $result = "";
+            $total = 0;
+            //$venta->id_sucursal = $user->id_sucursal;
+            $carrito = DB::table('detallealmacen')
+                        ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                        ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                        ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
+                        ->orderBy('detallealmacen.id_detallea')
+                        ->where('detallealmacen.id_detallea', $request->id)
+                        ->get();
+                        //dd($carrito);
+            if ($carrito) {
+                $cuenta->id_venta = $request->venta;
+                $cuenta->detallea = $carrito->id_detallea;
+                $cuenta->cantidad = $request->cantidad;
+                $cuenta->precio = $carrito->precio_venta*$request->cantidad;
+                $cuenta->fecha = $date;
+                foreach ($carrito as $cart) {
+                    $result.= '<tr>'.
+                              '   <td>'.$cart->referencia.'</td>'.
+                              '   <td class="text-center">'.$request->cantidad.'</td>'.
+                              '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
+                              '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
+                              '   <td>$'.number_format($cart->precio_venta*$request->cantidad, 2).'</td>'.
+                              '   <td><a href="#" onclick="eliminar('.$cart->id_detallea.')">Eliminar</a></td>'.
+                              '</tr>'.
+                              '<tr>'.
+                              '<td colspan="4">Neto $</td>'.
+                              '<td>'.$total = number_format(($total + ($cart->precio_venta*$request->cantidad)), 2 ).'</td>'.
+                              '<td></td>'.
+                              '</tr>';
+                }
+                return Response($result);
+            }
+        }
     }
 }

@@ -46,7 +46,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group text-center">
                                                   <label for="venta">Venta N°</label>
-                                                  <input type="text" class="form-control text-right" value="{{ empty($venta) ? 1 : $venta->id_venta+1 }}" disabled >
+                                                  <input type="text" id="venta" class="form-control text-right" value="{{ empty($venta) ? 1 : $venta->id_venta+1 }}" disabled >
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -75,7 +75,9 @@
                                     {{ csrf_field() }}
                                 </thead>
                                 <tbody id="carrito">
-
+                                    <tr>
+                                        <td>aqui van los productos</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -167,13 +169,15 @@
     <script>
         function agregar(id) {
             var cantidad = $('#cantidad').val();
+            var venta = $('#venta').val();
             var _token = $('input[name=_token]').val();
             console.log(id);
+            console.log(cantidad);
             if(cantidad != ''){
                 $.ajax({
-                    url: '{{ route('venta.store') }}',
+                    url: '{{ route('cart') }}',
                     type: 'get',
-                    data: {'cantidad':cantidad, 'id':id, '_token':_token},
+                    data: {'cantidad':cantidad, 'id':id, 'venta':venta, '_token':_token},
                     success:function(data){
                         $('#carrito').html(data);
 

@@ -73,3 +73,5 @@ Route::post('/password/reset', 'ResetPasswordController@reset')->name('reseted')
 Route::resource('/salidasesp', 'SalidasespController');
 Route::resource('/traspaso', 'TraspasoController');
 Route::resource('/venta', 'VentaController');
+Route::get('/cart', 'VentaController@cart_temp')->name('cart');
+Route::resource('/devolucion', 'DevolucionesController');
