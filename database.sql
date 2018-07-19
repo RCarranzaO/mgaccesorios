@@ -61,6 +61,16 @@ CREATE TABLE producto(
     CONSTRAINT producto_referencia_unique UNIQUE(referencia)
 )ENGINE=InnoDb;
 
+CREATE TABLE detalleAlmacen(
+    id_detallea INT(6) auto_increment NOT NULL,
+    id_producto INT(6) NOT NULL,
+    id_sucursal INT(6) NOT NULL,
+    existencia INT(5) NOT NULL,
+    CONSTRAINT pk_detalleAlmacen PRIMARY KEY(id_detalleA),
+    CONSTRAINT fk_detalleAlmacen_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
+    CONSTRAINT fk_detalleAlmacen_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
+)ENGINE=InnoDb;
+
 CREATE TABLE cuenta(
     id_cuenta INT(6) auto_increment NOT NULL,
     id_venta INT(6) NOT NULL,
@@ -71,16 +81,6 @@ CREATE TABLE cuenta(
     CONSTRAINT pk_cuenta PRIMARY KEY(id_cuenta),
     CONSTRAINT fk_cuenta_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
     CONSTRAINT fk_cuenta_detalleAlmacen FOREIGN KEY(id_detallea) REFERENCES detalleAlmacen(id_detallea)
-)ENGINE=InnoDb;
-
-CREATE TABLE detalleAlmacen(
-    id_detallea INT(6) auto_increment NOT NULL,
-    id_producto INT(6) NOT NULL,
-    id_sucursal INT(6) NOT NULL,
-    existencia INT(5) NOT NULL,
-    CONSTRAINT pk_detalleAlmacen PRIMARY KEY(id_detalleA),
-    CONSTRAINT fk_detalleAlmacen_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
-    CONSTRAINT fk_detalleAlmacen_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
 
 CREATE TABLE devoluciones(

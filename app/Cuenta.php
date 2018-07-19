@@ -14,8 +14,8 @@ class Cuenta extends Model
     {
         return $this->belongsTo('mgaccesorios\Venta');
     }
-    public function Producto()
+    public function DetalleAlmacen()
     {
-        return $this->hasMany('mgaccesorios\Producto');
+        return $this->hasMany('mgaccesorios\DetalleAlmacen');
     }
 }
