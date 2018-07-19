@@ -5,11 +5,11 @@
             @include('alerts.success')
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
                 <form class="form-inline" action="#" method="get">
-                    <input type="text" id="buscarR" class="form-control mr-sm-2" name="buscarR" placeholder="Buscar por referencia" onkeyup="">
+                    <input type="text" id="buscarR" class="form-control mr-sm-2" name="buscarR" placeholder="Buscar por referencia">
                     <input type="text" id="buscarN" class="form-control mr-sm-2" name="buscarN" placeholder="Buscar por nombre">
                     @if (Auth::user()->rol == 1)
                         <select id="buscarS" class="form-control mr-sm-2" name="buscarS">
-                            <option value="">{{ 'Seleccionar sucursal' }}</option>
+                            <option value="0">{{ 'Seleccionar sucursal' }}</option>
                             @foreach ($sucursales as $sucursal)
                                 @if ($sucursal->estatus != 0)
                                     <option value="{{$sucursal->id_sucursal}}">{{$sucursal->nombre_sucursal}}</option>
@@ -69,18 +69,26 @@
 @section('script')
     <script>
         $(document).ready(function(){
-            $('#buscarR').on('keyup', function(){
-                $value=$(this).val();
-                $.ajax({
-                    type: 'get',
-                    url: '{{ route('buscarR') }}',
-                    data: {'buscarR':$value},
-                    success:function(data){
-                        $('tbody').html(data);
-                    }
-                });
+
+            $('#buscarR').keyup(function(){
+                buscar();
+            });
+            $('#buscarN').keyup(function(){
+                buscar();
             });
         });
+        function buscar(){
+            var $buscarR=$("#buscarR").val();
+            var $buscarN=$("#buscarN").val();
+            $.ajax({
+                type: 'get',
+                url: '{{ route('buscarR') }}',
+                data: {'buscarR':$buscarR, 'buscarN':$buscarN},
+                success:function(data){
+                    $('tbody').html(data);
+                }
+            });
+        }
             
 
     </script>
