@@ -5,8 +5,16 @@
             @include('alerts.success')
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
                 <form class="form-inline" action="#" method="get">
-                    <input type="text" id="buscarR" class="form-control mr-sm-2" name="buscarR" placeholder="Buscar por referencia">
-                    <input type="text" id="buscarN" class="form-control mr-sm-2" name="buscarN" placeholder="Buscar por nombre">
+                    <select id="buscador" class="form-control mr-sm-2" name="buscador">
+                        <option value="0">{{ 'Tipo de búsqueda' }}</option>
+                        <option value="referencia">{{ 'Referencia' }}</option>
+                        <option value="categoria_producto">{{ 'Categoría' }}</option>
+                        <option value="tipo_producto">{{ 'Tipo' }}</option>
+                        <option value="marca">{{ 'Marca' }}</option>
+                        <option value="modelo">{{ 'Modelo' }}</option>
+                        <option value="color">{{ 'Color' }}</option>
+                    </select>
+                    <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar">
                     @if (Auth::user()->rol == 1)
                         <select id="buscarS" class="form-control mr-sm-2" name="buscarS">
                             <option value="0">{{ 'Seleccionar sucursal' }}</option>
@@ -25,18 +33,18 @@
 
             <div class="card">
                 <div class="card-header background-light">
-                    <h4 class="card-title">Listado de productos</h4>
+                    <h4 class="card-title">{{ 'Listado de productos' }}</h4>
                 </div>
                 <div class="card-body">
                     <table class="table text-center table-responsive-sm">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">{{ 'Referencia' }}</th>
-                                <th scope="col">Producto</th>
-                                <th scope="col" class="text-left">Sucursal</th>
-                                <th scope="col">Existencia</th>
-                                <th scope="col" class="text-right">Precio</th>
-                                <th scope="col" class="text-right">Total</th>
+                                <th scope="col">{{ 'Producto' }}</th>
+                                <th scope="col" class="text-left">{{ 'Sucursal' }}</th>
+                                <th scope="col">{{ 'Existencia' }}</th>
+                                <th scope="col" class="text-right">{{ 'Precio' }}</th>
+                                <th scope="col" class="text-right">{{ 'Total' }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,20 +78,18 @@
     <script>
         $(document).ready(function(){
 
-            $('#buscarR').keyup(function(){
-                buscar();
-            });
-            $('#buscarN').keyup(function(){
+            $('#buscar').keyup(function(){
                 buscar();
             });
         });
         function buscar(){
-            var $buscarR=$("#buscarR").val();
+            var $buscador=$("#buscador").val();
+            var $buscar=$("#buscar").val();
             var $buscarN=$("#buscarN").val();
             $.ajax({
                 type: 'get',
                 url: '{{ route('buscarR') }}',
-                data: {'buscarR':$buscarR, 'buscarN':$buscarN},
+                data: {'buscar':$buscar, 'buscador':$buscador},
                 success:function(data){
                     $('tbody').html(data);
                 }
