@@ -138,7 +138,7 @@ class VentaController extends Controller
                     $cuenta->cantidad = $request->cantidad;
                     $cuenta->precio = $carrito->precio_venta*$request->cantidad;
                     $cuenta->fecha = $date;
-                    //$cuenta->save();
+                    $cuenta->save();
                 } elseif ($ventas->estatus == 1) {
                     $venta = new Venta();
                     $venta->id_sucursal = $user->id_sucursal;
@@ -165,7 +165,7 @@ class VentaController extends Controller
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.
-                              '   <td><a href="#" onclick="eliminar('.$cart->id_detallea.')">Eliminar</a></td>'.
+                              '   <td><a href="#" class="" onclick="eliminar('.$cart->id_detallea.')"><i class="fa fa-trash"></i></a></td>'.
                               '</tr>';
                     $total = ($total + $cart->precio);
                 }
