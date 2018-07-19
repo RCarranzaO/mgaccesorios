@@ -85,7 +85,6 @@
         function buscar(){
             var $buscador=$("#buscador").val();
             var $buscar=$("#buscar").val();
-            var $buscarN=$("#buscarN").val();
             $.ajax({
                 type: 'get',
                 url: '{{ route('buscarR') }}',
