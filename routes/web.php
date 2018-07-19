@@ -52,7 +52,7 @@ Route::get('/buscarV', 'BuscarController@BuscarV')->name('buscarV');
 
 //Rutas de reportes
 Route::get('/reporte/almacen', 'ReportesController@index')->name('repalmacen');
-Route::get('/reporte/descargar-almacen', 'AlmacenController@pdf')->name('almacen.pdf');
+Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almacen.pdf');
 Route::get('/reporte/venta', 'ReportesVController@index')->name('repventa');
 Route::get('/reporte/descargar-venta', 'ReportesVController@pdf')->name('venta.pdf');
 
@@ -90,5 +90,5 @@ Route::resource('/devolucion', 'DevolucionesController');
 
 
 //Rutas de inventario
-Route::get('/buscarR', 'ReportesController@BuscarR')->name('buscarR');//Busqueda en reporte de inventario por referencia
+Route::get('/buscarR', 'ReportesController@buscarR')->name('buscarR');//Busqueda en reporte de inventario
 

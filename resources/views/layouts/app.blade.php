@@ -59,7 +59,7 @@
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Entradas</a>
                                 <div class="dropdown-menu" aria-labelledby>
                                     <a class="dropdown-item" href="{{ route('almacen.create') }}">Compras</a>
-                                    <a class="dropdown-item" href="#">Devoluciones</a>
+                                    <a class="dropdown-item" href="{{ route('devolucion.index') }}">Devoluciones</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown links">

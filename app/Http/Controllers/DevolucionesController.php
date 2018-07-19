@@ -14,7 +14,7 @@ class DevolucionesController extends Controller
      */
     public function index()
     {
-        //
+        return view('devolucion/devolucion');
     }
 
     /**
