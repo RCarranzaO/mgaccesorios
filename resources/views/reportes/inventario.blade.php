@@ -17,7 +17,16 @@
                         </select>
                         <a href="{{ route('almacen.pdf') }}" class="btn btn-outline-primary">Descargar productos en PDF</a>
                     @else
-                        <!--Aquí va la búsqueda cerrada de vendedor solo viendo su almacen-->
+                        <select id="buscador" class="form-control mr-sm-2" name="buscador">
+                            @foreach ($sucursales as $sucursal)
+                                @if ($sucursal->estatus != 0)
+                                    @if($sucursal->id_sucursal != Auth::user()->id_sucursal)
+                                    @else
+                                        <option value="{{ Auth::user()->id_sucursal }}">{{$sucursal->nombre_sucursal}}</option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
                     @endif
                 </form>
             </nav>
@@ -30,12 +39,12 @@
                     <table class="table text-center table-responsive-sm">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">{{ 'Referencia' }}</th>
-                                <th scope="col">{{ 'Categoría' }}</th>
-                                <th scope="col">{{ 'Tipo' }}</th>
-                                <th scope="col">{{ 'Marca' }}</th>
-                                <th scope="col">{{ 'Modelo' }}</th>
-                                <th scope="col">{{ 'Color' }}</th>
+                                <th scope="col">{{ 'Referencia' }} <a href=""><i class="fa fa-angle-up"></i></a> <a href=""><i class="fa fa-angle-down"></i></a></th>
+                                <th scope="col">{{ 'Categoría' }} <a href=""><i class="fa fa-angle-up"></i></a> <a href=""><i class="fa fa-angle-down"></i></a></th>
+                                <th scope="col">{{ 'Tipo' }} <a href=""><i class="fa fa-angle-up"></i></a> <a href=""><i class="fa fa-angle-down"></i></a></th>
+                                <th scope="col">{{ 'Marca' }} <a href=""><i class="fa fa-angle-up"></i></a> <a href=""><i class="fa fa-angle-down"></i></a></th>
+                                <th scope="col">{{ 'Modelo' }} <a href=""><i class="fa fa-angle-up"></i></a> <a href=""><i class="fa fa-angle-down"></i></a></th>
+                                <th scope="col">{{ 'Color' }} <a href=""><i class="fa fa-angle-up"></i></a> <a href=""><i class="fa fa-angle-down"></i></a></th>
                                 <th scope="col" class="text-left">{{ 'Sucursal' }}</th>
                                 <th scope="col">{{ 'Existencia' }}</th>
                                 <th scope="col" class="text-right">{{ 'Precio' }}</th>
