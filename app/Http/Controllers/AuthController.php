@@ -45,13 +45,12 @@ class AuthController extends Controller
 
         if (!empty($userId->username) || !empty($userId->email)) {
             if ($userId->estatus == 1) {
-                //dd($userId);
+                
                 if (Auth::attempt($userData)) {
-                  //dd($userId);
+                  
                     return redirect()->route('fondo');
                 }else{
-                  //dd($userId);
-                  //dd($userData);
+
                     return back()->with('fail', 'Información incorrecta.');
                 }
 
@@ -61,8 +60,6 @@ class AuthController extends Controller
         }else{
             return back()->with('fail', 'El usuario no existe.');
         }
-
-
 
     }
 
