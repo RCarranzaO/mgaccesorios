@@ -171,8 +171,6 @@
             var cantidad = $('#cantidad').val();
             var venta = $('#venta').val();
             var _token = $('input[name=_token]').val();
-            console.log(id);
-            console.log(cantidad);
             if(cantidad != ''){
                 $.ajax({
                     url: '{{ route('cart') }}',
@@ -184,6 +182,20 @@
                     }
                 });
             }
+        }
+    </script>
+    <script>
+        function eliminar(id) {
+            var _token = $('input[name=_token]').val();
+            console.log(id);
+            $.ajax({
+                url: '{{ route('venta.destroy', 'id') }}',
+                type: 'delete',
+                data: {'id':id, '_token':_token},
+                success:function(data){
+                    $('#carrito').html(data);
+                }
+            });
         }
     </script>
     <script type="text/javascript">
