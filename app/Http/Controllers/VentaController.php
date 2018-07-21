@@ -65,8 +65,36 @@ class VentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        if ($request->ajax()) {
+            $result = '';
+            $total = 0;
+            $cuentas = DB::table('cuenta')
+                        ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                        ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                        ->where('cuenta.id_venta', $request->venta)
+                        ->get();
+            foreach ($cuentas as $cart) {
+                $result.= '<tr>'.
+                          '   <td>'.$cart->referencia.'</td>'.
+                          '   <td class="text-center">'.$cart->cantidad.'</td>'.
+                          '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
+                          '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
+                          '   <td>$'.number_format($cart->precio, 2).'</td>'.
+                          '   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
+                          '</tr>';
+                $total = ($total + $cart->precio);
+            }
+            $result.= '<tr>'.
+                      '   <td colspan="4">Neto $</td>'.
+                      '   <td>'.number_format($total, 2 ).'</td>'.
+                      '   <td></td>'.
+                      '</tr>';
+            //dd($result);
+            return Response($result);
+        }
 
     }
 
@@ -102,9 +130,8 @@ class VentaController extends Controller
     public function destroy($id)
     {
         $cuenta = Cuenta::find($id);
-        dd($cuenta);
-        //$cuenta->delete();
-
+        //dd($cuenta);
+        $cuenta->delete();
         return Response($cuenta);
     }
 
@@ -114,17 +141,17 @@ class VentaController extends Controller
         $cuenta = new Cuenta();
         $date = Carbon::now();
         $ventas = Venta::all()->last();
-        if($request->ajax()) {
-            $result = "";
+        //dd($request->id);
+        //if($request->ajax()) {
+            $result = '';
             $total = 0;
             $carrito = DB::table('detallealmacen')
                         ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                         ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                         ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
-                        ->orderBy('detallealmacen.id_detallea')
                         ->where('detallealmacen.id_detallea', $request->id)
                         ->first();
-                        //dd($carrito);
+            //dd($carrito);
             if ($carrito) {
                 if(empty($ventas)){
                     $venta = new Venta();
@@ -142,7 +169,8 @@ class VentaController extends Controller
                     $cuenta->cantidad = $request->cantidad;
                     $cuenta->precio = $carrito->precio_venta*$request->cantidad;
                     $cuenta->fecha = $date;
-                    //$cuenta->save();
+                    $cuenta->save();
+                    //dd($cuenta);
                 } elseif ($ventas->estatus == 1) {
                     $venta = new Venta();
                     $venta->id_sucursal = $user->id_sucursal;
@@ -181,6 +209,6 @@ class VentaController extends Controller
                 //dd($result);
                 return Response($result);
             }
-        }
+        //}
     }
 }
