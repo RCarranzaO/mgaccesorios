@@ -5,6 +5,8 @@
             <div class="card-header background-light">
                 <h2 class="card-title">Nueva venta</h2>
             </div>
+            @include('alerts.errores')
+            @include('alerts.success')
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
@@ -18,7 +20,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="text-right">
-                                                <button type="button" class="btn btn-outline-secondary pull-right" name="close"><i class="fa fa-check"></i>Realizar venta</button>
+                                                <button type="button" class="btn btn-outline-secondary pull-right" onclick="store({{ $venta->id_venta }})" name="check"><i class="fa fa-check"></i>Realizar venta</button>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -54,7 +56,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group text-center">
                                                   <label for="venta">Venta N°</label>
-                                                  <input type="text" id="venta" class="form-control text-right" value="{{ empty($venta) ? 1 : $venta->id_venta+1 }}" disabled >
+                                                  <input type="text" id="venta" class="form-control text-right" value="{{ empty($venta) ? 1 : $venta->id_venta == 1 && $venta->estatus == NULL ? $venta->id_venta : $venta->id_venta+1 }}" disabled >
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -79,7 +81,7 @@
                                         <th scope="col" class="text-right"><strong>Precio total</strong></th>
                                         <th scope="col"></th>
                                     </tr>
-                                    {{ csrf_field() }}
+                                    @csrf
                                 </thead>
                                 <tbody id="carrito">
 
@@ -89,6 +91,7 @@
                         <div id="ModalProd" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
+                                    @include('alerts.errores')
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="myModalLabel">Buscar productos</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -123,6 +126,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="formproduc">
+                                                @csrf
                                                 @if ($productos->count())
                                                     @foreach ($productos as $producto)
                                                         @if ($producto->estatus != 0)
@@ -159,9 +163,7 @@
     <script>
         $('#search').on('keyup', function(){
             $value=$(this).val();
-
             $.ajax({
-
                 type: 'get',
                 url: '{{ route('buscarV') }}',
                 data: {'search':$value},
@@ -186,15 +188,28 @@
         }
     </script>
     <script>
+        function store(id){
+            var _token = $('input[name=_token]').val();
+            $.ajax({
+                url: '{{ route('venta.store') }}',
+                type: 'post',
+                data: {'id':id, '_token':_token},
+                success:function(data){
+                    console.log('Venta realizada correctamente');
+                }
+            });
+        }
+    </script>
+    <script>
         function agregar(id) {
           console.log('agregar');
             var cantidad = $('#cantidad_'+id).val();
             var _token = $('input[name=_token]').val();
             console.log(cantidad);
             if(cantidad != ''){
-              alert('entro');
+              console.log(id);
                 $.ajax({
-                    url: '{{ route('cart') }}',
+                    url: '/cart',
                     type: 'get',
                     data: {'cantidad':cantidad, 'id':id, '_token':_token},
                     success:function(data){

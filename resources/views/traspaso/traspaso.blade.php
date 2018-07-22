@@ -7,7 +7,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Referencia</th>
-                            <th scope="col">Categoria</th>
+                            <th scope="col">Producto</th>
                             <th scope="col">Existencia</th>
                             <th scope="col" colspan="2">Cantidad a retirar</th>
                         </tr>
@@ -17,7 +17,7 @@
                             @foreach ($traspasos as $traspaso)
                                 <tr>
                                     <td>{{ $traspaso->referencia }}</td>
-                                    <td>{{ $traspaso->categoria_producto }}</td>
+                                    <td>{{ $traspaso->categoria_producto }}, {{ $traspaso->tipo_producto }}, {{ $traspaso->marca }}, {{ $traspaso->modelo }}, {{ $traspaso->color }}</td>
                                     <td>{{ $traspaso->existencia }}</td>
                                     <td>
                                         <a href="{{ route('traspaso.show', $traspaso->id_producto) }}" class="btn btn-outline-info">Traspasar</a>
