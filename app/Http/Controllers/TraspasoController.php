@@ -24,38 +24,29 @@ class TraspasoController extends Controller
         $this->middleware('auth');
     }
     
+    /**
+     * La función index llama a los datos del usuario para registrar quien hace el traspaso d producto y llama todos los datos de la tabla detallealmacen de la sucursal donde ese usuario está registrado.
+     * @return Devuelve la vista del archivo traspaso.blade.php con la información de los productos en la sucursal donde el usuario que desea realizar el traspaso está registrado.
+     */
     public function index()
     {
         $usuario = \Auth::user();
 
-        //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
         $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                     ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->get();
-        //dd($salidas);
 
         return view('traspaso.traspaso', compact('traspasos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $traspaso = new Traspaso();

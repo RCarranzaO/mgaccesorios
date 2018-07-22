@@ -83,21 +83,21 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('producto.create') }}">Alta Producto</a>
-                                        <a class="dropdown-item" href="{{ route('producto.index') }}">Listado</a>
+                                        <a class="dropdown-item" href="{{ route('producto.index') }}">Lista de Productos</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('usuario.create') }}">Alta Usuario</a>
-                                        <a class="dropdown-item" href="{{ route('usuario.index') }}">Modificar Usuario</a>
+                                        <a class="dropdown-item" href="{{ route('usuario.index') }}">Lista de Usuarios</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Sucursal</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('sucursal.create') }}">Alta Sucursal</a>
-                                        <a class="dropdown-item" href="{{ route('sucursal.index') }}">Baja Sucursal</a>
+                                        <a class="dropdown-item" href="{{ route('sucursal.index') }}">Lista de Sucursales</a>
                                     </div>
                                 </li>
                             @endif
