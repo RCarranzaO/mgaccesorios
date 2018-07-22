@@ -9,6 +9,10 @@ use mgaccesorios\Sucursal;
 class UsuarioController extends Controller
 {
 
+    /**
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return 
+     */
     public function __construct()
     {
 
@@ -16,11 +20,7 @@ class UsuarioController extends Controller
 
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()//Muestra la lista de usuarios registrados
     {
 
@@ -30,23 +30,14 @@ class UsuarioController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()//Muestra el formulario para registrar un usuario nuevo
     {
         $sucursales = Sucursal::all();
         return view('usuario/registrar', compact('sucursales'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)//Funcion que guarda al nuevo usuario
     {
         $validateData = $this->validate($request,[
@@ -69,28 +60,17 @@ class UsuarioController extends Controller
         $usuario->id_sucursal = $request->input('sucursal');
         $usuario->estatus = $request->input('estatus');
         $usuario->save();
-        //return 'Guardado';
-        //return $request->all();
+        
         return redirect()->route('home')->with('success', 'Usuario registrado correctamente!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show($id)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($id)//Muestra la informacion a editar del usuario
     {
         $usuario = User::find($id);
@@ -99,13 +79,7 @@ class UsuarioController extends Controller
         return view('usuario/editar', compact('usuario', 'id_user', 'sucursales', 'sucursalId'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)//Actualiza la informacion que se modifico del usuario
     {
         $this->validate($request,[
@@ -131,17 +105,12 @@ class UsuarioController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)//Activa o desactiva al usuario
     {
-        //dd($id);
+        
         $usuario = User::find($id);
-        //dd($usuario);
+        
         if ($usuario->estatus == 1) {
             $usuario->estatus = 0;
         }else{

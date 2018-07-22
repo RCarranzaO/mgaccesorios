@@ -13,14 +13,15 @@ use Carbon\Carbon;
 class VentaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return 
      */
     public function __construct()
     {
         $this->middleware('auth');
     }
+    
+
     public function index()
     {
         $ventas = Venta::all();
@@ -38,72 +39,38 @@ class VentaController extends Controller
         return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show($id)
     {
 
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function edit($id)
     {
-        //
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $cuenta = Cuenta::find($id);
         dd($cuenta);
-        //$cuenta->delete();
 
         return Response($cuenta);
     }
@@ -124,7 +91,7 @@ class VentaController extends Controller
                         ->orderBy('detallealmacen.id_detallea')
                         ->where('detallealmacen.id_detallea', $request->id)
                         ->first();
-                        //dd($carrito);
+                        
             if ($carrito) {
                 if(empty($ventas)){
                     $venta = new Venta();
@@ -142,7 +109,7 @@ class VentaController extends Controller
                     $cuenta->cantidad = $request->cantidad;
                     $cuenta->precio = $carrito->precio_venta*$request->cantidad;
                     $cuenta->fecha = $date;
-                    //$cuenta->save();
+                    
                 } elseif ($ventas->estatus == 1) {
                     $venta = new Venta();
                     $venta->id_sucursal = $user->id_sucursal;
@@ -178,7 +145,6 @@ class VentaController extends Controller
                           '   <td>'.number_format($total, 2 ).'</td>'.
                           '   <td></td>'.
                           '</tr>';
-                //dd($result);
                 return Response($result);
             }
         }

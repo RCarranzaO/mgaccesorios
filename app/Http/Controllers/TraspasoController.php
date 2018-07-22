@@ -14,15 +14,16 @@ use mgaccesorios\Traspaso;
 
 class TraspasoController extends Controller
 {
+    
+    /**
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return 
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $usuario = \Auth::user();

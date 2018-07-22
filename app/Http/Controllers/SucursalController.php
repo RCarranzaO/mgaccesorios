@@ -8,10 +8,10 @@ use mgaccesorios\Sucursal;
 
 class SucursalController extends Controller
 {
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return 
      */
     public function __construct()
     {

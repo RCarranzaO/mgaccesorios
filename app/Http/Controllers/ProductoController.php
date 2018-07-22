@@ -8,12 +8,11 @@ use mgaccesorios\Usuario;
 
 class ProductoController extends Controller
 {
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return type
      */
-
     public function __construct()
     {
         $this->middleware('auth');
