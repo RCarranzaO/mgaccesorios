@@ -17,7 +17,16 @@
                         </select>
                         <a href="{{ route('almacen.pdf') }}" class="btn btn-outline-primary">Descargar productos en PDF</a>
                     @else
-                        <!--Aquí va la búsqueda cerrada de vendedor solo viendo su almacen-->
+                        <select id="buscador" class="form-control mr-sm-2" name="buscador">
+                            @foreach ($sucursales as $sucursal)
+                                @if ($sucursal->estatus != 0)
+                                    @if($sucursal->id_sucursal != Auth::user()->id_sucursal)
+                                    @else
+                                        <option value="{{ Auth::user()->id_sucursal }}">{{$sucursal->nombre_sucursal}}</option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
                     @endif
                 </form>
             </nav>
@@ -27,15 +36,15 @@
                     <h4 class="card-title">{{ 'Listado de productos' }}</h4>
                 </div>
                 <div class="card-body">
-                    <table class="table text-center table-responsive-sm">
+                    <table id="myTable" class="table text-center table-responsive-sm">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">{{ 'Referencia' }}</th>
-                                <th scope="col">{{ 'Categoría' }}</th>
-                                <th scope="col">{{ 'Tipo' }}</th>
-                                <th scope="col">{{ 'Marca' }}</th>
-                                <th scope="col">{{ 'Modelo' }}</th>
-                                <th scope="col">{{ 'Color' }}</th>
+                                <th scope="col" onclick="ordenar(0)">{{ 'Referencia' }} <i class="fa fa-angle-up"></i> <i class="fa fa-angle-down"></i></th>
+                                <th scope="col" onclick="ordenar(1)">{{ 'Categoría' }} <i class="fa fa-angle-up"></i> <i class="fa fa-angle-down"></i></th>
+                                <th scope="col" onclick="ordenar(2)">{{ 'Tipo' }} <i class="fa fa-angle-up"></i> <i class="fa fa-angle-down"></i></th>
+                                <th scope="col" onclick="ordenar(3)">{{ 'Marca' }} <i class="fa fa-angle-up"></i> <i class="fa fa-angle-down"></i></th>
+                                <th scope="col" onclick="ordenar(4)">{{ 'Modelo' }} <i class="fa fa-angle-up"></i> <i class="fa fa-angle-down"></i></th>
+                                <th scope="col" onclick="ordenar(5)">{{ 'Color' }} <i class="fa fa-angle-up"></i> <i class="fa fa-angle-down"></i></th>
                                 <th scope="col" class="text-left">{{ 'Sucursal' }}</th>
                                 <th scope="col">{{ 'Existencia' }}</th>
                                 <th scope="col" class="text-right">{{ 'Precio' }}</th>
@@ -97,6 +106,44 @@
                     $('tbody').html(data);
                 }
             });
+        }
+        function ordenar(n){
+            var $table, $rows, $switching, $i, $x, $y, $shouldSwitch, $dir, $switchcount = 0;
+            $table = document.getElementById("myTable");
+            $switching = true;
+            $dir = "asc";
+
+            while($switching){
+                $switching = false;
+                $rows = $table.getElementsByTagName("TR");
+                for ($i = 1; $i < ($rows.length - 1); $i++) {
+                    $shouldSwitch = false;
+                    $x = $rows[$i].getElementsByTagName("TD")[n];
+                    $y = $rows[$i + 1].getElementsByTagName("TD")[n];
+
+                    if ($dir == "asc") {
+                        if ($x.innerHTML.toLowerCase() > $y.innerHTML.toLowerCase()) {
+                            $shouldSwitch= true;
+                            break;
+                        }
+                    }else if ($dir == "desc") {
+                        if ($x.innerHTML.toLowerCase() < $y.innerHTML.toLowerCase()) {
+                            $shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if ($shouldSwitch) {
+                    $rows[$i].parentNode.insertBefore($rows[$i + 1], $rows[$i]);
+                    $switching = true;
+                    $switchcount ++;
+                }else {
+                    if ($switchcount == 0 && $dir == "asc") {
+                        $dir = "desc";
+                        $switching = true;
+                    }
+                }
+            }
         }
         
     </script>

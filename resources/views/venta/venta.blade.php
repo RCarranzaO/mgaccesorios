@@ -1,10 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <h1>Generar venta</h1>
         <div class="card">
             <div class="card-header background-light">
-                <h3 class="card-title">Nueva Venta</h3>
+                <h2 class="card-title">Nueva venta</h2>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -17,9 +16,18 @@
                                         <div class="col-md-6">
                                             <h3 class="card-title">Detalles de la Venta</h3>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="text-right">
-                                                <button type="submit" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                <button type="button" class="btn btn-outline-secondary pull-right" name="close"><i class="fa fa-check"></i>Realizar venta</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="text-right">
+                                                @if ($venta->estatus == 1)
+                                                    <button type="button" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                @else
+                                                    <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -56,7 +64,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -75,9 +82,7 @@
                                     {{ csrf_field() }}
                                 </thead>
                                 <tbody id="carrito">
-                                    <tr>
-                                        <td>aqui van los productos</td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -167,10 +172,26 @@
         })
     </script>
     <script>
+        function show() {
+            console.log('show');
+            var venta = $('#venta').val();
+            $.ajax({
+                url: '/venta/show/'+venta,
+                type: get,
+                data: {'venta':venta},
+                success:function(data){
+                    $('#carrito').html(data);
+                }
+            });
+        }
+    </script>
+    <script>
         function agregar(id) {
+          console.log('agregar');
             var cantidad = $('#cantidad').val();
             var venta = $('#venta').val();
             var _token = $('input[name=_token]').val();
+            console.log(id);
             if(cantidad != ''){
                 $.ajax({
                     url: '{{ route('cart') }}',
@@ -186,14 +207,23 @@
     </script>
     <script>
         function eliminar(id) {
+          console.log('eliminar');
             var _token = $('input[name=_token]').val();
+            //var id = id;
             console.log(id);
             $.ajax({
-                url: '{{ route('venta.destroy', 'id') }}',
-                type: 'delete',
+                url: '/venta/'+id,
+                type: 'DELETE',
                 data: {'id':id, '_token':_token},
                 success:function(data){
-                    $('#carrito').html(data);
+                    $.ajax({
+                        url: '/venta/'+1,
+                        type: 'get',
+                        data: {'_token':_token},
+                        success:function(data){
+                            show();
+                        }
+                    });
                 }
             });
         }

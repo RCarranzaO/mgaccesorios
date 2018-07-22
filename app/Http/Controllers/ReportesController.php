@@ -24,13 +24,25 @@ class ReportesController extends Controller
 
     public function index()
     {
+        $user = \Auth::user();
         $sucursales = Sucursal::all();
-        $productos = DB::table('detallealmacen')
-            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
-            ->orderBy('detallealmacen.id_detallea')
-            ->paginate(15);
+
+        if ($user->rol == "1") {
+            $productos = DB::table('detallealmacen')
+                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                ->orderBy('detallealmacen.id_detallea')
+                ->paginate(15);
+        }else{
+            $productos = DB::table('detallealmacen')
+                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                ->orderBy('detallealmacen.id_detallea')
+                ->where('sucursales.id_sucursal', '=', $user->id_sucursal)
+                ->paginate(15);
+        }
         return view('reportes.inventario', compact('productos', 'sucursales'));
     }
 
@@ -38,14 +50,10 @@ class ReportesController extends Controller
     {
         if ($request->ajax()) {
 
+            $user = \Auth::user();
             $result = "";
-            $productos = DB::table('detallealmacen')
-                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
-                ->orderBy('detallealmacen.id_detallea')
-                ->paginate(15);
-            if ($request->buscador == "0" && $request->buscar != "") {
+            
+            if ($request->buscador == "0" && $request->buscar != "" && $user->rol == "1") {
                 $productos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -57,6 +65,13 @@ class ReportesController extends Controller
                     ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
                     ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
                     ->orWhere('producto.color', 'like', '%'.$request->buscar.'%')
+                    ->paginate(15);
+            }elseif ($request->buscador == "0" && $request->buscar == "" && $user->rol == "1") {
+                $productos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                    ->orderBy('detallealmacen.id_detallea')
                     ->paginate(15);
             }elseif ($request->buscador != "0" && $request->buscar == "") {
                 $productos = DB::table('detallealmacen')
@@ -84,7 +99,6 @@ class ReportesController extends Controller
                     })
                     ->get();
             }
-
             if ($productos->count()) {
                 foreach ($productos as $producto) {
                     if ($producto->estatus != 0) {

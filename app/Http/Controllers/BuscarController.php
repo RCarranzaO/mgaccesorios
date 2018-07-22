@@ -56,13 +56,13 @@ class BuscarController extends Controller
 
     public function BuscarV(Request $request)
     {
-
+        $user = \Auth::user();
         if ($request->ajax()) {
             $salida = "";
             $productos = DB::table('detallealmacen')
                           ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                           ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                          ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
+                          ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'sucursales.id_sucursal', 'detallealmacen.existencia', 'producto.estatus')
                           ->orderBy('detallealmacen.id_detallea')
                           ->where('producto.referencia', 'like', '%'.$request->search.'%')
                           ->orWhere('producto.categoria_producto', 'like', '%'.$request->search.'%')
@@ -76,15 +76,17 @@ class BuscarController extends Controller
             if ($productos) {
                 foreach ($productos as $producto) {
                     if ($producto->estatus != 0) {
-                        $salida.= '<tr>'.
-                            '<td>'.$producto->referencia.'</td>'.
-                            '<td class="text-left">'.$producto->categoria_producto.', '.$producto->tipo_producto.', '.$producto->marca.', '.$producto->modelo.', '.$producto->color.'</td>'.
-                            '<td class="text-left">'.$producto->nombre_sucursal.'</td>'.
-                            '<td>'.$producto->existencia.'</td>'.
-                            '<td class="text-right">$'.number_format($producto->precio_venta, 2).'</td>'.
-                            '<td><input type="number" id="cantidad" name="cantidad" style="width:50px"></td>'.
-                            '<td><button type="button" class="btn btn-outline-primary" onclick="agregar('.$producto->id_detallea.')">Agregar</button></td>'.
-                            '</tr>';
+                        if ($producto->id_sucursal == $user->id_sucursal) {
+                            $salida.= '<tr>'.
+                                '<td>'.$producto->referencia.'</td>'.
+                                '<td class="text-left">'.$producto->categoria_producto.', '.$producto->tipo_producto.', '.$producto->marca.', '.$producto->modelo.', '.$producto->color.'</td>'.
+                                '<td class="text-left">'.$producto->nombre_sucursal.'</td>'.
+                                '<td>'.$producto->existencia.'</td>'.
+                                '<td class="text-right">$'.number_format($producto->precio_venta, 2).'</td>'.
+                                '<td><input type="number" id="cantidad" name="cantidad" style="width:50px"></td>'.
+                                '<td><button type="button" class="btn btn-outline-primary" onclick="agregar('.$producto->id_detallea.')">Agregar</button></td>'.
+                                '</tr>';
+                        }
                     } elseif($producto->estatus == 0){
                         $salida .= '<p class="card-title texte-center">El producto esta dado de baja</p>';
                         break;
