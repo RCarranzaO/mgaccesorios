@@ -3,6 +3,7 @@
 namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use mgaccesorios\Producto;
 use mgaccesorios\Usuario;
 
@@ -24,26 +25,19 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
+        $productos 
+        
         return view('producto.producto', compact('productos'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
         return view('producto.alta');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * Con la función store se guarda la información del nuevo producto a registrar en la base de datos.
@@ -86,23 +80,10 @@ class ProductoController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * La función edit permite editar la información de el producto que seleccionemos.
@@ -114,14 +95,6 @@ class ProductoController extends Controller
         $producto = Producto::find($id);
         return view('producto/editar', compact('producto', 'id_producto'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * La función update sirve para guardar los cambios que se hayan realizado en la información del producto seleccionado para su edición.
@@ -159,13 +132,6 @@ class ProductoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
      * La función destroy() se utiliza para cambiar el estatus de un producto. 
      * Si el valor del estatus es de 1, el estatus del producto es Activo.
      * Si el valor del estatus es de 0, el estatus del producto es Inactivo.
@@ -176,8 +142,7 @@ class ProductoController extends Controller
     public function destroy($id)
     {
         $producto = Producto::find($id);
-        //$producto->estatus = '0';
-        //dd($id);
+        
         if ($producto->estatus == 1) {
             $producto->estatus = 0;
             $producto->save();
@@ -187,8 +152,7 @@ class ProductoController extends Controller
             $producto->save();
             return redirect()->route('producto.index')->with('success', 'Porducto dado de alta');
         }
-
-
+    
     }
 
 }
