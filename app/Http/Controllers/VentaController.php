@@ -108,8 +108,8 @@ class VentaController extends Controller
         $cuenta = new Cuenta();
         $date = Carbon::now();
         $ventas = Venta::all()->last();
-        //dd($request->id);
-        //if($request->ajax()) {
+        //dd($request);
+        if($request->ajax()) {
             $result = '';
             $total = 0;
             $carrito = DB::table('detallealmacen')
@@ -147,7 +147,7 @@ class VentaController extends Controller
                     $cuenta->fecha = $date;
                     $cuenta->save();
                 } elseif ($ventas->estatus == 0) {
-                    return redirect()->route('venta.index')->with('fail', 'La venta es un id cancelado');
+                    return redirect()->route('venta.index')->with('fail', 'La venta esta cancelada');
                 }
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
@@ -162,7 +162,7 @@ class VentaController extends Controller
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.
-    /*Aqui modificar id_cuenta a id_detallea cuando haya validacion*/'   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
+                              '   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
                               '</tr>';
                     $total = ($total + $cart->precio);
                 }
@@ -173,6 +173,6 @@ class VentaController extends Controller
                           '</tr>';
                 return Response($result);
             }
-        //}
+        }
     }
 }
