@@ -3882,6 +3882,7 @@ class ComposerStaticInit965144401f8bcf1908bd2ceb96cc258a
         'phpDocumentor\\Reflection\\Types\\String_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/String_.php',
         'phpDocumentor\\Reflection\\Types\\This' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/This.php',
         'phpDocumentor\\Reflection\\Types\\Void_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/Void_.php',
+        'seeder_tabla_ingresos' => __DIR__ . '/../..' . '/database/seeds/seeder_tabla_ingresos.php',
         'seeder_tabla_producto' => __DIR__ . '/../..' . '/database/seeds/seeder_tabla_producto.php',
         'sucursales' => __DIR__ . '/../..' . '/database/seeds/sucursales.php',
         'usuarios' => __DIR__ . '/../..' . '/database/seeds/usuarios.php',

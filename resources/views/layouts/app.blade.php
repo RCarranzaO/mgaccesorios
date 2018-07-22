@@ -83,7 +83,7 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('producto.create') }}">Alta Producto</a>
-                                        <a class="dropdown-item" href="{{ route('producto.index') }}">Modificar Porducto</a>
+                                        <a class="dropdown-item" href="{{ route('producto.index') }}">Listado</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">

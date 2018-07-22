@@ -74,6 +74,12 @@
 
               </tbody>
           </table>
+          <hr>
+          <div class="row">
+            <div class="col-ms-1">
+              {{ $productos->links() }}
+            </div>
+          </div>
 
       </div>
   @else
@@ -105,4 +111,27 @@
           </div>
       </div>
   @endif
+@endsection
+@section('script')
+  <script>
+    $(document).ready(function(){
+      $('#buscar').keyup(function(){
+        buscar();
+      });
+    });
+    function buscar(){
+      var $buscar=$("#buscar").val();
+      $.ajax({
+        type: 'get',
+        url: '{{ route('buscarP') }}',
+        data: {'buscar':$buscar},
+        success:function(data){
+          $('tbody').html(data);
+        }
+      });
+    }
+  </script>
+  <script type="text/javascript">
+    $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });
+  </script>
 @endsection

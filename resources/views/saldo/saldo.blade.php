@@ -21,7 +21,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <!--<button type="submit" class="btn btn-outline-primary">Aceptar</button>-->
+                                    
                                 </div>
                             </form>
                         </div>
@@ -30,12 +30,4 @@
             </div>
         </div>
     </div>
-    <!--<script type="text/javascript">
-        $(document).ready(function()
-        {
-            $("#myModal").modal("show");
-        });
-    </script>-->
-
-
 @endsection
