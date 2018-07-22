@@ -20,12 +20,14 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="text-right">
-                                                <button type="button" class="btn btn-outline-secondary pull-right" onclick="store({{ $venta->id_venta }})" name="check"><i class="fa fa-check"></i>Realizar venta</button>
+                                                <button type="button" class="btn btn-outline-secondary pull-right" onclick="store({{ empty($venta->id_venta) ? 1 : $venta->id_venta }})" name="check"><i class="fa fa-check"></i>Realizar venta</button>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="text-right">
-                                                @if ($venta->estatus == 1)
+                                                @if (empty($venta->estatus))
+                                                    <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                @elseif ($venta->estatus == 1)
                                                     <button type="button" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print"></i> Imprimir ticket</button>
                                                 @else
                                                     <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
@@ -56,7 +58,16 @@
                                             <div class="col-md-2">
                                                 <div class="form-group text-center">
                                                   <label for="venta">Venta N°</label>
-                                                  <input type="text" id="venta" class="form-control text-right" value="{{ empty($venta) ? 1 : $venta->id_venta == 1 && $venta->estatus == NULL ? $venta->id_venta : $venta->id_venta+1 }}" disabled >
+                                                  @if (empty($venta))
+                                                      <input type="text" id="venta" class="form-control text-right" value="1" disabled >
+                                                  @elseif (empty($venta->id_venta) && empty($venta->estatus))
+                                                      <input type="text" id="venta" class="form-control text-right" value="1" disabled >
+                                                  @elseif ($venta->id_venta == 1 && $venta->estatus == NULL)
+                                                      <input type="text" id="venta" class="form-control text-right" value="{{ $venta->id_venta }}" disabled >
+                                                  @else
+                                                      <input type="text" id="venta" class="form-control text-right" value="{{ $venta->id_venta+1 }}" disabled >
+                                                  @endif
+
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
