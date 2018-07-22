@@ -132,7 +132,7 @@
                                                               <td class="text-left">{{ $producto->nombre_sucursal }}</td>
                                                               <td>{{ $producto->existencia }}</td>
                                                               <td class="text-right">${{ number_format($producto->precio_venta, 2) }}</td>
-                                                              <td><input type="number" id="cantidad" name="cantidad" class="text-center" style="width:50px"></td>
+                                                              <td><input type="number" id="cantidad_{{ $producto->id_detallea }}" name="cantidad" class="text-center" style="width:50px"></td>
                                                               <td><button type="button" class="btn btn-outline-primary" onclick="agregar({{ $producto->id_detallea }})">Agregar</button></td>
                                                             </tr>
                                                         @endif
@@ -188,15 +188,15 @@
     <script>
         function agregar(id) {
           console.log('agregar');
-            var cantidad = $('#cantidad').val();
-            var venta = $('#venta').val();
+            var cantidad = $('#cantidad_'+id).val();
             var _token = $('input[name=_token]').val();
-            console.log(id);
+            console.log(cantidad);
             if(cantidad != ''){
+              alert('entro');
                 $.ajax({
                     url: '{{ route('cart') }}',
                     type: 'get',
-                    data: {'cantidad':cantidad, 'id':id, 'venta':venta, '_token':_token},
+                    data: {'cantidad':cantidad, 'id':id, '_token':_token},
                     success:function(data){
                         $('#carrito').html(data);
 
