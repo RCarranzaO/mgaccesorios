@@ -16,12 +16,17 @@ class SaldoController extends Controller
     
     /**
      * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
-     * @return type
+     * @return 
      */
     public function __construct()
     {
         $this->middleware('auth');
     }
+    
+    /**
+     * La función index apunta al archivo saldo.blade.php.
+     * @return Devuelve la vista del saldo actual en caja.
+     */
     public function index()
     {
         $saldos = Saldo::all();
@@ -30,6 +35,12 @@ class SaldoController extends Controller
         $date = $date->toDateString();
         return view('saldo.saldo', compact('saldo', 'date'));
     }
+    
+    /**
+     * La función guardarFondo crea el saldo de caja tomando la cantidad registrada en el fondo. Si este es modificado sobreescribe la información del fondo y saldo toma el valor del fondo.
+     * Si se ha realizado una venta, la cantidad de la venta se suma al saldo que tomó el valor de fondo y aumenta conforme a la cantidad de cobro.
+     * @return Si el fondo no se ha alterado antes de modificarlo por medio de la realización de una venta o devolución muestra un mensaje confirmando que el cambio ha sido realizado con éxito.
+     */
     public function guardarFondo()
     {
         $saldo = new Saldo();
@@ -59,11 +70,16 @@ class SaldoController extends Controller
             $saldoId->fecha = $date;
             $saldoId->save();
         }
-        //dd($saldo);
 
         return redirect()->route('home')->with('success', 'Movimiento realizado correctamente!');
-        //return view('home', compact('saldo'));
+ 
     }
+    
+    /**
+     * La función guardarGasto crea un nuevo saldo pero aún no guarda información en el. Si no se ha realizado un retiro de dinero (gasto) toma el valor de fondo y lo asigna al nuevo saldo, entonces gasto toma el valor del saldo también. 
+     * Si se ha realizado algún retiro de dinero, entonces saldo toma el valor del gasto y lo resta del saldo actual y lo guarda como el nuevo saldo.
+     * @return Si el retiro de dinero se realiza exitosamente se muestra un mensaje de confirmación y nos redirige a la pantalla principal del software Mg Accesorios.
+     */
     public function guardarGasto()
     {
         $saldo = new Saldo();
@@ -75,21 +91,23 @@ class SaldoController extends Controller
         $fondoId = $fondo->last();
         $date = Carbon::now();
 
-
-        //dd($saldoId);
         if (!empty($gastoId)){
             if ($gastoId->id_fondo == $saldoId->id_fondo) {
-                //dd($gastoId);
                 $saldo->id_fondo = $gastoId->id_fondo;
                 $saldo->id_gasto = $gastoId->id_gasto;
                 $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
                 $saldo->fecha = $date;
             }
         }
-        //dd($saldo);
+
         $saldo->save();
         return redirect()->route('home')->with('success', 'Movimiento realizado correctamente!');
     }
+    
+    /**
+     * Description
+     * @return type
+     */
     public function guardarCobro()
     {
         /*if ($saldoId->id_cobro == null) {

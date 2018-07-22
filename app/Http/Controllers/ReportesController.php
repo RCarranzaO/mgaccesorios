@@ -132,7 +132,6 @@ class ReportesController extends Controller
     public function pdf()
     {
 
-        //$sucursales = Sucursal::all();
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')

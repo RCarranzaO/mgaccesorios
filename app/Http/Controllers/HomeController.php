@@ -20,7 +20,7 @@ class HomeController extends Controller
 
 
     /**
-     * L afunción index se encarga de que al momento de iniciar sesión llama a variable fondo para designar el fondo de caja. 
+     * La afunción index se encarga de que al momento de iniciar sesión llama a variable fondo para designar el fondo de caja. 
      * @return Una vez asignado el fondo o si ya se había definido y se cierra la ventana para definir el fondo serás redirigido a la pantalla de home, que es la principal del software. 
      */
     public function index()
