@@ -39,7 +39,7 @@ class AlmacenController extends Controller
             ->select('detallealmacen.id_detallea','producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
             ->orderBy('detallealmacen.id_detallea')
             ->paginate(10);
-        
+
         return view('reportes.inventario', compact('productos', 'sucursales'));
     }
 
@@ -88,32 +88,32 @@ class AlmacenController extends Controller
             $almacenId->existencia = $almacenId->existencia + $request->input('exisproduc');
             $almacenId->save();
         }
-        return redirect()->route('almacen.index')->with('success', 'Agregado correctamente!');
+        return redirect()->route('reportes.index')->with('success', 'Agregado correctamente!');
     }
 
 
     public function show($id)
     {
-        
+
     }
 
     public function edit($id)
     {
-        
+
     }
 
     public function update(Request $request, $id)
     {
-        
+
     }
 
     public function destroy($id)
     {
-        
+
     }
 
     /**
-     * La función pdf llama a toda la información en la tabla detallealmacen de la base de datos y carga una vista de un documento en formato pdf con la fecha actual de cuando sehace la solicitud de la información 
+     * La función pdf llama a toda la información en la tabla detallealmacen de la base de datos y carga una vista de un documento en formato pdf con la fecha actual de cuando sehace la solicitud de la información
      * @return Devuelve la vista del documento con tod la información de los productos en el almacén y permite descargarla en un archivo con formato pdf.
      */
     public function pdf()

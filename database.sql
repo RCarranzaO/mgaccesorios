@@ -62,14 +62,14 @@ CREATE TABLE producto(
     CONSTRAINT producto_referencia_unique UNIQUE(referencia)
 )ENGINE=InnoDb;
 
-CREATE TABLE detalleAlmacen(
+CREATE TABLE detallealmacen(
     id_detallea INT(6) auto_increment NOT NULL,
     id_producto INT(6) NOT NULL,
     id_sucursal INT(6) NOT NULL,
     existencia INT(5) NOT NULL,
-    CONSTRAINT pk_detalleAlmacen PRIMARY KEY(id_detalleA),
-    CONSTRAINT fk_detalleAlmacen_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
-    CONSTRAINT fk_detalleAlmacen_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
+    CONSTRAINT pk_detallealmacen PRIMARY KEY(id_detallea),
+    CONSTRAINT fk_detallealmacen_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
+    CONSTRAINT fk_detallealmacen_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
 
 CREATE TABLE cuenta(
@@ -81,7 +81,7 @@ CREATE TABLE cuenta(
     fecha date NOT NULL,
     CONSTRAINT pk_cuenta PRIMARY KEY(id_cuenta),
     CONSTRAINT fk_cuenta_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
-    CONSTRAINT fk_cuenta_detalleAlmacen FOREIGN KEY(id_detallea) REFERENCES detalleAlmacen(id_detallea)
+    CONSTRAINT fk_cuenta_detallealmacen FOREIGN KEY(id_detallea) REFERENCES detalleAlmacen(id_detallea)
 )ENGINE=InnoDb;
 
 CREATE TABLE devoluciones(
@@ -116,7 +116,7 @@ CREATE TABLE gastos(
     CONSTRAINT fk_gastos_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo)
 )ENGINE=InnoDb;
 
-CREATE TABLE salidaEspecial(
+CREATE TABLE salidaespecial(
     id_especial INT(6) auto_increment NOT NULL,
     id_sucursal INT(6) NOT NULL,
     id_producto INT(6) NOT NULL,
@@ -124,10 +124,10 @@ CREATE TABLE salidaEspecial(
     descripcion VARCHAR(50) NOT NULL,
     cantidad INT(4) NOT NULL,
     fecha datetime NOT NULL,
-    CONSTRAINT pk_salidaEspecial PRIMARY KEY(id_especial),
-    CONSTRAINT fk_salidaEspecial_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal),
-    CONSTRAINT fk_salidaEspecial_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
-    CONSTRAINT fk_salidaEspecial_users FOREIGN KEY(id_user) REFERENCES users(id_user)
+    CONSTRAINT pk_salidaespecial PRIMARY KEY(id_especial),
+    CONSTRAINT fk_salidaespecial_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal),
+    CONSTRAINT fk_salidaespecial_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto),
+    CONSTRAINT fk_salidaespecial_users FOREIGN KEY(id_user) REFERENCES users(id_user)
 )ENGINE=InnoDb;
 
 CREATE TABLE traspasos(
