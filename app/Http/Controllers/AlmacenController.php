@@ -14,7 +14,7 @@ class AlmacenController extends Controller
 {
 
     /**
-     * Function construct funciona para impedir el acceso al Almacen sin haber iniciado sesion previamente.
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
      * @return
      */
     public function __construct()
@@ -27,14 +27,11 @@ class AlmacenController extends Controller
      * Se hace la llamada a toda la informacion de la tabla Sucursal y por medio de la función join se utilizan los campos en las sucursales disponibles.
      * Luego, con el comando orderBy se ordena por id de manera ascendente.
      * Utilizando paginate(10) indicamos que nos debe mostrar 10 registros por página.
-     * @return Retorna la vista de los productos y sus detalles en todas las sucursales.
+     * @return Regresa la vista de los productos y sus detalles en todas las sucursales.
      */
     public function index()
     {
-        /*$productoM = DB::table('producto')
-            ->groupBy('marca')
-            ->select('marca')
-            ->get();*/
+
         $sucursales = Sucursal::all();
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
@@ -42,7 +39,7 @@ class AlmacenController extends Controller
             ->select('detallealmacen.id_detallea','producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
             ->orderBy('detallealmacen.id_detallea')
             ->paginate(10);
-        //dd($productos);
+        
         return view('reportes.inventario', compact('productos', 'sucursales'));
     }
 
@@ -69,19 +66,12 @@ class AlmacenController extends Controller
     {
         $producto = Producto::find($request->input('refproduc'));
         $sucursal = Sucursal::find($request->input('sucproduc'));
-        /*$almacenes = DB::table('detallealmacen')
-            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
-            ->where('producto.referencia', $producto->referencia)
-            ->where('sucursales.nombre_sucursal', $sucursal->nombre_sucursal)
-            ->get();*/
+
         $almacenes = DB::table('detallealmacen')
               ->where('id_producto',$request->input('refproduc'))
               ->where('id_sucursal',$request->input('sucproduc'))
               ->first();
-        //dd($almacenes->id_detallea);
-        //dd($productos);
+
         $validateData = $this->validate($request, [
             'refproduc' => 'required|integer|max:255',
             'exisproduc' => 'required|integer|min:1',
@@ -104,31 +94,31 @@ class AlmacenController extends Controller
 
     public function show($id)
     {
-        //
+        
     }
-
 
     public function edit($id)
     {
-        //
+        
     }
-
 
     public function update(Request $request, $id)
     {
-        //
+        
     }
-
 
     public function destroy($id)
     {
-        //
+        
     }
 
+    /**
+     * La función pdf llama a toda la información en la tabla detallealmacen de la base de datos y carga una vista de un documento en formato pdf con la fecha actual de cuando sehace la solicitud de la información 
+     * @return Devuelve la vista del documento con tod la información de los productos en el almacén y permite descargarla en un archivo con formato pdf.
+     */
     public function pdf()
     {
 
-        //$sucursales = Sucursal::all();
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')

@@ -13,14 +13,15 @@ use Carbon\Carbon;
 class VentaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return 
      */
     public function __construct()
     {
         $this->middleware('auth');
     }
+    
+
     public function index()
     {
         $ventas = Venta::all();
@@ -38,33 +39,18 @@ class VentaController extends Controller
         return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id, Request $request)
     {
         if ($request->ajax()) {
@@ -97,40 +83,21 @@ class VentaController extends Controller
         }
 
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function edit($id)
     {
-        //
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $cuenta = Cuenta::find($id);
-        //dd($cuenta);
+
         $cuenta->delete();
         return Response($cuenta);
     }
@@ -141,8 +108,8 @@ class VentaController extends Controller
         $cuenta = new Cuenta();
         $date = Carbon::now();
         $ventas = Venta::all()->last();
-        //dd($request->id);
-        //if($request->ajax()) {
+        //dd($request);
+        if($request->ajax()) {
             $result = '';
             $total = 0;
             $carrito = DB::table('detallealmacen')
@@ -151,7 +118,6 @@ class VentaController extends Controller
                         ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
                         ->where('detallealmacen.id_detallea', $request->id)
                         ->first();
-            //dd($carrito);
             if ($carrito) {
                 if(empty($ventas)){
                     $venta = new Venta();
@@ -170,7 +136,6 @@ class VentaController extends Controller
                     $cuenta->precio = $carrito->precio_venta*$request->cantidad;
                     $cuenta->fecha = $date;
                     $cuenta->save();
-                    //dd($cuenta);
                 } elseif ($ventas->estatus == 1) {
                     $venta = new Venta();
                     $venta->id_sucursal = $user->id_sucursal;
@@ -182,7 +147,7 @@ class VentaController extends Controller
                     $cuenta->fecha = $date;
                     $cuenta->save();
                 } elseif ($ventas->estatus == 0) {
-                    return redirect()->route('venta.index')->with('fail', 'La venta es un id cancelado');
+                    return redirect()->route('venta.index')->with('fail', 'La venta esta cancelada');
                 }
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
@@ -197,7 +162,7 @@ class VentaController extends Controller
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.
-    /*Aqui modificar id_cuenta a id_detallea cuando haya validacion*/'   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
+                              '   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
                               '</tr>';
                     $total = ($total + $cart->precio);
                 }
@@ -206,9 +171,8 @@ class VentaController extends Controller
                           '   <td>'.number_format($total, 2 ).'</td>'.
                           '   <td></td>'.
                           '</tr>';
-                //dd($result);
                 return Response($result);
             }
-        //}
+        }
     }
 }
