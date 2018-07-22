@@ -26,9 +26,56 @@ class ProductoController extends Controller
     public function index()
     {
 
-        $productos = Producto::all();
+        $productos = DB::table('producto')
+            ->paginate(10);
 
         return view('producto.producto', compact('productos'));
+    }
+
+    public function buscarP(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $result = "";
+
+            if ($request->buscar != "") {
+
+                $productos = DB::table('producto')
+                    ->orderBy('producto.id_producto')
+                    ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.color', 'like', '%'.$request->buscar.'%')
+                    ->paginate(10);
+
+            }elseif ($request->buscar == "") {
+                $productos = DB::table('producto')
+                    ->paginate(10);
+            }
+            if ($productos->count()) {
+                foreach ($productos as $producto) {
+                    $result.= '<tr>'.
+                        '<td>'.$producto->referencia.'</td>'.
+                        '<td>'.$producto->categoria_producto.'</td>'.
+                        '<td>'.$producto->tipo_producto.'</td>'.
+                        '<td>'.$producto->marca.'</td>'.
+                        '<td>'.$producto->modelo.'</td>'.
+                        '<td>'.$producto->color.'</td>'.
+                        '<td>'.$producto->precio_compra.'</td>'.
+                        '<td>'.$producto->precio_venta.'</td>'.
+                        '<td><a'.'</td>'.
+                        '</tr>';
+                }
+                return Response($result);
+            }else{
+                $result .= '<tr>'.
+                    '<td colspan="11"><h3>No hay registros de productos.</h3></td>'.
+                    '</tr>';
+                return Response($result);
+            }
+        }
     }
 
     /**
@@ -138,7 +185,7 @@ class ProductoController extends Controller
      * Si el valor del estatus es de 0, el estatus del producto es Inactivo.
      * @param El parámetro utilizado es $id, con Producto::find($id) se realiza el cambio de estatus del producto cuyo id está relacionado con el botón para cambio de estatus. Cada botón está relacionado con el id de la misma fila en el cual está puesto.
      * @return Al hacer click en el botón cunado este dice Baja, el estatus es cambiado de Activo a Inactivo, indicando que el producto no puede ser utilizado para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producto ha sido dado de baja.
-     * Al hacer click en el botón cuando dice Alta, el estatus es cambiado de Inactivo a Activo, indicando que el producto se encuentra de nuevo disponible para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producoto ha sido dado de alta.
+     * Al hacer click en el botón cuando dice Alta, el estatus es cambiado de Inactivo a Activo, indicando que el producto se encuentra de nuevo disponible para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producto ha sido dado de alta.
      */
     public function destroy($id)
     {

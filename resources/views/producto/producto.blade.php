@@ -3,6 +3,11 @@
   @if (Auth::user()->rol == 1)
       <div class="container">
           @include('alerts.success')
+          <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
+            <form class="form-inline" action="#" method="get">
+              <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar producto">
+            </form>
+          </nav>
           <table class="table text-center table-responsive-sm">
               <thead class="thead-dark">
                   <tr>
@@ -68,7 +73,7 @@
 
                   @else
                       <tr>
-                          <td colspan="8"><h3>No hay registros!!</h3></td>
+                          <td colspan="11"><h3>{{ 'No hay registros de productos.' }}</h3></td>
                       </tr>
                   @endif
 
