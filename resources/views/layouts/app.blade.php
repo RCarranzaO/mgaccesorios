@@ -52,7 +52,7 @@
                                 <a class="nav-link dropdown-toggle" id="navbarDropdowncajaLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Caja</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdowncajaLink">
                                     <a class="dropdown-item" href="{{ route('fondo') }}">Fondo</a>
-                                    <a class="dropdown-item" href="{{ route('gasto') }}">Egreso</a>
+                                    <a class="dropdown-item" href="{{ route('gasto') }}">Retiro</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown links">
@@ -83,7 +83,7 @@
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('producto.create') }}">Alta Producto</a>
-                                        <a class="dropdown-item" href="{{ route('producto.index') }}">Modificar Porducto</a>
+                                        <a class="dropdown-item" href="{{ route('producto.index') }}">Listado</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">

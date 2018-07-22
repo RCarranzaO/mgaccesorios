@@ -13,14 +13,15 @@ use Carbon\Carbon;
 class VentaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return 
      */
     public function __construct()
     {
         $this->middleware('auth');
     }
+    
+
     public function index()
     {
         $ventas = Venta::all();
@@ -38,70 +39,67 @@ class VentaController extends Controller
         return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        if ($request->ajax()) {
+            $result = '';
+            $total = 0;
+            $cuentas = DB::table('cuenta')
+                        ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                        ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                        ->where('cuenta.id_venta', $request->venta)
+                        ->get();
+            foreach ($cuentas as $cart) {
+                $result.= '<tr>'.
+                          '   <td>'.$cart->referencia.'</td>'.
+                          '   <td class="text-center">'.$cart->cantidad.'</td>'.
+                          '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
+                          '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
+                          '   <td>$'.number_format($cart->precio, 2).'</td>'.
+                          '   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
+                          '</tr>';
+                $total = ($total + $cart->precio);
+            }
+            $result.= '<tr>'.
+                      '   <td colspan="4">Neto $</td>'.
+                      '   <td>'.number_format($total, 2 ).'</td>'.
+                      '   <td></td>'.
+                      '</tr>';
+            //dd($result);
+            return Response($result);
+        }
 
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function edit($id)
     {
-        //
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $cuenta = Cuenta::find($id);
+
+        $cuenta->delete();
+        return Response($cuenta);
     }
 
     public function cart_temp(Request $request)
@@ -110,17 +108,16 @@ class VentaController extends Controller
         $cuenta = new Cuenta();
         $date = Carbon::now();
         $ventas = Venta::all()->last();
+        //dd($request);
         if($request->ajax()) {
-            $result = "";
+            $result = '';
             $total = 0;
             $carrito = DB::table('detallealmacen')
                         ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                         ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                         ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
-                        ->orderBy('detallealmacen.id_detallea')
                         ->where('detallealmacen.id_detallea', $request->id)
                         ->first();
-                        //dd($carrito);
             if ($carrito) {
                 if(empty($ventas)){
                     $venta = new Venta();
@@ -150,7 +147,7 @@ class VentaController extends Controller
                     $cuenta->fecha = $date;
                     $cuenta->save();
                 } elseif ($ventas->estatus == 0) {
-                    return redirect()->route('venta.index')->with('fail', 'La venta es un id cancelado');
+                    return redirect()->route('venta.index')->with('fail', 'La venta esta cancelada');
                 }
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
@@ -165,7 +162,7 @@ class VentaController extends Controller
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.
-                              '   <td><a href="#" class="" onclick="eliminar('.$cart->id_detallea.')"><i class="fa fa-trash"></i></a></td>'.
+                              '   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
                               '</tr>';
                     $total = ($total + $cart->precio);
                 }
@@ -174,7 +171,6 @@ class VentaController extends Controller
                           '   <td>'.number_format($total, 2 ).'</td>'.
                           '   <td></td>'.
                           '</tr>';
-                //dd($result);
                 return Response($result);
             }
         }

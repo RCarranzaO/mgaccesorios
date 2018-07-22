@@ -31,6 +31,7 @@ CREATE TABLE users(
 CREATE TABLE venta(
     id_venta INT(6) auto_increment NOT NULL,
     id_sucursal INT(6) NOT NULL,
+    estatus INT(2) NULL,
     CONSTRAINT pk_venta PRIMARY KEY(id_venta),
     CONSTRAINT fk_venta_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
@@ -56,7 +57,7 @@ CREATE TABLE producto(
     color VARCHAR(20) NOT NULL,
     precio_compra DECIMAL(7,0) NOT NULL,
     precio_venta DECIMAL(7,0) NOT NULL,
-    estatus INT(2),
+    estatus INT(2) NOT NULL,
     CONSTRAINT pk_producto PRIMARY KEY(id_producto),
     CONSTRAINT producto_referencia_unique UNIQUE(referencia)
 )ENGINE=InnoDb;

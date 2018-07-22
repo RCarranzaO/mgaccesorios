@@ -1080,6 +1080,7 @@ class seeder_tabla_producto extends Seeder
               'color' => $producto[$i][5],
               'precio_compra' => $producto[$i][6],
               'precio_venta' => $producto[$i][7],
+              'estatus' => $producto[$i][8],
             ]);
         }
     }

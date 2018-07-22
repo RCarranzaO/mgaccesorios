@@ -1,10 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <h1>Generar venta</h1>
         <div class="card">
             <div class="card-header background-light">
-                <h3 class="card-title">Nueva Venta</h3>
+                <h2 class="card-title">Nueva venta</h2>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -17,9 +16,18 @@
                                         <div class="col-md-6">
                                             <h3 class="card-title">Detalles de la Venta</h3>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="text-right">
-                                                <button type="submit" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                <button type="button" class="btn btn-outline-secondary pull-right" name="close"><i class="fa fa-check"></i>Realizar venta</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="text-right">
+                                                @if ($venta->estatus == 1)
+                                                    <button type="button" class="btn btn-outline-success pull-right" name="button"><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                @else
+                                                    <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -56,7 +64,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -75,9 +82,7 @@
                                     {{ csrf_field() }}
                                 </thead>
                                 <tbody id="carrito">
-                                    <tr>
-                                        <td>aqui van los productos</td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -127,7 +132,7 @@
                                                               <td class="text-left">{{ $producto->nombre_sucursal }}</td>
                                                               <td>{{ $producto->existencia }}</td>
                                                               <td class="text-right">${{ number_format($producto->precio_venta, 2) }}</td>
-                                                              <td><input type="number" id="cantidad" name="cantidad" class="text-center" style="width:50px"></td>
+                                                              <td><input type="number" id="cantidad_{{ $producto->id_detallea }}" name="cantidad" class="text-center" style="width:50px"></td>
                                                               <td><button type="button" class="btn btn-outline-primary" onclick="agregar({{ $producto->id_detallea }})">Agregar</button></td>
                                                             </tr>
                                                         @endif
@@ -167,23 +172,60 @@
         })
     </script>
     <script>
-        function agregar(id) {
-            var cantidad = $('#cantidad').val();
+        function show() {
+            console.log('show');
             var venta = $('#venta').val();
+            $.ajax({
+                url: '/venta/show/'+venta,
+                type: get,
+                data: {'venta':venta},
+                success:function(data){
+                    $('#carrito').html(data);
+                }
+            });
+        }
+    </script>
+    <script>
+        function agregar(id) {
+          console.log('agregar');
+            var cantidad = $('#cantidad_'+id).val();
             var _token = $('input[name=_token]').val();
-            console.log(id);
             console.log(cantidad);
             if(cantidad != ''){
+              alert('entro');
                 $.ajax({
                     url: '{{ route('cart') }}',
                     type: 'get',
-                    data: {'cantidad':cantidad, 'id':id, 'venta':venta, '_token':_token},
+                    data: {'cantidad':cantidad, 'id':id, '_token':_token},
                     success:function(data){
                         $('#carrito').html(data);
 
                     }
                 });
             }
+        }
+    </script>
+    <script>
+        function eliminar(id) {
+          console.log('eliminar');
+            var _token = $('input[name=_token]').val();
+            //var id = id;
+            console.log(id);
+            $.ajax({
+                url: '/venta/'+id,
+                type: 'DELETE',
+                data: {'id':id, '_token':_token},
+                success:function(data){
+                    $.ajax({
+                        url: '/venta/'+1,
+                        type: 'get',
+                        data: {'_token':_token},
+                        success:function(data){
+                            show();
+                        }
+                    });
+                }
+            });
         }
     </script>
     <script type="text/javascript">

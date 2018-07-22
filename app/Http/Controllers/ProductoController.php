@@ -3,36 +3,36 @@
 namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use mgaccesorios\Producto;
 use mgaccesorios\Usuario;
 
 class ProductoController extends Controller
 {
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return type
      */
-
     public function __construct()
     {
         $this->middleware('auth');
     }
 
     /**
-     * Descripcion
-     * @return type
+     * La función index apunta al archivo producto.blade.php.
+     * @return Devuelve la vista de todos los productos que han sido registrados en la base de datos.
      */
     public function index()
     {
         $productos = Producto::all();
+
         return view('producto.producto', compact('productos'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función create apunta al archivo alta.blade.php.
+     * @return Develve la vista del formulario con los campos necesarios para registrar un producto en el sistema.
      */
     public function create()
     {
@@ -40,19 +40,12 @@ class ProductoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
      * Con la función store se guarda la información del nuevo producto a registrar en la base de datos.
      * Para ello, se valida que se cumpla con el llenado de los campos: referencia, categoría, tipo, marca, modelo, color, precio_compra y precio_venta. Todos son campos de tipo string a excepción de precio_compra y precio_venta, los cuales son de tipo numérico y con un máximo de 255 caracteres.
      * La variable referencia es de tipo unique, impidiendo que existan duplicados del valor de referencia para cada producto.
+     * También se define que el precio de venta no puede ser menor que el precio de compra para evitar pérdidas de efectivo por causa de un error de captura de información.
      * @param Losparámetros requeridos son todos los campos en la tabla Producto de la base de datos. Estos son: referencia, categoria, tipo, marca, modelo, color, precio_compra y precio_venta. 
-     * @return También se define que el precio de venta no puede ser menor que el precio de compra para evitar pérdidas de efectivo por causa de un error de captura de información.
-     * Si estos campos no son llenados de manera correcta, se mostrará un mensaje de error indicando que el precio de venta debe ser mayor al precio de compra. 
+     * @return Si estos campos no son llenados de manera correcta, se mostrará un mensaje de error indicando que el precio de venta debe ser mayor al precio de compra. 
      * Si los campos son completados de manera correcta, se mostrará un mensaje confirmándonos que el producto ha sido agregado.
      */
     public function store(Request $request)
@@ -87,23 +80,10 @@ class ProductoController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * La función edit permite editar la información de el producto que seleccionemos.
@@ -115,14 +95,6 @@ class ProductoController extends Controller
         $producto = Producto::find($id);
         return view('producto/editar', compact('producto', 'id_producto'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * La función update sirve para guardar los cambios que se hayan realizado en la información del producto seleccionado para su edición.
@@ -160,13 +132,6 @@ class ProductoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
      * La función destroy() se utiliza para cambiar el estatus de un producto. 
      * Si el valor del estatus es de 1, el estatus del producto es Activo.
      * Si el valor del estatus es de 0, el estatus del producto es Inactivo.
@@ -177,8 +142,7 @@ class ProductoController extends Controller
     public function destroy($id)
     {
         $producto = Producto::find($id);
-        //$producto->estatus = '0';
-        //dd($id);
+
         if ($producto->estatus == 1) {
             $producto->estatus = 0;
             $producto->save();
@@ -188,7 +152,6 @@ class ProductoController extends Controller
             $producto->save();
             return redirect()->route('producto.index')->with('success', 'Porducto dado de alta');
         }
-
 
     }
 
