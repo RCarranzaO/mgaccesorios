@@ -54,8 +54,23 @@ class ProductoController extends Controller
                 $productos = DB::table('producto')
                     ->paginate(10);
             }
+            $estado = "";
+            $clase = "";
+            $estado2 = "";
+            $cambiar = "";
             if ($productos->count()) {
                 foreach ($productos as $producto) {
+                    if ($producto->estatus == 1) {
+                        $estado = "Activo";
+                        $clase = "btn btn-outline-danger";
+                        $estado2 = "Baja";
+                        $cambiar = "¿Desea dar de baja el producto?";
+                    } else {
+                        $estado = "Inactivo";
+                        $clase = "btn btn-outline-success";
+                        $estado2 = "Alta";
+                        $cambiar = "¿Desea dar de alta el producto?";
+                    }
                     $result.= '<tr>'.
                         '<td>'.$producto->referencia.'</td>'.
                         '<td>'.$producto->categoria_producto.'</td>'.
@@ -65,7 +80,33 @@ class ProductoController extends Controller
                         '<td>'.$producto->color.'</td>'.
                         '<td>'.$producto->precio_compra.'</td>'.
                         '<td>'.$producto->precio_venta.'</td>'.
-                        '<td><a'.'</td>'.
+                        '<td>'.$estado.'</td>'.
+                        '<td><a href="'.route("producto.edit", $producto->id_producto).'" class="btn btn-outline-info">Editar</a></td>'.
+                        '<td><button type="button" class="'.$clase.'" data-toggle="modal" data-target="#ModalDelete'.$producto->id_producto.'">'.$estado2.'</button>'.
+                            '<form method="post" action="/producto/'.$producto->id_producto.'">'.
+                                '<input type="hidden" name="_token" value="'.csrf_token().'">'.
+                                '<input type="hidden" name="_method" value="DELETE">'.
+                                '<div class="modal fade" id="ModalDelete'.$producto->id_producto.'" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">'.
+                                    '<div class="modal-dialog" role="document">'.
+                                        '<div class="modal-content">'.
+                                            '<div class="modal-header">'.
+                                                '<h5 lass="modal-title" id="ModalLabel">¡Alerta!</h5>'.
+                                                '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'.
+                                                    '<span aria-hidden="true">&times;</span>'.
+                                                '</button>'.
+                                            '</div>'.
+                                            '<div class="modal-body">'.
+                                                '<h3>'.$cambiar.'</h3>'.
+                                            '</div>'.
+                                            '<div class="modal-footer">'.
+                                                '<button type="submit" class="btn btn-outline-primary">Aceptar</button>'.
+                                                '<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>'.
+                                            '</div>'.
+                                        '</div>'.
+                                    '</div>'.
+                                '</div>'.
+                            '</form>'.
+                        '</td>'.
                         '</tr>';
                 }
                 return Response($result);

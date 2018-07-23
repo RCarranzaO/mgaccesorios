@@ -6,20 +6,21 @@
           <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
             <form class="form-inline" action="#" method="get">
               <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar producto">
+              {{ $productos->links() }}
             </form>
           </nav>
-          <table class="table text-center table-responsive-sm">
+          <table id="myTable" class="table text-center table-responsive-sm">
               <thead class="thead-dark">
                   <tr>
-                      <th scope="col">Refencia</th>
-                      <th scope="col">Categoria</th>
-                      <th scope="col">Tipo</th>
-                      <th scope="col">Marca</th>
-                      <th scope="col">Modelo</th>
-                      <th scope="col">Color</th>
-                      <th scope="col">Precio Compra</th>
-                      <th scope="col">Precio Venta</th>
-                      <th scope="col">Estatus</th>
+                      <th scope="col" onclick="ordenar(0)">{{ 'Refencia' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>
+                      <th scope="col" onclick="ordenar(1)">{{ 'Categoria' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>
+                      <th scope="col" onclick="ordenar(2)">{{ 'Tipo' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>
+                      <th scope="col" onclick="ordenar(3)">{{ 'Marca' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>
+                      <th scope="col" onclick="ordenar(4)">{{ 'Modelo' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>
+                      <th scope="col" onclick="ordenar(5)">{{ 'Color' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>
+                      <th scope="col">{{ 'Precio Compra' }}</th>
+                      <th scope="col">{{ 'Precio Venta' }}</th>
+                      <th scope="col">{{ 'Estatus' }}</th>
                       <th scope="col"></th>
                       <th scope="col"></th>
                   </tr>
@@ -41,32 +42,31 @@
                                   <a href="{{ route('producto.edit', $producto->id_producto) }}" class="btn btn-outline-info">Editar</a>
                               </td>
                               <td>
-                                  <form method="post" action="/producto/{{ $producto->id_producto }}" >
+                                  <button type="button" class="{{ $producto->estatus==1 ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-toggle="modal" data-target="#ModalDelete{{$producto->id_producto}}">{{ $producto->estatus == 1 ? _('Baja') : _('Alta') }}</button>
+                                  <form method="post" action="/producto/{{ $producto->id_producto }}">
                                       @csrf
                                       @method('DELETE')
-                                      <button type="button" class="{{ $producto->estatus==1 ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-toggle="modal" data-target="#ModalDelete{{$producto->id_producto}}">{{ $producto->estatus == 1 ? _('Baja') : _('Alta') }}</button>
                                       <div class="modal fade" id="ModalDelete{{$producto->id_producto}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                                           <div class="modal-dialog" role="document">
                                               <div class="modal-content">
                                                   <div class="modal-header">
-                                                      <h5 class="modal-title" id="ModalLabel">Alerta!</h5>
+                                                      <h5 class="modal-title" id="ModalLabel">{{ '¡Alerta!' }}</h5>
                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                           <span aria-hidden="true">&times;</span>
                                                       </button>
                                                   </div>
                                                   <div class="modal-body">
-                                                      <h3>{{ $producto->estatus==1 ? 'Desea dar de baja el producto?' : 'Desea dar de alta el producto?' }}</h3>
+                                                      <h3>{{ $producto->estatus==1 ? '¿Desea dar de baja el producto?' : '¿Desea dar de alta el producto?' }}</h3>
                                                   </div>
                                                   <div class="modal-footer">
-                                                          <!--<a class="btn btn-outline-primary" href="">Aceptar</button>-->
-                                                          <button type="submit" class="btn btn-outline-primary">Aceptar</button>
-                                                          <button type='button' class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                                                      <button type="submit" class="btn btn-outline-primary">{{ 'Aceptar' }}</button>
+                                                      <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{ 'Cancelar' }}</button>
                                                   </div>
                                               </div>
                                           </div>
                                       </div>
                                   </form>
-                  						</td>
+                              </td>
                           </tr>
 
                       @endforeach
@@ -80,11 +80,6 @@
               </tbody>
           </table>
           <hr>
-          <div class="row">
-            <div class="col-ms-1">
-              {{ $productos->links() }}
-            </div>
-          </div>
 
       </div>
   @else
@@ -134,6 +129,44 @@
           $('tbody').html(data);
         }
       });
+    }
+    function ordenar(n){
+        var $table, $rows, $switching, $i, $x, $y, $shouldSwitch, $dir, $switchcount = 0;
+        $table = document.getElementById("myTable");
+        $switching = true;
+        $dir = "asc";
+
+        while($switching){
+            $switching = false;
+            $rows = $table.getElementsByTagName("TR");
+            for ($i = 1; $i < ($rows.length - 1); $i++) {
+                $shouldSwitch = false;
+                $x = $rows[$i].getElementsByTagName("TD")[n];
+                $y = $rows[$i + 1].getElementsByTagName("TD")[n];
+
+                if ($dir == "asc") {
+                    if ($x.innerHTML.toLowerCase() > $y.innerHTML.toLowerCase()) {
+                        $shouldSwitch= true;
+                        break;
+                    }
+                }else if ($dir == "desc") {
+                    if ($x.innerHTML.toLowerCase() < $y.innerHTML.toLowerCase()) {
+                        $shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if ($shouldSwitch) {
+                $rows[$i].parentNode.insertBefore($rows[$i + 1], $rows[$i]);
+                $switching = true;
+                $switchcount ++;
+            }else {
+                if ($switchcount == 0 && $dir == "asc") {
+                    $dir = "desc";
+                    $switching = true;
+                }
+            }
+        }
     }
   </script>
   <script type="text/javascript">
