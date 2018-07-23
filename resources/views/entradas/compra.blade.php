@@ -14,9 +14,9 @@
 																@csrf
 																@include('alerts.errores')
 																<div class="form-group row">
-																		<label for="refproduc" class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
+																		<label for="referencia" class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
 																		<div class="col-md-6">
-																			<select class="form-control select-search {{ $errors->has('refproduc') ? ' is-invalid' : '' }}" name="refproduc" required>
+																			<select class="form-control select-search {{ $errors->has('referencia') ? ' is-invalid' : '' }}" name="referencia" required>
 																					<option>Elija una opcion</option>
 																					@foreach ($productos as $producto)
 																							@if ($producto->estatus != 0)
@@ -25,9 +25,9 @@
 																					@endforeach
 																			</select>
 																		</div>
-																		@if($errors->has('refproduc'))
+																		@if($errors->has('referencia'))
 																				<span class="invalid-feedback">
-																						<strong>{{ $errors->first('refproduc') }}</strong>
+																						<strong>{{ $errors->first('referencia') }}</strong>
 																				</span>
 																		@endif
 																</div>
@@ -35,11 +35,11 @@
 																<div class="form-group row">
 																		<label  class="col-md-4 col-form-label text-md-right">Existencia Producto</label>
 																		<div class="col-md-6">
-																				<input class="form-control{{ $errors->has('exisproduc') ? ' is-invalid' : '' }}" type="number" min="1" name="exisproduc" id="exisproduc" placeholder="Existencia producto" required>
+																				<input class="form-control{{ $errors->has('existencia') ? ' is-invalid' : '' }}" type="number" min="1" name="existencia" id="existencia" placeholder="Existencia producto" required>
 																		</div>
-																		@if($errors->has('exisproduc'))
+																		@if($errors->has('existencia'))
 																				<span class="invalid-feedback">
-																						<strong>{{ $errors->first('exisproduc') }}</strong>
+																						<strong>{{ $errors->first('existencia') }}</strong>
 																				</span>
 																		@endif
 																</div>
@@ -47,7 +47,7 @@
 																<div class="form-group row">
 																		<label class="col-md-4 col-form-label text-md-right">Sucursal Producto</label>
 																		<div class="col-md-6">
-																				<select class="form-control{{ $errors->has('sucproduc') ? ' is-invalid' : '' }}" name="sucproduc" required>
+																				<select class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
 																						<option>Elija una opcion</option>
 																						@foreach ($sucursales as $sucursal)
 																								@if ($sucursal->estatus != 0)
@@ -55,9 +55,9 @@
 																								@endif
 																						@endforeach
 																				</select>
-																				@if($errors->has('sucproduc'))
+																				@if($errors->has('sucursal'))
 																						<span class="invalid-feedback">
-																								<strong>{{ $errors->first('sucproduc') }}</strong>
+																								<strong>{{ $errors->first('sucursal') }}</strong>
 																						</span>
 																				@endif
 																		</div>

@@ -60,6 +60,7 @@ Route::get('/reporte/descargar-venta', 'ReportesVController@pdf')->name('venta.p
 Route::get('/saldo/guardarF', 'SaldoController@guardarFondo')->name('guardarFondo');
 Route::get('/saldo', 'SaldoController@index')->name('saldo');
 Route::get('/saldo/guardarG', 'SaldoController@guardarGasto')->name('guardarGasto');
+Route::get('/saldo/guardarC', 'SaldoController@guardarCobro')->name('guardarCobro');
 
 
 //Rutas de PasswordReset

@@ -58,34 +58,34 @@ class AlmacenController extends Controller
 
     /**
      * La funcion store valida la información solicitada en el form para darle entrada a un producto.
-     * @param Los parámetros que se deben recibir son la refproduc que es el identificador del producto, de tipo integer con un máximo de 255 caracteres, exisproduc que nos indica la cantidad del producto que va a ingresar, es de tipo integer y debe tener un valor mínimo de 1 y sucproduc donde indicamos a que sucursal será asignada esa entrada de producto, es de tipo integer y con un máximo de 255 caracteres.
+     * @param Los parámetros que se deben recibir son la referencia que es el identificador del producto, de tipo integer con un máximo de 255 caracteres, existencia que nos indica la cantidad del producto que va a ingresar, es de tipo integer y debe tener un valor mínimo de 1 y sucursal donde indicamos a que sucursal será asignada esa entrada de producto, es de tipo integer y con un máximo de 255 caracteres.
      * @return Nos redirige a almacen.index donde podemos visualizar los productos que han sido agregados exitosamente.
      */
 
     public function store(Request $request)
     {
-        $producto = Producto::find($request->input('refproduc'));
-        $sucursal = Sucursal::find($request->input('sucproduc'));
+        $producto = Producto::find($request->input('referencia'));
+        $sucursal = Sucursal::find($request->input('sucursal'));
 
         $almacenes = DB::table('detallealmacen')
-              ->where('id_producto',$request->input('refproduc'))
-              ->where('id_sucursal',$request->input('sucproduc'))
+              ->where('id_producto',$request->input('referencia'))
+              ->where('id_sucursal',$request->input('sucursal'))
               ->first();
 
         $validateData = $this->validate($request, [
-            'refproduc' => 'required|integer|max:255',
-            'exisproduc' => 'required|integer|min:1',
-            'sucproduc' => 'required|integer|max:255|',
+            'referencia' => 'required|integer|max:255',
+            'existencia' => 'required|integer|min:1',
+            'sucursal' => 'required|integer|max:255|',
         ]);
         if (!$almacenes) {
             $almacen = new DetalleAlmacen();
-            $almacen->id_producto = $request->input('refproduc');
-            $almacen->id_sucursal = $request->input('sucproduc');
-            $almacen->existencia = $request->input('exisproduc');
+            $almacen->id_producto = $request->input('referencia');
+            $almacen->id_sucursal = $request->input('sucursal');
+            $almacen->existencia = $request->input('existencia');
             $almacen->save();
         } else {
             $almacenId = DetalleAlmacen::find($almacenes->id_detallea);
-            $almacenId->existencia = $almacenId->existencia + $request->input('exisproduc');
+            $almacenId->existencia = $almacenId->existencia + $request->input('existencia');
             $almacenId->save();
         }
         return redirect()->route('reportes.index')->with('success', 'Agregado correctamente!');
