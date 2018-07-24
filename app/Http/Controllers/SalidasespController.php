@@ -37,11 +37,56 @@ class SalidasespController extends Controller
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                     ->select('producto.id_producto', 'producto.referencia', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->orderBy('detallealmacen.id_detallea')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
-                    ->get();
+                    ->paginate(10);
         //dd($salidas);
         $sucursales = Sucursal::all();
         return view('salidas.salidaesp', compact('sucursales', 'salidas'));
+    }
+
+    public function buscarS(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $result = "";
+            $usuario = \Auth::user();
+            $sucursales = Sucursal::all();
+
+            if ($request->buscar == "") {
+                $salidas = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->orderBy('detallealmacen.id_detallea')
+                    ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
+                    ->paginate(10);
+            }elseif ($request->buscar != "") {
+                $salidas = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->orderBy('detallealmacen.id_detallea')
+                    ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
+                    ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                    ->paginate(10);
+            }
+            if ($salidas->count()) {
+                foreach ($salidas as $salida) {
+
+                    $result.= '<tr>'.
+                        '<td>'.$salida->referencia.'</td>'.
+                        '<td>'.$salida->existencia.'</td>'.
+                        '<td><a href="'.route("salidasesp.show", $salida->id_producto).'" class="btn btn-outline-info">Retirar</a></td>'.
+                        '</tr>';
+                }
+                return Response($result);
+            }else{
+                $result .= '<tr>'.
+                    '<td colspan="8"><h3>No se encuentran registros de productos.</h3></td>'.
+                    '</tr>';
+            }
+        }
     }
 
     /**
