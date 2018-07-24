@@ -249,7 +249,7 @@ class VentaController extends Controller
                     return Response($result);
                 }
 
-
+                //dd($ventas->id_venta);
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
@@ -293,7 +293,7 @@ class VentaController extends Controller
                 ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                 ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                 ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
-                ->where('cuenta.id_venta', $id)
+                ->where('cuenta.id_venta', $id+1)
                 ->get();
             $total = count($ventas);
             $pdf = PDF::loadView('venta.ticket', compact('ventas', 'date', 'cobro', 'total', 'user'));

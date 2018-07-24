@@ -122,7 +122,7 @@ class SaldoController extends Controller
             $saldo->id_cobro = $cobro->id_cobro;
         }
         $saldo->save();
-        return redirect()->route('venta.index');
+        return redirect()->route('venta.index')->with('success', 'Venta realizada correctamente');
     }
     public function guardarDev()
     {
