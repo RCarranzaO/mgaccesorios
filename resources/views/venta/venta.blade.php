@@ -63,7 +63,7 @@
                                                   @elseif ($venta->estatus == NULL)
                                                       <input type="text" id="venta" class="form-control text-right" value="{{ $venta->id_venta }}" disabled >
                                                   @else
-                                                      <input type="text" id="venta" class="form-control text-right" value="{{ $venta_new->id_venta }}" disabled >
+                                                      <input type="text" id="venta" class="form-control text-right" value="{{ $venta->id_venta+1 }}" disabled >
                                                   @endif
 
                                                 </div>

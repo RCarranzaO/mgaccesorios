@@ -10,6 +10,9 @@ use mgaccesorios\Cobro;
 use mgaccesorios\Gasto;
 use mgaccesorios\Devolucion;
 use Carbon\Carbon;
+use mgaccesorios\Venta;
+use mgaccesorios\Sucursal;
+use mgaccesorios\Producto;
 
 class SaldoController extends Controller
 {
@@ -48,7 +51,7 @@ class SaldoController extends Controller
         $saldoId = $saldos->last();
         $fondo = Fondo::all();
         $fondoId = $fondo->last();
-        $date = Carbon::now();
+        $date = Carbon::now()->toDateString();
 
         if (empty($saldoId)) {
             $saldo->id_fondo = $fondoId->id_fondo;
@@ -60,7 +63,7 @@ class SaldoController extends Controller
             $saldo->saldo_actual = $fondoId->cantidad;
             $saldo->fecha = $date;
             $saldo->save();
-        } elseif ($fondoId->id_fondo == $saldoId->id_fondo) {
+        } elseif ($fondoId->id_fondo == NULL) {
             $saldoId->id_fondo = $fondoId->id_fondo;
             $saldoId->saldo_actual = $fondoId->cantidad;
             $saldoId->fecha = $date;
@@ -83,15 +86,16 @@ class SaldoController extends Controller
         $saldoId = $saldos->last();
         $gasto = Gasto::all();
         $gastoId = $gasto->last();
-        $date = Carbon::now();
+        $date = Carbon::now()->toDateString();
 
-        if (!empty($gastoId)){
-            if ($gastoId->id_fondo == $saldoId->id_fondo) {
-                $saldo->id_fondo = $gastoId->id_fondo;
-                $saldo->id_gasto = $gastoId->id_gasto;
-                $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
-                $saldo->fecha = $date;
-            }
+        if ($saldoId->id_gasto == null){
+            $saldo->id_gasto = $gastoId->id_gasto;
+            $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
+            $saldo->fecha = $date;
+        } elseif ($gastoId->id_gasto != $saldoId->id_gasto) {
+            $saldo->id_gasto = $gastoId->id_gasto;
+            $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
+            $saldo->fecha = $date;
         }
 
         $saldo->save();
@@ -108,7 +112,7 @@ class SaldoController extends Controller
         $saldos = Saldo::all();
         $saldoId = $saldos->last();
         $cobro = Cobro::all()->last();
-        $date = Carbon::now();
+        $date = Carbon::now()->toDateString();
 
         if ($saldoId->id_cobro == null) {
             $saldo->id_cobro = $cobro->id_cobro;
@@ -118,11 +122,10 @@ class SaldoController extends Controller
             $saldo->id_cobro = $cobro->id_cobro;
             $saldo->saldo_actual = $saldoId->saldo_actual + $cobro->monto_total;
             $saldo->fecha = $date;
-        } else {
-            $saldo->id_cobro = $cobro->id_cobro;
         }
         $saldo->save();
         return redirect()->route('venta.index')->with('success', 'Venta realizada correctamente');
+
     }
     public function guardarDev()
     {
