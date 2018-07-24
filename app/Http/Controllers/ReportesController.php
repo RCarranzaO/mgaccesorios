@@ -97,7 +97,7 @@ class ReportesController extends Controller
                             ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
                             ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
                     })
-                    ->get();
+                    ->paginate(10);
             }
             if ($productos->count()) {
                 foreach ($productos as $producto) {
