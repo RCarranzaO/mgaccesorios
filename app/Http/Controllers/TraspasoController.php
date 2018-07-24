@@ -34,10 +34,58 @@ class TraspasoController extends Controller
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                     ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
-                    ->get();
+                    ->paginate(10);
         //dd($salidas);
 
         return view('traspaso.traspaso', compact('traspasos'));
+    }
+
+    public function buscarT(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $result = "";
+            $usuario = \Auth::user();
+
+            if ($request->buscar == "") {
+                $traspasos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
+                    ->paginate(10);
+            }elseif ($request->buscar != "") {
+                $traspasos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
+                    ->where(function ($query) use ($request){
+                        $query->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
+                    })
+                    ->paginate(10);
+            }
+            if ($traspasos->count()) {
+                foreach ($traspasos as $traspaso) {
+                    $result.= '<tr>'.
+                        '<td>'.$traspaso->referencia.'</td>'.
+                        '<td>'.$traspaso->categoria_producto.', '.$traspaso->tipo_producto.', '.$traspaso->marca.', '.$traspaso->modelo.', '.$traspaso->color.'</td>'.
+                        '<td>'.$traspaso->existencia.'</td>'.
+                        '<td><a href="'.route("traspaso.show", $traspaso->id_producto).'" class="btn btn-outline-info">Traspasar</a></td>'.
+                        '</tr>';
+                }
+                return Response($result);
+            }else{
+                $result .= '<tr>'.
+                    '<td colspan="8"><h3>No se encuentran registros de productos.</h3></td>'.
+                    '</tr>';
+            }
+        }
     }
 
     /**

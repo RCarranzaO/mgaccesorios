@@ -96,3 +96,9 @@ Route::get('/buscarR', 'ReportesController@buscarR')->name('buscarR');//Busqueda
 
 //Ruta de búsqueda de productos
 Route::get('/buscarP', 'ProductoController@buscarP')->name('buscarP');//Busqueda de productos
+
+//Ruta de búsqueda de productos para salida especial
+Route::get('/buscarS', 'SalidasespController@buscarS')->name('buscarS');//Busqueda de productos para salida especial
+
+//Ruta de búsqueda de productos para traspasos
+Route::get('/buscarT', 'TraspasoController@buscarT')->name('buscarT');//Busqueda de productos para traspasos
