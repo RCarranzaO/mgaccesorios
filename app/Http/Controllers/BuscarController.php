@@ -83,7 +83,7 @@ class BuscarController extends Controller
                                 '<td class="text-left">'.$producto->nombre_sucursal.'</td>'.
                                 '<td>'.$producto->existencia.'</td>'.
                                 '<td class="text-right">$'.number_format($producto->precio_venta, 2).'</td>'.
-                                '<td><input type="number" id="cantidad" name="cantidad" style="width:50px"></td>'.
+                                '<td><input type="number" id="cantidad_'.$producto->id_detallea.'" style="width:50px"></td>'.
                                 '<td><button type="button" class="btn btn-outline-primary" onclick="agregar('.$producto->id_detallea.')">Agregar</button></td>'.
                                 '</tr>';
                         }

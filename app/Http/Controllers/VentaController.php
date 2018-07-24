@@ -5,10 +5,12 @@ namespace mgaccesorios\Http\Controllers;
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
 use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
 use mgaccesorios\Cuenta;
 use mgaccesorios\Cobro;
+use mgaccesorios\Fondo;
 use mgaccesorios\DetalleAlmacen;
 use Carbon\Carbon;
 
@@ -27,7 +29,9 @@ class VentaController extends Controller
     {
         $ventas = Venta::all();
         $venta = $ventas->last();
+        $fondo = Fondo::all()->last();
         $sucursales = Sucursal::all();
+        $fecha = date('Y-m-d');
         $user = \Auth::user();
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
@@ -36,8 +40,13 @@ class VentaController extends Controller
             ->orderBy('detallealmacen.id_detallea')
             ->where('detallealmacen.id_sucursal', $user->id_sucursal)
             ->get();
-
-        return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
+        if (empty($fondo->fecha)) {
+            return view('fondo.fondo', compact('fondo', 'user'));
+        } elseif($fondo->fecha != $fecha) {
+            return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
+        } else {
+            return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
+        }
     }
 
     /**
@@ -45,9 +54,27 @@ class VentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $user = \Auth::user();
+        $date = Carbon::now();
+        $total = 0;
+        if ($request->ajax()) {
+            $cobro = Cobro::all()->where('id_venta', $request->id);
+            $ventas = DB::table('cuenta')
+                ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
+                ->join('cobro', 'cuenta.id_venta', '=', 'cobro.id_venta')
+                ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
+                ->where('cuenta.id_venta', $request->id)
+                ->get();
+            $total = count($ventas);
+            $pdf = PDF::loadView('venta.ticket', compact('ventas', 'date', 'cobro', 'total', 'user'));
+
+        }
+        return $pdf->download('ticket.pdf');
     }
 
     /**
@@ -64,6 +91,7 @@ class VentaController extends Controller
             $venta = Venta::find($request->id);
             $user = \Auth::user();
             $cobrar = new Cobro();
+            $cobro = Cobro::all()->last();
             $total = 0;
             $date = Carbon::now();
             foreach ($cuentas as $cuenta) {
@@ -74,14 +102,27 @@ class VentaController extends Controller
                 }
                 $total = $total + $cuenta->precio;
             }
-            $cobrar->id_venta = $venta->id_venta;
-            $cobrar->id_user = $user->id_user;
-            $cobrar->monto_total = $total;
-            $cobrar->fecha = $date;
-            $venta->estatus = 1;
-            $cobrar->save();
-            $venta->save();
-            return redirect()->route('venta.index')->with('success', 'Venta realizada correctamente');
+            if (empty($cobro)) {
+              $cobrar->id_venta = $venta->id_venta;
+              $cobrar->id_user = $user->id_user;
+              $cobrar->monto_total = $total;
+              $cobrar->fecha = $date;
+              $venta->estatus = 1;
+              $cobrar->save();
+              $venta->save();
+              return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
+            }elseif ($cobro->id_venta != $venta->id_venta) {
+                $cobrar->id_venta = $venta->id_venta;
+                $cobrar->id_user = $user->id_user;
+                $cobrar->monto_total = $total;
+                $cobrar->fecha = $date;
+                $venta->estatus = 1;
+                $cobrar->save();
+                $venta->save();
+                return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
+            } elseif ($cobro->id_venta != $venta->id_venta) {
+                return redirect()->route('venta.index')->with('fail', 'El N° de venta ya existe');
+            }
         }
     }
 
@@ -167,7 +208,7 @@ class VentaController extends Controller
         $cuenta = new Cuenta();
         $date = Carbon::now();
         $ventas = Venta::all()->last();
-        //dd($request);
+        //dd($ventas);
         $validateData = $this->validate($request,[
             'cantidad' => 'required|numeric|min:1'
         ]);
@@ -219,7 +260,7 @@ class VentaController extends Controller
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    {{ _("Existencias insufcientes") }}
+                                    Existencias insufcientes!
                                 </div>';
                     return Response($result);
                 }
@@ -247,7 +288,6 @@ class VentaController extends Controller
                           '   <td>'.number_format($total, 2 ).'</td>'.
                           '   <td></td>'.
                           '</tr>';
-                //dd($result);
                 return Response($result);
             }
         }

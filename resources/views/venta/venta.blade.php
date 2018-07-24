@@ -58,14 +58,13 @@
                                             <div class="col-md-2">
                                                 <div class="form-group text-center">
                                                   <label for="venta">Venta N°</label>
-                                                  @if (empty($venta))
+                                                  @if (empty($venta->id_venta) && empty($venta->estatus))
                                                       <input type="text" id="venta" class="form-control text-right" value="1" disabled >
-                                                  @elseif (empty($venta->id_venta) && empty($venta->estatus))
-                                                      <input type="text" id="venta" class="form-control text-right" value="1" disabled >
-                                                  @elseif ($venta->id_venta == 1 && $venta->estatus == NULL)
+                                                  @elseif ($venta->estatus == NULL)
                                                       <input type="text" id="venta" class="form-control text-right" value="{{ $venta->id_venta }}" disabled >
                                                   @else
                                                       <input type="text" id="venta" class="form-control text-right" value="{{ $venta->id_venta+1 }}" disabled >
+
                                                   @endif
 
                                                 </div>
@@ -147,7 +146,7 @@
                                                               <td class="text-left">{{ $producto->nombre_sucursal }}</td>
                                                               <td>{{ $producto->existencia }}</td>
                                                               <td class="text-right">${{ number_format($producto->precio_venta, 2) }}</td>
-                                                              <td><input type="number" id="cantidad_{{ $producto->id_detallea }}" name="cantidad" class="text-center" style="width:50px"></td>
+                                                              <td><input type="number" id="cantidad_{{ $producto->id_detallea }}" class="text-center" style="width:50px"></td>
                                                               <td><button type="button" class="btn btn-outline-primary" onclick="agregar({{ $producto->id_detallea }})">Agregar</button></td>
                                                             </tr>
                                                         @endif
@@ -189,8 +188,8 @@
             console.log('show');
             var venta = $('#venta').val();
             $.ajax({
-                url: '/venta/show/'+venta,
-                type: get,
+                url: '/venta/'+venta,
+                type: 'get',
                 data: {'venta':venta},
                 success:function(data){
                     $('#carrito').html(data);
@@ -206,7 +205,7 @@
                 type: 'post',
                 data: {'id':id, '_token':_token},
                 success:function(data){
-                    console.log('Venta realizada correctamente');
+                    //console.log('Venta realizada correctamente');
                 }
             });
         }
@@ -262,7 +261,7 @@
                 type: 'get',
                 data: {'id':id, '_token':_token},
                 success:function(data){
-                    
+                    console.log('imprimiendo...');
                 }
             });
         }

@@ -13,13 +13,13 @@ class sucursales extends Seeder
     {
       DB::table('sucursales')->insert(array(
           'nombre_sucursal' => 'sucursal1',
-          'direccion' => 'calle 56 plaza tecnologia local 5',
+          'direccion' => 'calle 56 plaza tecnologia local 24',
           'telefono' => '12345678',
           'estatus' => '1'
       ));
       DB::table('sucursales')->insert(array(
           'nombre_sucursal' => 'sucursal2',
-          'direccion' => 'calle 56 plaza tecnologia local 17',
+          'direccion' => 'calle 56 plaza tecnologia local 129',
           'telefono' => '996586498',
           'estatus' => '1'
       ));

@@ -50,6 +50,13 @@ font-size: 90px;
     color: #636b6f;
 }
 
+@media screen and (max-width: 1024px){
+
+  .title {
+  font-size: 90px;
+  }
+
+}
 @media screen and (max-width: 768px){
 
   .title {
@@ -78,3 +85,12 @@ font-size: 90px;
   font-size: 50px;
   }
 }
+
+/* Small screen! */
+@media screen and (min-width: 600px) {  }
+
+/* "Desktop" */
+@media screen and (min-width: 860px) {  }
+
+/* IT'S OVER 9000 */
+@media screen and (min-width: 1200px) {  }
