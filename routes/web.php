@@ -92,3 +92,5 @@ Route::resource('/devolucion', 'DevolucionesController');
 //Rutas de inventario
 Route::get('/buscarR', 'ReportesController@buscarR')->name('buscarR');//Busqueda en reporte de inventario
 
+//Ruta de búsqueda de productos
+Route::get('/buscarP', 'ProductoController@buscarP')->name('buscarP');//Busqueda de productos

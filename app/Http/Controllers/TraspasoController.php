@@ -14,20 +14,24 @@ use mgaccesorios\Traspaso;
 
 class TraspasoController extends Controller
 {
-    
+
     /**
      * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
-     * @return 
+     * @return
      */
     public function __construct()
     {
         $this->middleware('auth');
     }
+<<<<<<< HEAD
     
     /**
      * La función index llama a los datos del usuario para registrar quien hace el traspaso d producto y llama todos los datos de la tabla detallealmacen de la sucursal donde ese usuario está registrado.
      * @return Devuelve la vista del archivo traspaso.blade.php con la información de los productos en la sucursal donde el usuario que desea realizar el traspaso está registrado.
      */
+=======
+
+>>>>>>> 42abeff936da12846c744c7dae3b6defa14a7b01
     public function index()
     {
         $usuario = \Auth::user();
@@ -35,7 +39,7 @@ class TraspasoController extends Controller
         $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->get();
 
@@ -78,7 +82,7 @@ class TraspasoController extends Controller
             $traspaso->sucursal_destino = $sucursalD->nombre_sucursal;
             $traspaso->cantidad = $request->input('cantidad');
             $traspaso->fecha = $date;
-            //$traspaso->save();
+            $traspaso->save();
             //dd($traspaso);
             if ($detalleaID) {
                 $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');

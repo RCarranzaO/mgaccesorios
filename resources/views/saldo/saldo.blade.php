@@ -16,12 +16,12 @@
                                     <div class="form-group row">
                                         <label for="cantidad" class="col-md-3 col-form-label text-md-right">Saldo: $</label>
                                         <div class="col-md-7">
-                                            <input type="text" class="form-control" id="cantidad" name="cantidad" value="{{$saldo->fecha == $date ? $saldo->saldo_actual : 'No se ha ingresado un fondo' }}" disabled >
+                                            <input type="text" class="form-control" id="cantidad" name="cantidad" value="{{ empty($saldo->fecha) ? 'No se ha ingresado un fondo' : $saldo->fecha == $date ? empty($saldo->saldo_actual) ? 'No se ha ingresado un fondo' : $saldo->saldo_actual : 'No se ha ingresado un fondo' }}" disabled >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    
+
                                 </div>
                             </form>
                         </div>

@@ -3,6 +3,12 @@
   @if (Auth::user()->rol == 1)
       <div class="container">
           @include('alerts.success')
+          <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
+            <form class="form-inline" action="#" method="get">
+              <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar producto">
+              {{ $productos->links() }}
+            </form>
+          </nav>
           <table class="table text-center table-responsive-sm">
               <thead class="thead-dark">
                   <tr>
@@ -36,44 +42,44 @@
                                   <a href="{{ route('producto.edit', $producto->id_producto) }}" class="btn btn-outline-info">Editar</a>
                               </td>
                               <td>
-                                  <form method="post" action="/producto/{{ $producto->id_producto }}" >
+                                  <button type="button" class="{{ $producto->estatus==1 ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-toggle="modal" data-target="#ModalDelete{{$producto->id_producto}}">{{ $producto->estatus == 1 ? _('Baja') : _('Alta') }}</button>
+                                  <form method="post" action="/producto/{{ $producto->id_producto }}">
                                       @csrf
                                       @method('DELETE')
-                                      <button type="button" class="{{ $producto->estatus==1 ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-toggle="modal" data-target="#ModalDelete{{$producto->id_producto}}">{{ $producto->estatus == 1 ? _('Baja') : _('Alta') }}</button>
                                       <div class="modal fade" id="ModalDelete{{$producto->id_producto}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                                           <div class="modal-dialog" role="document">
                                               <div class="modal-content">
                                                   <div class="modal-header">
-                                                      <h5 class="modal-title" id="ModalLabel">Alerta!</h5>
+                                                      <h5 class="modal-title" id="ModalLabel">{{ '¡Alerta!' }}</h5>
                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                           <span aria-hidden="true">&times;</span>
                                                       </button>
                                                   </div>
                                                   <div class="modal-body">
-                                                      <h3>{{ $producto->estatus==1 ? 'Desea dar de baja el producto?' : 'Desea dar de alta el producto?' }}</h3>
+                                                      <h3>{{ $producto->estatus==1 ? '¿Desea dar de baja el producto?' : '¿Desea dar de alta el producto?' }}</h3>
                                                   </div>
                                                   <div class="modal-footer">
-                                                          <!--<a class="btn btn-outline-primary" href="">Aceptar</button>-->
-                                                          <button type="submit" class="btn btn-outline-primary">Aceptar</button>
-                                                          <button type='button' class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                                                      <button type="submit" class="btn btn-outline-primary">{{ 'Aceptar' }}</button>
+                                                      <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{ 'Cancelar' }}</button>
                                                   </div>
                                               </div>
                                           </div>
                                       </div>
                                   </form>
-                  						</td>
+                              </td>
                           </tr>
 
                       @endforeach
 
                   @else
                       <tr>
-                          <td colspan="8"><h3>No hay registros!!</h3></td>
+                          <td colspan="11"><h3>{{ 'No hay registros de productos.' }}</h3></td>
                       </tr>
                   @endif
 
               </tbody>
           </table>
+          <hr>
 
       </div>
   @else
@@ -105,4 +111,27 @@
           </div>
       </div>
   @endif
+@endsection
+@section('script')
+  <script>
+    $(document).ready(function(){
+      $('#buscar').keyup(function(){
+        buscar();
+      });
+    });
+    function buscar(){
+      var $buscar=$("#buscar").val();
+      $.ajax({
+        type: 'get',
+        url: '{{ route('buscarP') }}',
+        data: {'buscar':$buscar},
+        success:function(data){
+          $('tbody').html(data);
+        }
+      });
+    }
+  </script>
+  <script type="text/javascript">
+    $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });
+  </script>
 @endsection

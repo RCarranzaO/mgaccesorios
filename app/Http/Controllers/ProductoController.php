@@ -3,7 +3,7 @@
 namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 use mgaccesorios\Producto;
 use mgaccesorios\Usuario;
 
@@ -25,9 +25,98 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
+
+        $productos = DB::table('producto')
+            ->paginate(10);
 
         return view('producto.producto', compact('productos'));
+    }
+
+    public function buscarP(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $result = "";
+
+            if ($request->buscar != "") {
+
+                $productos = DB::table('producto')
+                    ->orderBy('producto.id_producto')
+                    ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.color', 'like', '%'.$request->buscar.'%')
+                    ->paginate(10);
+
+            }elseif ($request->buscar == "") {
+                $productos = DB::table('producto')
+                    ->paginate(10);
+            }
+            $estado = "";
+            $clase = "";
+            $estado2 = "";
+            $cambiar = "";
+            if ($productos->count()) {
+                foreach ($productos as $producto) {
+                    if ($producto->estatus == 1) {
+                        $estado = "Activo";
+                        $clase = "btn btn-outline-danger";
+                        $estado2 = "Baja";
+                        $cambiar = "¿Desea dar de baja el producto?";
+                    } else {
+                        $estado = "Inactivo";
+                        $clase = "btn btn-outline-success";
+                        $estado2 = "Alta";
+                        $cambiar = "¿Desea dar de alta el producto?";
+                    }
+                    $result.= '<tr>'.
+                        '<td>'.$producto->referencia.'</td>'.
+                        '<td>'.$producto->categoria_producto.'</td>'.
+                        '<td>'.$producto->tipo_producto.'</td>'.
+                        '<td>'.$producto->marca.'</td>'.
+                        '<td>'.$producto->modelo.'</td>'.
+                        '<td>'.$producto->color.'</td>'.
+                        '<td>'.$producto->precio_compra.'</td>'.
+                        '<td>'.$producto->precio_venta.'</td>'.
+                        '<td>'.$estado.'</td>'.
+                        '<td><a href="'.route("producto.edit", $producto->id_producto).'" class="btn btn-outline-info">Editar</a></td>'.
+                        '<td><button type="button" class="'.$clase.'" data-toggle="modal" data-target="#ModalDelete'.$producto->id_producto.'">'.$estado2.'</button>'.
+                            '<form method="post" action="/producto/'.$producto->id_producto.'">'.
+                                '<input type="hidden" name="_token" value="'.csrf_token().'">'.
+                                '<input type="hidden" name="_method" value="DELETE">'.
+                                '<div class="modal fade" id="ModalDelete'.$producto->id_producto.'" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">'.
+                                    '<div class="modal-dialog" role="document">'.
+                                        '<div class="modal-content">'.
+                                            '<div class="modal-header">'.
+                                                '<h5 lass="modal-title" id="ModalLabel">¡Alerta!</h5>'.
+                                                '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'.
+                                                    '<span aria-hidden="true">&times;</span>'.
+                                                '</button>'.
+                                            '</div>'.
+                                            '<div class="modal-body">'.
+                                                '<h3>'.$cambiar.'</h3>'.
+                                            '</div>'.
+                                            '<div class="modal-footer">'.
+                                                '<button type="submit" class="btn btn-outline-primary">Aceptar</button>'.
+                                                '<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>'.
+                                            '</div>'.
+                                        '</div>'.
+                                    '</div>'.
+                                '</div>'.
+                            '</form>'.
+                        '</td>'.
+                        '</tr>';
+                }
+                return Response($result);
+            }else{
+                $result .= '<tr>'.
+                    '<td colspan="11"><h3>No hay registros de productos.</h3></td>'.
+                    '</tr>';
+                return Response($result);
+            }
+        }
     }
 
     /**
@@ -137,11 +226,12 @@ class ProductoController extends Controller
      * Si el valor del estatus es de 0, el estatus del producto es Inactivo.
      * @param El parámetro utilizado es $id, con Producto::find($id) se realiza el cambio de estatus del producto cuyo id está relacionado con el botón para cambio de estatus. Cada botón está relacionado con el id de la misma fila en el cual está puesto.
      * @return Al hacer click en el botón cunado este dice Baja, el estatus es cambiado de Activo a Inactivo, indicando que el producto no puede ser utilizado para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producto ha sido dado de baja.
-     * Al hacer click en el botón cuando dice Alta, el estatus es cambiado de Inactivo a Activo, indicando que el producto se encuentra de nuevo disponible para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producoto ha sido dado de alta.
+     * Al hacer click en el botón cuando dice Alta, el estatus es cambiado de Inactivo a Activo, indicando que el producto se encuentra de nuevo disponible para su compra o venta. Se mostrará un mensaje de confirmación indicando que el producto ha sido dado de alta.
      */
     public function destroy($id)
     {
         $producto = Producto::find($id);
+
 
         if ($producto->estatus == 1) {
             $producto->estatus = 0;
@@ -152,7 +242,7 @@ class ProductoController extends Controller
             $producto->save();
             return redirect()->route('producto.index')->with('success', 'Porducto dado de alta');
         }
-
+    
     }
 
 }
