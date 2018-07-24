@@ -4,8 +4,8 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
 use mgaccesorios\Cuenta;
@@ -13,6 +13,7 @@ use mgaccesorios\Cobro;
 use mgaccesorios\Fondo;
 use mgaccesorios\DetalleAlmacen;
 use Carbon\Carbon;
+use Session;
 
 class VentaController extends Controller
 {
@@ -54,27 +55,9 @@ class VentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $user = \Auth::user();
-        $date = Carbon::now();
-        $total = 0;
-        if ($request->ajax()) {
-            $cobro = Cobro::all()->where('id_venta', $request->id);
-            $ventas = DB::table('cuenta')
-                ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
-                ->join('cobro', 'cuenta.id_venta', '=', 'cobro.id_venta')
-                ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
-                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
-                ->where('cuenta.id_venta', $request->id)
-                ->get();
-            $total = count($ventas);
-            $pdf = PDF::loadView('venta.ticket', compact('ventas', 'date', 'cobro', 'total', 'user'));
 
-        }
-        return $pdf->download('ticket.pdf');
     }
 
     /**
@@ -85,6 +68,7 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
+        Session::flash('id', $request->id);
         if ($request->ajax()) {
             $cuentas = Cuenta::all()->where('id_venta', $request->id);
             $almacenes = DetalleAlmacen::all();
@@ -290,6 +274,32 @@ class VentaController extends Controller
                           '</tr>';
                 return Response($result);
             }
+        }
+    }
+    public function ticket()
+    {
+        header('Content-Type: application/pdf;');
+        header('Content-Disposition: attachment; filename="ticketpdf.pdf"');
+        $id = Session::get('id');
+        $user = \Auth::user();
+        $date = Carbon::now();
+        $total = 0;
+        if ($id) {
+            $cobro = Cobro::all()->where('id_venta', $id);
+            $ventas = DB::table('cuenta')
+                ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
+                ->join('cobro', 'cuenta.id_venta', '=', 'cobro.id_venta')
+                ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
+                ->where('cuenta.id_venta', $id)
+                ->get();
+            $total = count($ventas);
+            $pdf = PDF::loadView('venta.ticket', compact('ventas', 'date', 'cobro', 'total', 'user'));
+            dd($id);
+            return $pdf->download('ticketpdf.pdf');
+            //return view('venta.ticket', compact('ventas', 'date', 'cobro', 'total', 'user'));
         }
     }
 }

@@ -75,6 +75,7 @@ Route::resource('/salidasesp', 'SalidasespController');
 Route::resource('/traspaso', 'TraspasoController');
 Route::resource('/venta', 'VentaController');
 Route::get('/cart', 'VentaController@cart_temp')->name('cart');
+Route::get('/ticket', 'VentaController@ticket')->name('ticket');
 Route::resource('/devolucion', 'DevolucionesController');
 
 

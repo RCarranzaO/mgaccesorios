@@ -28,7 +28,7 @@
                                                 @if (empty($venta->estatus))
                                                     <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
                                                 @elseif ($venta->estatus == 1)
-                                                    <button type="button" class="btn btn-outline-success pull-right" onclick="imprimir({{ $venta->id_venta }})" name="button"><i class="fa fa-print"></i> Imprimir ticket</button>
+                                                    <a href="{{ route('ticket') }}" class="btn btn-outline-success pull-right" ><i class="fa fa-print"></i> Imprimir ticket</a>
                                                 @else
                                                     <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
                                                 @endif
@@ -255,11 +255,12 @@
     </script>
     <script>
         function imprimir(id) {
-            var _token = $('input[name=_token]').val();
+            //var _token = $('input[name=_token]').val();
+            console.log(id);
             $.ajax({
-                url: '/venta/create',
+                url: '{{ route('ticket') }}',
                 type: 'get',
-                data: {'id':id, '_token':_token},
+                data: {'id':id},
                 success:function(data){
                     console.log('imprimiendo...');
                 }
