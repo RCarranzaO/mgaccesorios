@@ -15,7 +15,7 @@
                                 @endif
                             @endforeach
                         </select>
-                        <a id="pdf" class="btn btn-outline-primary">{{ 'Descargar productos en PDF' }}</a>
+                        <button id="btnpdf" onclick="pdf()" type="button" class="btn btn-outline-primary">{{ 'Descargar productos en PDF' }}</button>
                     @else
                         <select id="buscador" class="form-control mr-sm-2" name="buscador">
                             @foreach ($sucursales as $sucursal)
@@ -94,9 +94,7 @@
             $('#buscador').click(function(){
                 buscar();
             });
-            $('#pdf').click(function(){
-                pdf();
-            });
+            
         });
         function buscar(){
             var $buscador=$("#buscador").val();
@@ -107,18 +105,6 @@
                 data: {'buscar':$buscar, 'buscador':$buscador},
                 success:function(data){
                     $('tbody').html(data);
-                }
-            });
-        }
-        function pdf(){
-            var $buscador=$("#buscador").val();
-            var $buscar=$("#buscar").val();
-            $.ajax({
-                type: 'get',
-                url: '{{ route('almacen.pdf') }}',
-                data: {'buscar':$buscar, 'buscador':$buscador},
-                success:function(data){
-                    
                 }
             });
         }
@@ -161,6 +147,20 @@
             }
         }
         
+    </script>
+    <script>
+        function pdf(){
+            var buscador=$("#buscador").val();
+            var buscar=$("#buscar").val();
+            $.ajax({
+                type: 'get',
+                url: '{{ route('almacen.pdf') }}',
+                data: {'buscar':buscar, 'buscador':buscador},
+                success:function(data){
+
+                }
+            });
+        }
     </script>
     <script type="text/javascript">
         $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });
