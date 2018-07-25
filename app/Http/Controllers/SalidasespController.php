@@ -14,7 +14,7 @@ use mgaccesorios\SalidaEsp;
 
 class SalidasespController extends Controller
 {
-    
+
     /**
      * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
      * @return
@@ -31,7 +31,7 @@ class SalidasespController extends Controller
     public function index()
     {
         $usuario = \Auth::user();
-
+        $sucursal = Sucursal::find($usuario->id_sucursal);
         //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
         $salidas = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
@@ -41,8 +41,7 @@ class SalidasespController extends Controller
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
         //dd($salidas);
-        $sucursales = Sucursal::all();
-        return view('salidas.salidaesp', compact('sucursales', 'salidas'));
+        return view('salidas.salidaesp', compact('sucursal', 'salidas'));
     }
 
     public function buscarS(Request $request)

@@ -27,17 +27,17 @@ class TraspasoController extends Controller
     public function index()
     {
         $usuario = \Auth::user();
-
+        $sucursal = Sucursal::find($usuario->id_sucursal);
         //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
         $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal', 'sucursales.nombre_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
         //dd($salidas);
 
-        return view('traspaso.traspaso', compact('traspasos'));
+        return view('traspaso.traspaso', compact('traspasos', 'sucursal'));
     }
 
     public function buscarT(Request $request)

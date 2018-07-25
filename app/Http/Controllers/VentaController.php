@@ -34,6 +34,7 @@ class VentaController extends Controller
         $sucursales = Sucursal::all();
         $date = Carbon::now()->toDateString();
         $user = \Auth::user();
+        $total = 0;
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -41,12 +42,23 @@ class VentaController extends Controller
             ->orderBy('detallealmacen.id_detallea')
             ->where('detallealmacen.id_sucursal', $user->id_sucursal)
             ->get();
+        if ($venta->estatus == NULL) {
+            $cuentas = DB::table('cuenta')
+                ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                ->where('cuenta.id_venta', $venta->id_venta)
+                ->get();
+            foreach ($cuentas as $cuenta) {
+                $total = $total + $cuenta->precio;
+            }
+        }
         if (empty($fondo->fecha)) {
             return view('fondo.fondo', compact('fondo', 'user'));
-        } elseif($fondo->fecha != $date) {
+        } elseif ($fondo->fecha != $date) {
             return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } else {
-            return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
+            return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos', 'cuentas', 'total'));
         }
     }
 
@@ -130,7 +142,7 @@ class VentaController extends Controller
             foreach ($cuentas as $cart) {
                 $result.= '<tr>'.
                           '   <td>'.$cart->referencia.'</td>'.
-                          '   <td class="text-center">'.$cart->cantidad.'</td>'.
+                          '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                           '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                           '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                           '   <td>$'.number_format($cart->precio, 2).'</td>'.
@@ -178,11 +190,28 @@ class VentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $cuenta = Cuenta::find($id);
+        $result = '';
+        if ($request->ajax()) {
+            if ($request->cantidad < $cuenta->cantidad && $request->cantidad > 0) {
+                $cuenta->cantidad = $cuenta->cantidad - $request->cantidad;
+                $cuenta->precio = $cuenta->precio - (($cuenta->precio/$cueta->cantidad)*$request->cantidad);
+                $cuenta->save();
+            } elseif ($request->cantidad == $cuenta->cantidad) {
+                $cuenta->delete();
+            } elseif ($request->cantidad > $cuenta->cantidad) {
+                $result .= '<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                Existencias insufcientes!
+                            </div>';
+                return Response($result);
+            }
+        }
         //dd($cuenta);
-        $cuenta->delete();
         return Response($cuenta);
     }
 
@@ -257,7 +286,7 @@ class VentaController extends Controller
                 foreach ($cuentas as $cart) {
                     $result.= '<tr>'.
                               '   <td>'.$cart->referencia.'</td>'.
-                              '   <td class="text-center">'.$cart->cantidad.'</td>'.
+                              '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.

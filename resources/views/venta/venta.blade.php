@@ -93,7 +93,23 @@
                                     @csrf
                                 </thead>
                                 <tbody id="carrito">
-
+                                    @if ($venta->estatus == NULL)
+                                        @foreach ($cuentas as $cuenta)
+                                            <tr>
+                                                <td>{{ $cuenta->referencia }}</td>
+                                                <td class="text-center"><input type="number" id="cantidad_{{ $cuenta->id_cuenta }}" class="text-center" style="width:50px" value="{{ $cuenta->cantidad }}"></td>
+                                                <td>{{ $cuenta->categoria_producto }}, {{ $cuenta->tipo_producto }}, {{ $cuenta->marca }}, {{ $cuenta->modelo }}, {{ $cuenta->color }}</td>
+                                                <td>${{ number_format($cuenta->precio_venta, 2) }}</td>
+                                                <td>${{ number_format($cuenta->precio, 2) }}</td>
+                                                <td><a href="#" class="" onclick="eliminar({{ $cuenta->id_cuenta }})"><i class="fa fa-trash"></i></a></td>
+                                            </tr>
+                                        @endforeach
+                                            <tr>
+                                                <td colspan="4">Neto $</td>
+                                                <td>{{ number_format($total, 2 ) }}</td>
+                                                <td></td>
+                                            </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -155,7 +171,6 @@
                                                         <td colspan="8"><h3>No hay registros!!</h3></td>
                                                     </tr>
                                                 @endif
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -204,6 +219,7 @@
                 type: 'post',
                 data: {'id':id, '_token':_token},
                 success:function(data){
+                    location.href = "{{ route('venta.index') }}"
                     //console.log('Venta realizada correctamente');
                 }
             });
@@ -233,12 +249,12 @@
         function eliminar(id) {
           console.log('eliminar');
             var _token = $('input[name=_token]').val();
-            //var id = id;
+            var cantidad = $('#cantidad_'+id).val();
             console.log(id);
             $.ajax({
                 url: '/venta/'+id,
                 type: 'DELETE',
-                data: {'id':id, '_token':_token},
+                data: {'id':id, 'cantidad':cantidad, '_token':_token},
                 success:function(data){
                     $.ajax({
                         url: '/venta/'+1,
