@@ -32,9 +32,12 @@ class VentaController extends Controller
         $venta = $ventas->last();
         $fondo = Fondo::all()->last();
         $sucursales = Sucursal::all();
-        $date = Carbon::now()->toDateString();
+        $date = Carbon::now();
+        $fecha = $date->toDateString();
         $user = \Auth::user();
         $total = 0;
+        $articulos = 0;
+        $cobro = Cobro::all()->where('id_venta', $venta->id_venta);
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -42,6 +45,18 @@ class VentaController extends Controller
             ->orderBy('detallealmacen.id_detallea')
             ->where('detallealmacen.id_sucursal', $user->id_sucursal)
             ->get();
+        $ventas = DB::table('cuenta')
+            ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
+            ->join('cobro', 'cuenta.id_venta', '=', 'cobro.id_venta')
+            ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
+            ->where('cuenta.id_venta', $venta->id_venta)
+            ->get();
+        foreach ($ventas as $vent) {
+            $articulos = $articulos+$vent->cantidad;
+        }
         if ($venta->estatus == NULL) {
             $cuentas = DB::table('cuenta')
                 ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
@@ -55,10 +70,10 @@ class VentaController extends Controller
         }
         if (empty($fondo->fecha)) {
             return view('fondo.fondo', compact('fondo', 'user'));
-        } elseif ($fondo->fecha != $date) {
+        } elseif ($fondo->fecha != $fecha) {
             return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } else {
-            return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos', 'cuentas', 'total'));
+            return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos', 'cuentas', 'articulos', 'ventas', 'cobro', 'total', 'date'));
         }
     }
 

@@ -18,17 +18,17 @@
                                         <div class="col-md-6">
                                             <h3 class="card-title">Detalles de la Venta</h3>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="text-right">
                                                 <button type="button" class="btn btn-outline-secondary pull-right" onclick="store({{ empty($venta->id_venta) ? 1 : $venta->id_venta }})" name="check"><i class="fa fa-check"></i>Realizar venta</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="text-right">
                                                 @if (empty($venta->estatus))
                                                     <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
                                                 @elseif ($venta->estatus == 1)
-                                                    <a href="{{ route('ticket') }}" class="btn btn-outline-success pull-right" ><i class="fa fa-print"></i> Imprimir ticket</a>
+                                                    <button type="button" class="btn btn-outline-success pull-right" data-toggle="modal" data-target="#ModalImprimir"><i class="fa fa-print"></i> Imprimir ticket</button>
                                                 @else
                                                     <button type="button" class="btn btn-outline-success pull-right" name="button" disabled><i class="fa fa-print"></i> Imprimir ticket</button>
                                                 @endif
@@ -173,6 +173,79 @@
                                                 @endif
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ModalImprimir" class="modal fade" style="text-align: center; align-content: center;" tabindex="-1" role="dialog" aria-labelledby="myModalLabelImprimir" aria-hidden="true">
+                            <div class="modal-dialog modal-lsm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabelImprimir">Ticket de venta</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center" style="align-content: center">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="card" style="width: 300px; max-width: 300px; border: 1px solid black;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title" style="text-align: center; align-content: center;">
+                                                                TICKET DE VENTA
+                                                            </h5>
+                                                            <p style="text-align: center; align-content: center;">
+                                                              Mérida, Yucatán<br>
+                                                              {{ $date }}<br>
+                                                              cajero: {{ $user->username }}
+                                                            </p>
+                                                            @foreach ($cobro as $cobrar)
+                                                                N° venta: {{ $cobrar->id_venta }}
+                                                            @endforeach
+                                                            <table style="border-top: 1px solid black; border-collapse: collapse;">
+                                                                <thead>
+                                                                    <tr style="border-top: 1px solid black; border-collapse: collapse;">
+                                                                        <th style="width: 100px; max-width: 100px; word-break: break-all;">Cantidad </th>
+                                                                        <th style="width: 100px; max-width: 100px;">Descripcion </th>
+                                                                        <th style="width: 100px; max-width: 100px; word-break: break-all;">Importe </th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody>
+                                                                    @foreach ($ventas as $venta)
+                                                                        <tr style="border-top: 1px solid black; border-collapse: collapse;">
+                                                                            <td style="border-top: 1px solid black; border-collapse: collapse;
+                                                                            width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->cantidad }}</td>
+                                                                            <td style="border-top: 1px solid black; border-collapse: collapse;
+                                                                            width: 100px; max-width: 100px;">{{ $venta->categoria_producto }} {{ $venta->tipo_producto }} {{ $venta->marca }}</td>
+                                                                            <td style="border-top: 1px solid black; border-collapse: collapse;
+                                                                            width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->precio }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                    <tr style="border-top: 1px solid black; border-collapse: collapse;">
+                                                                        <td colspan="2" style="border-top: 1px solid black; border-collapse: collapse;
+                                                                        width: 100px; max-width: 100px;">No. de articulos</td>
+                                                                        <td style="border-top: 1px solid black; border-collapse: collapse;
+                                                                        width: 100px; max-width: 100px; word-break: break-all;">{{ $articulos }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="2" style="width: 100px; max-width: 100px;">Total</td>
+                                                                        <td style="width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->monto_total }}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <p style="text-align: center; align-content: center;">GRACIAS POR SU COMPRA!!<br>MgAccesorios</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{{ route('ticket') }}" class="btn btn-outline-success">Imprimir</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,80 +1,70 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
     <head>
-      <meta charset="utf-8">
-      <title>Mg Accesorios</title>
-      <style>
-
-          td.producto, th.producto {
-              width: 75px;
-              max-width: 75px;
-          }
-
-          td.cantidad, th.cantidad {
-              width: 40px;
-              max-width: 40px;
-              word-break: break-all;
-          }
-
-          td.precio, th.precio {
-              width: 40px;
-              max-width: 40px;
-              word-break: break-all;
-          }
-      </style>
+        <meta charset="utf-8">
+        <title>Mg Accesorios</title>
+        <!--Script-->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/jquery/jquery-3.3.1.min.js" charset="utf-8"></script>
+        <!--Style-->
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     </head>
     <body>
-        <div class="card" style="width: 250px; max-width: 250px; border: 1px solid black;">
-            <div class="card-body">
-                <h5 class="card-title" style="text-align: center; align-content: center;">
-                    TICKET DE VENTA
-                </h5>
-                <p style="text-align: center; align-content: center;">
-                  Mérida, Yucatán<br>
-                  {{ $date }}<br>
-                  cajero: {{ $user->username }}
-                </p>
-                @foreach ($cobro as $cobrar)
-                    N° venta: {{ $cobrar->id_venta }}
-                @endforeach
-                <table style="border-top: 1px solid black;
-                border-collapse: collapse;">
-                    <thead>
-                        <tr style="border-top: 1px solid black;
-                        border-collapse: collapse;">
-                            <th class="cantidad">Cantidad </th>
-                            <th class="producto">Descripcion </th>
-                            <th class="precio">Importe </th>
-                        </tr>
-                    </thead>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-6">
+                    <div class="card" style="width: 300px; max-width: 300px; border: 1px solid black;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="text-align: center; align-content: center;">
+                                TICKET DE VENTA
+                            </h5>
+                            <p style="text-align: center; align-content: center;">
+                              Mérida, Yucatán<br>
+                              {{ $date }}<br>
+                              cajero: {{ $user->username }}
+                            </p>
+                            @foreach ($cobro as $cobrar)
+                                N° venta: {{ $cobrar->id_venta }}
+                            @endforeach
+                            <table style="border-top: 1px solid black; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="border-top: 1px solid black; border-collapse: collapse;">
+                                        <th style="width: 100px; max-width: 100px; word-break: break-all;">Cantidad </th>
+                                        <th style="width: 100px; max-width: 100px;">Descripcion </th>
+                                        <th style="width: 100px; max-width: 100px; word-break: break-all;">Importe </th>
+                                    </tr>
+                                </thead>
 
-                    <tbody>
-                        @foreach ($ventas as $venta)
-                            <tr style="border-top: 1px solid black;
-                            border-collapse: collapse;">
-                                <td class="cantidad" style="border-top: 1px solid black;
-                                border-collapse: collapse;">{{ $venta->cantidad }}</td>
-                                <td class="producto" style="border-top: 1px solid black;
-                                border-collapse: collapse;">{{ $venta->categoria_producto }} {{ $venta->tipo_producto }} {{ $venta->marca }}</td>
-                                <td class="precio" style="border-top: 1px solid black;
-                                border-collapse: collapse;">{{ $venta->precio }}</td>
-                            </tr>
-                        @endforeach
-                        <tr style="border-top: 1px solid black;
-                        border-collapse: collapse;">
-                            <td colspan="2" class="producto" style="border-top: 1px solid black;
-                            border-collapse: collapse;">No. de articulos</td>
-                            <td class="precio" style="border-top: 1px solid black;
-                            border-collapse: collapse;">{{ $total }}</td>
-                        </tr>
-                        <tr>
-                            <td class="cantidad"></td>
-                            <td class="producto">Total</td>
-                            <td class="precio">{{ $venta->monto_total }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="text-align: center; align-content: center;">GRACIAS POR SU COMPRA!!<br>MgAccesorios</p>
+                                <tbody>
+                                    @foreach ($ventas as $venta)
+                                        <tr style="border-top: 1px solid black; border-collapse: collapse;">
+                                            <td style="border-top: 1px solid black; border-collapse: collapse;
+                                            width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->cantidad }}</td>
+                                            <td style="border-top: 1px solid black; border-collapse: collapse;
+                                            width: 100px; max-width: 100px;">{{ $venta->categoria_producto }} {{ $venta->tipo_producto }} {{ $venta->marca }}</td>
+                                            <td style="border-top: 1px solid black; border-collapse: collapse;
+                                            width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->precio }}</td>
+                                        </tr>
+                                    @endforeach
+                                    <tr style="border-top: 1px solid black; border-collapse: collapse;">
+                                        <td colspan="2" style="border-top: 1px solid black; border-collapse: collapse;
+                                        width: 100px; max-width: 100px;">No. de articulos</td>
+                                        <td style="border-top: 1px solid black; border-collapse: collapse;
+                                        width: 100px; max-width: 100px; word-break: break-all;">{{ $total }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="width: 100px; max-width: 100px;">Total</td>
+                                        <td style="width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->monto_total }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p style="text-align: center; align-content: center;">GRACIAS POR SU COMPRA!!<br>MgAccesorios</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
