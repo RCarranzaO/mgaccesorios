@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-  @include('alerts.success')
+@include('alerts.success')
 <div class="flex-center position-ref full-height">
     <div class="row justify-content-center">
         <div class="col-md-8">
