@@ -129,18 +129,105 @@ class ReportesController extends Controller
         }
     }
 
-    public function pdf()
+    public function pdf(Request $request)
     {
 
-        $productos = DB::table('detallealmacen')
-            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
-            ->get();
-        $fecha = date('Y-m-d');
+        if ($request->ajax()) {
 
-        $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+            $fecha = date('Y-m-d');
+            $user = \Auth::user();
+            $result = "";
 
-        return $pdf->download('inventario_'.$fecha.'.pdf');
+            if ($request->buscador == "0" && $request->buscar == "" && $user->rol == "1") {
+
+                $productos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                    ->get();
+                $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+                return $pdf->download('inventario_'.$fecha.'.pdf');
+            }elseif ($request->buscador == "0" && $request->buscar != "" && $user->rol == "1") {
+
+                $productos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                    ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('producto.color', 'like', '%'.$request->buscar.'%')
+                    ->get();
+                $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+                return $pdf->download('inventario_'.$fecha.'.pdf');
+            }elseif ($request->buscador != "0" && $request->buscar == "") {
+
+                $productos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                    ->where('sucursales.id_sucursal', '=', $request->buscador)
+                    ->get();
+                $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+                return $pdf->download('inventario_'.$fecha.'.pdf');
+            }elseif ($request->buscador != "0" && $request->buscar != "") {
+
+                $productos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                    ->orderBy('detallealmacen.id_detallea')
+                    ->where('sucursales.id_sucursal', '=', $request->buscador)
+                    ->where(function ($query) use ($request){
+                        $query->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
+                    })
+                    ->get();
+                $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+                return $pdf->download('inventario_'.$fecha.'.pdf');
+            }
+            if ($productos->count()) {
+
+                $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+                return $pdf->download('inventario_'.$fecha.'.pdf');
+                /*
+                foreach ($productos as $producto) {
+                    if ($producto->estatus != 0) {
+                        $result.= '<tr>'.
+                            '<td>'.$producto->referencia.'</td>'.
+                            '<td>'.$producto->categoria_producto.'</td>'.
+                            '<td>'.$producto->tipo_producto.'</td>'.
+                            '<td>'.$producto->marca.'</td>'.
+                            '<td>'.$producto->modelo.'</td>'.
+                            '<td>'.$producto->color.'</td>'.
+                            '<td class="text-left">'.$producto->nombre_sucursal.'</td>'.
+                            '<td>'.$producto->existencia.'</td>'.
+                            '<td class="text-right">$'.number_format($producto->precio_venta, 2).'</td>'.
+                            '<td class="text-right">$'.number_format($producto->precio_venta*$producto->existencia, 2).'</td>'.
+                            '</tr>';
+                    }elseif($producto->estatus == 0){
+                        $result .= '<p class="card-title texte-center">El producto esta dado de baja</p>';
+                        break;
+                    }
+                }
+                */
+                //return Response($result);
+                
+                //$fecha = date('Y-m-d');
+                //return view('reportes.inventariopdf', compact('productos', 'fecha'));
+                //$pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
+                //return $pdf->download('inventario_'.$fecha.'.pdf');
+            }else{
+
+            }
+
+        }
+        
     }
 }
