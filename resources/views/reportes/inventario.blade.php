@@ -5,6 +5,7 @@
             @include('alerts.success')
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
                 <form method="get" class="form-inline" action="{{ route('almacen.pdf') }}">
+                    @csrf
                     <input type="text" name="buscar" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar">
                     @if (Auth::user()->rol == 1)
                         <select name="buscador" id="buscador" class="form-control mr-sm-2" name="buscador">
