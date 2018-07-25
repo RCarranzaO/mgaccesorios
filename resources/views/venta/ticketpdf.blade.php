@@ -24,7 +24,7 @@
       </style>
     </head>
     <body>
-        <div class="card" style="width: 155px; max-width: 155px;">
+        <div class="card" style="width: 250px; max-width: 250px; border: 1px solid black;">
             <div class="card-body">
                 <h5 class="card-title" style="text-align: center; align-content: center;">
                     TICKET DE VENTA
