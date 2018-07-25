@@ -1,3 +1,12 @@
+<?php
+    $user = \Auth::user();
+    $sucursal = DB::table('users')
+        ->join('sucursales', 'users.id_sucursal', '=', 'sucursales.id_sucursal')
+        ->select('sucursales.id_sucursal', 'sucursales.nombre_sucursal')
+        ->where('sucursales.id_sucursal', '=', $user->id_sucursal)
+        ->get();
+    //dd($sucursal);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -122,7 +131,7 @@
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                  <i class="fa fa-user"></i>  {{ Auth::user()->username }} <span class="caret"></span>
+                                  <i class="fa fa-user"></i>  {{ Auth::user()->username }} | {{ $sucursal }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
