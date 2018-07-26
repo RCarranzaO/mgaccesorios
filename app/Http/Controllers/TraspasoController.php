@@ -23,34 +23,87 @@ class TraspasoController extends Controller
     {
         $this->middleware('auth');
     }
-<<<<<<< HEAD
-    
-    /**
-     * La función index llama a los datos del usuario para registrar quien hace el traspaso d producto y llama todos los datos de la tabla detallealmacen de la sucursal donde ese usuario está registrado.
-     * @return Devuelve la vista del archivo traspaso.blade.php con la información de los productos en la sucursal donde el usuario que desea realizar el traspaso está registrado.
-     */
-=======
 
->>>>>>> 42abeff936da12846c744c7dae3b6defa14a7b01
     public function index()
     {
         $usuario = \Auth::user();
-
+        $sucursal = Sucursal::find($usuario->id_sucursal);
+        //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
         $traspasos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal', 'sucursales.nombre_sucursal')
+                    ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
+                    ->paginate(10);
+        //dd($salidas);
+
+        return view('traspaso.traspaso', compact('traspasos', 'sucursal'));
+    }
+
+    public function buscarT(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $result = "";
+            $usuario = \Auth::user();
+
+            if ($request->buscar == "") {
+                $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                     ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
-                    ->get();
-
-        return view('traspaso.traspaso', compact('traspasos'));
+                    ->paginate(10);
+            }elseif ($request->buscar != "") {
+                $traspasos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
+                    ->where(function ($query) use ($request){
+                        $query->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
+                    })
+                    ->paginate(10);
+            }
+            if ($traspasos->count()) {
+                foreach ($traspasos as $traspaso) {
+                    $result.= '<tr>'.
+                        '<td>'.$traspaso->referencia.'</td>'.
+                        '<td>'.$traspaso->categoria_producto.', '.$traspaso->tipo_producto.', '.$traspaso->marca.', '.$traspaso->modelo.', '.$traspaso->color.'</td>'.
+                        '<td>'.$traspaso->existencia.'</td>'.
+                        '<td><a href="'.route("traspaso.show", $traspaso->id_producto).'" class="btn btn-outline-info">Traspasar</a></td>'.
+                        '</tr>';
+                }
+                return Response($result);
+            }else{
+                $result .= '<tr>'.
+                    '<td colspan="8"><h3>No se encuentran registros de productos.</h3></td>'.
+                    '</tr>';
+            }
+        }
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        
+        //
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $traspaso = new Traspaso();
