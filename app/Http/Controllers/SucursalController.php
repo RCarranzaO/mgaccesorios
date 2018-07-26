@@ -18,6 +18,10 @@ class SucursalController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * La función index apunta al archivo lista.blade.php.
+     * @return Devuelve la vista de todas las sucursales registradas.
+     */
     public function index()
     {
         $sucursales = Sucursal::all();
@@ -25,9 +29,8 @@ class SucursalController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función create apunta al archivo alta.blade.php.
+     * @return Devuelve la vista con el formulario para dar de alta una nueva sucursal.
      */
     public function create()
     {
@@ -35,10 +38,9 @@ class SucursalController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * La función store valida los campos del formulario para el alta de una nueva sucursal y guarda la informaciín en la base de datos del sistema.
+     * @param Los parámetros requeridos son: nombre_sucursal, direccion, telefono y estatus. 
+     * @return Si el registro se realiza de forma correcta se despliega un mensaje confirmando que el registro se ha realizado con éxito y nos redirige a la vista home. 
      */
     public function store(Request $request)
     {
@@ -55,50 +57,29 @@ class SucursalController extends Controller
         $sucursal->estatus = $request->input('estatus');
         $sucursal->save();
 
-        //dd($sucursal);
-
         return redirect()->route('home')->with('success', 'Sucursal registrada exitosamente');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función destroy se encarga del estatus de las sucursales donde si el estatus es igual a 1, la sucursal está activa, lo cual significa que puede trabajar con normalidad.
+     * Si el estatus es igual a 0, la sucursal está inactiva, lo cual significa que dicha sucursal no puede realizar movimientos.
+     * @param El parámetro requerido es el id de la sucursal, el cual está ligado al botón Baja de cada sucursal en la lista de sucursales registradas.
+     * @return Al cambiar el estatus de la sucural, nos redirige a la misma vista del index donde podemos ver el listado de las sucursales registradas con su estatus actualizado.
      */
     public function destroy($id)
     {

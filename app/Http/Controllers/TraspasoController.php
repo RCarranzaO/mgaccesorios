@@ -24,6 +24,10 @@ class TraspasoController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * La función index llama a los datos del usuario para registrar quien hace el traspaso d producto y llama todos los datos de la tabla detallealmacen de la sucursal donde ese usuario está registrado.
+     * @return Devuelve la vista del archivo traspaso.blade.php con la información de los productos en la sucursal donde el usuario que desea realizar el traspaso está registrado.
+     */
     public function index()
     {
         $usuario = \Auth::user();
