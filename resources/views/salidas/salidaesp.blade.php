@@ -6,7 +6,6 @@
                 <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar producto">
                 {{ $salidas->links() }}
             </form>
-            <h2>{{ $sucursal->nombre_sucursal }}</h2>
         </nav>
         <div class="card">
             <div class="card-body">
