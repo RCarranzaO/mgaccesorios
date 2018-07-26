@@ -121,8 +121,11 @@
                         @else
                             <?php
                                 $user = \Auth::user();
-                                $sucursal = \Sucursal::find($user->id_sucursal);
-                                dd($sucursal);
+                                $sucursal = DB::table('sucursales')
+                                    ->join('users', 'sucursales.id_sucursal', '=', 'users.id_sucursal')
+                                    ->select('sucursales.nombre_sucursal')
+                                    ->where('sucursales.id_sucursal', '=', $user->id_sucursal)
+                                    ->first();
                             ?>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
