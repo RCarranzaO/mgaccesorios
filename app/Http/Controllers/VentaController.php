@@ -4,8 +4,8 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
 use mgaccesorios\Cuenta;
@@ -13,6 +13,7 @@ use mgaccesorios\Cobro;
 use mgaccesorios\Fondo;
 use mgaccesorios\DetalleAlmacen;
 use Carbon\Carbon;
+use Session;
 
 class VentaController extends Controller
 {
@@ -31,8 +32,12 @@ class VentaController extends Controller
         $venta = $ventas->last();
         $fondo = Fondo::all()->last();
         $sucursales = Sucursal::all();
-        $fecha = date('Y-m-d');
+        $date = Carbon::now();
+        $fecha = $date->toDateString();
         $user = \Auth::user();
+        $total = 0;
+        $articulos = 0;
+        $cobro = Cobro::all()->where('id_venta', $venta->id_venta);
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -40,12 +45,35 @@ class VentaController extends Controller
             ->orderBy('detallealmacen.id_detallea')
             ->where('detallealmacen.id_sucursal', $user->id_sucursal)
             ->get();
+        $ventas = DB::table('cuenta')
+            ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
+            ->join('cobro', 'cuenta.id_venta', '=', 'cobro.id_venta')
+            ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+            ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+            ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
+            ->where('cuenta.id_venta', $venta->id_venta)
+            ->get();
+        foreach ($ventas as $vent) {
+            $articulos = $articulos+$vent->cantidad;
+        }
+        if ($venta->estatus == NULL) {
+            $cuentas = DB::table('cuenta')
+                ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                ->where('cuenta.id_venta', $venta->id_venta)
+                ->get();
+            foreach ($cuentas as $cuenta) {
+                $total = $total + $cuenta->precio;
+            }
+        }
         if (empty($fondo->fecha)) {
             return view('fondo.fondo', compact('fondo', 'user'));
-        } elseif($fondo->fecha != $fecha) {
+        } elseif ($fondo->fecha != $fecha) {
             return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } else {
-            return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos'));
+            return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos', 'cuentas', 'articulos', 'ventas', 'cobro', 'total', 'date'));
         }
     }
 
@@ -54,27 +82,9 @@ class VentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $user = \Auth::user();
-        $date = Carbon::now();
-        $total = 0;
-        if ($request->ajax()) {
-            $cobro = Cobro::all()->where('id_venta', $request->id);
-            $ventas = DB::table('cuenta')
-                ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
-                ->join('cobro', 'cuenta.id_venta', '=', 'cobro.id_venta')
-                ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
-                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
-                ->where('cuenta.id_venta', $request->id)
-                ->get();
-            $total = count($ventas);
-            $pdf = PDF::loadView('venta.ticket', compact('ventas', 'date', 'cobro', 'total', 'user'));
 
-        }
-        return $pdf->download('ticket.pdf');
     }
 
     /**
@@ -85,6 +95,7 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->id);
         if ($request->ajax()) {
             $cuentas = Cuenta::all()->where('id_venta', $request->id);
             $almacenes = DetalleAlmacen::all();
@@ -93,7 +104,7 @@ class VentaController extends Controller
             $cobrar = new Cobro();
             $cobro = Cobro::all()->last();
             $total = 0;
-            $date = Carbon::now();
+            $date = Carbon::now()->toDateString();
             foreach ($cuentas as $cuenta) {
                 $almacen = $almacenes->where('id_detallea', $cuenta->id_detallea);
                 foreach ($almacen as $alma) {
@@ -103,16 +114,16 @@ class VentaController extends Controller
                 $total = $total + $cuenta->precio;
             }
             if (empty($cobro)) {
-              $cobrar->id_venta = $venta->id_venta;
-              $cobrar->id_user = $user->id_user;
-              $cobrar->monto_total = $total;
-              $cobrar->fecha = $date;
-              $venta->estatus = 1;
-              $cobrar->save();
-              $venta->save();
-              return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
+                $cobrar->id_venta = $request->id;
+                $cobrar->id_user = $user->id_user;
+                $cobrar->monto_total = $total;
+                $cobrar->fecha = $date;
+                $venta->estatus = 1;
+                $cobrar->save();
+                $venta->save();
+                return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
             }elseif ($cobro->id_venta != $venta->id_venta) {
-                $cobrar->id_venta = $venta->id_venta;
+                $cobrar->id_venta = $request->id;
                 $cobrar->id_user = $user->id_user;
                 $cobrar->monto_total = $total;
                 $cobrar->fecha = $date;
@@ -146,7 +157,7 @@ class VentaController extends Controller
             foreach ($cuentas as $cart) {
                 $result.= '<tr>'.
                           '   <td>'.$cart->referencia.'</td>'.
-                          '   <td class="text-center">'.$cart->cantidad.'</td>'.
+                          '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                           '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                           '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                           '   <td>$'.number_format($cart->precio, 2).'</td>'.
@@ -194,11 +205,28 @@ class VentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $cuenta = Cuenta::find($id);
+        $result = '';
+        if ($request->ajax()) {
+            if ($request->cantidad < $cuenta->cantidad && $request->cantidad > 0) {
+                $cuenta->cantidad = $cuenta->cantidad - $request->cantidad;
+                $cuenta->precio = $cuenta->precio - (($cuenta->precio/$cueta->cantidad)*$request->cantidad);
+                $cuenta->save();
+            } elseif ($request->cantidad == $cuenta->cantidad) {
+                $cuenta->delete();
+            } elseif ($request->cantidad > $cuenta->cantidad) {
+                $result .= '<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                Existencias insufcientes!
+                            </div>';
+                return Response($result);
+            }
+        }
         //dd($cuenta);
-        $cuenta->delete();
         return Response($cuenta);
     }
 
@@ -206,8 +234,9 @@ class VentaController extends Controller
     {
         $user = \Auth::user();
         $cuenta = new Cuenta();
-        $date = Carbon::now();
+        $date = Carbon::now()->toDateString();
         $ventas = Venta::all()->last();
+        $venta = new Venta();
         //dd($ventas);
         $validateData = $this->validate($request,[
             'cantidad' => 'required|numeric|min:1'
@@ -225,27 +254,24 @@ class VentaController extends Controller
             if ($carrito) {
                 if ($request->cantidad <= $carrito->existencia) {
                     if(empty($ventas)){
-                        $venta = new Venta();
                         $venta->id_sucursal = $user->id_sucursal;
                         $venta->save();
-                        $cuenta->id_venta = $ventas->id_venta;
+                        $cuenta->id_venta = $venta->id_venta;
                         $cuenta->id_detallea = $carrito->id_detallea;
                         $cuenta->cantidad = $request->cantidad;
                         $cuenta->precio = $carrito->precio_venta*$request->cantidad;
                         $cuenta->fecha = $date;
                         $cuenta->save();
-                    } elseif($ventas->estatus == NULL){
-                        $cuenta->id_venta = $ventas->id_venta;
+                    } elseif($ventas->estatus == 1){
+                        $venta->id_sucursal = $user->id_sucursal;
+                        $venta->save();
+                        $cuenta->id_venta = $venta->id_venta;
                         $cuenta->id_detallea = $carrito->id_detallea;
                         $cuenta->cantidad = $request->cantidad;
                         $cuenta->precio = $carrito->precio_venta*$request->cantidad;
                         $cuenta->fecha = $date;
                         $cuenta->save();
-                        //dd($cuenta);
-                    } elseif ($ventas->estatus == 1) {
-                        $venta = new Venta();
-                        $venta->id_sucursal = $user->id_sucursal;
-                        $venta->save();
+                    } elseif ($ventas->estatus == NULL) {
                         $cuenta->id_venta = $ventas->id_venta;
                         $cuenta->id_detallea = $carrito->id_detallea;
                         $cuenta->cantidad = $request->cantidad;
@@ -264,18 +290,18 @@ class VentaController extends Controller
                                 </div>';
                     return Response($result);
                 }
-
-
+                $venta = Venta::all()->last();
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                             ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
-                            ->where('cuenta.id_venta', $ventas->id_venta)
+                            ->where('cuenta.id_venta', $venta->id_venta)
                             ->get();
+                //dd($cuentas);
                 foreach ($cuentas as $cart) {
                     $result.= '<tr>'.
                               '   <td>'.$cart->referencia.'</td>'.
-                              '   <td class="text-center">'.$cart->cantidad.'</td>'.
+                              '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.
@@ -285,11 +311,36 @@ class VentaController extends Controller
                 }
                 $result.= '<tr>'.
                           '   <td colspan="4">Neto $</td>'.
-                          '   <td>'.number_format($total, 2 ).'</td>'.
+                          '   <td>$'.number_format($total, 2 ).'</td>'.
                           '   <td></td>'.
                           '</tr>';
                 return Response($result);
             }
+        }
+    }
+    public function ticket()
+    {
+        //header('Content-Type: application/pdf;');
+        //header('Content-Disposition: attachment; filename="ticketpdf.pdf"');
+        $venta = Venta::all()->last();
+        $user = \Auth::user();
+        $date = Carbon::now();
+        $total = 0;
+        if ($venta->id_venta) {
+            $cobro = Cobro::all()->where('id_venta', $venta->id_venta);
+            $ventas = DB::table('cuenta')
+                ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
+                ->join('cobro', 'cuenta.id_venta', '=', 'cobro.id_venta')
+                ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
+                ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
+                ->where('cuenta.id_venta', $venta->id_venta)
+                ->get();
+            $total = count($ventas);
+            $pdf = PDF::loadView('venta.ticketpdf', compact('ventas', 'date', 'cobro', 'total', 'user'));
+            return $pdf->download('ticketpdf.pdf');
+            //return view('venta.ticket', compact('ventas', 'date', 'cobro', 'total', 'user'));
         }
     }
 }

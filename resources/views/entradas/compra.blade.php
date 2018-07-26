@@ -8,13 +8,13 @@
 						<div class="">
 								<div class="">
 										<div class="card">
-												<div class="card-header"><h4>Compra Producto</h4></div>
+												<div class="card-header"><h4>Ingreso existencia</h4></div>
 												<div class="card-body">
 														<form class="form-control" method="POST" action="{{ route('almacen.store') }}">
 																@csrf
 																@include('alerts.errores')
 																<div class="form-group row">
-																		<label for="referencia" class="col-md-4 col-form-label text-md-right">Referencia Producto </label>
+																		<label for="referencia" class="col-md-4 col-form-label text-md-right">Producto </label>
 																		<div class="col-md-6">
 																			<select class="form-control select-search {{ $errors->has('referencia') ? ' is-invalid' : '' }}" name="referencia" required>
 																					<option>Elija una opcion</option>
@@ -33,7 +33,7 @@
 																</div>
 
 																<div class="form-group row">
-																		<label  class="col-md-4 col-form-label text-md-right">Existencia Producto</label>
+																		<label  class="col-md-4 col-form-label text-md-right">Cantidad</label>
 																		<div class="col-md-6">
 																				<input class="form-control{{ $errors->has('existencia') ? ' is-invalid' : '' }}" type="number" min="1" name="existencia" id="existencia" placeholder="Existencia producto" required>
 																		</div>
@@ -45,7 +45,7 @@
 																</div>
 
 																<div class="form-group row">
-																		<label class="col-md-4 col-form-label text-md-right">Sucursal Producto</label>
+																		<label class="col-md-4 col-form-label text-md-right">Sucursal</label>
 																		<div class="col-md-6">
 																				<select class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
 																						<option>Elija una opcion</option>

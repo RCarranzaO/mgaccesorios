@@ -14,8 +14,8 @@
     <!--<script src="{{ asset('js/app.js') }}" defer></script>-->
     <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('bootstrap-4.1.1/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/popper/popper.min.js') }}"></script>
-    <script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>
+    <!--<script src="{{ asset('js/popper/popper.min.js') }}"></script>-->
+    <!--<script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>-->
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <!-- Ionicons -->
@@ -58,7 +58,7 @@
                             <li class="nav-item dropdown links">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">Entradas</a>
                                 <div class="dropdown-menu" aria-labelledby>
-                                    <a class="dropdown-item" href="{{ route('almacen.create') }}">Compras</a>
+                                    <a class="dropdown-item" href="{{ route('almacen.create') }}">Ingreso de existencia</a>
                                     <a class="dropdown-item" href="{{ route('devolucion.index') }}">Devoluciones</a>
                                 </div>
                             </li>
@@ -119,10 +119,17 @@
                         @guest
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesion') }}</a></li>
                         @else
-
+                            <?php
+                                $user = \Auth::user();
+                                $sucursal = DB::table('sucursales')
+                                    ->join('users', 'sucursales.id_sucursal', '=', 'users.id_sucursal')
+                                    ->select('sucursales.nombre_sucursal')
+                                    ->where('sucursales.id_sucursal', '=', $user->id_sucursal)
+                                    ->first();
+                            ?>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                  <i class="fa fa-user"></i>  {{ Auth::user()->username }} <span class="caret"></span>
+                                  <i class="fa fa-user"></i>  {{ Auth::user()->username }} | {{ $sucursal->nombre_sucursal }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

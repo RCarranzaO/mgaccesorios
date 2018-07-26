@@ -4,10 +4,11 @@
         <div class="container">
             @include('alerts.success')
             <nav class="navbar navbar-ligth bg-ligth justify-content-left ">
-                <form class="form-inline" action="#" method="get">
-                    <input type="text" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar">
+                <form method="get" class="form-inline" action="{{ route('almacen.pdf') }}">
+                    @csrf
+                    <input type="text" name="buscar" id="buscar" class="form-control mr-sm-2" name="buscar" placeholder="Buscar">
                     @if (Auth::user()->rol == 1)
-                        <select id="buscador" class="form-control mr-sm-2" name="buscador">
+                        <select name="buscador" id="buscador" class="form-control mr-sm-2" name="buscador">
                             <option value="0">{{ 'Seleccionar sucursal' }}</option>
                             @foreach ($sucursales as $sucursal)
                                 @if ($sucursal->estatus != 0)
@@ -15,7 +16,7 @@
                                 @endif
                             @endforeach
                         </select>
-                        <a href="{{ route('almacen.pdf') }}" class="btn btn-outline-primary">Descargar productos en PDF</a>
+                        <button type="submit" class="btn btn-outline-primary">{{ 'Descargar productos en PDF' }}</button>
                     @else
                         <select id="buscador" class="form-control mr-sm-2" name="buscador">
                             @foreach ($sucursales as $sucursal)
@@ -94,6 +95,7 @@
             $('#buscador').click(function(){
                 buscar();
             });
+            
         });
         function buscar(){
             var $buscador=$("#buscador").val();
@@ -146,6 +148,22 @@
             }
         }
         
+    </script>
+    <script>
+        /**
+        function pdf(){
+            var buscador=$("#buscador").val();
+            var buscar=$("#buscar").val();
+            $.ajax({
+                type: 'get',
+                url: '{{ route('almacen.pdf') }}',
+                data: {'buscar':buscar, 'buscador':buscador},
+                success:function(data){
+
+                }
+            });
+        }
+        */
     </script>
     <script type="text/javascript">
         $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });

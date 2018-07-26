@@ -80,4 +80,7 @@
   'raleway' => array(
     'normal' => $fontDir . '\c643130b9f4a7778f8739a3c72c0a643',
   ),
+  'glyphicons halflings' => array(
+    'normal' => $fontDir . '\84084681de673bb13ed942aa38763318',
+  ),
 ) ?>
