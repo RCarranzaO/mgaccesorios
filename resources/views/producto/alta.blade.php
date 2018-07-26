@@ -30,7 +30,10 @@
 																	<label for="categoria" class="col-md-4 col-form-label text-md-right">Categoria</label>
 
 																	<div class="col-md-6">
-																			<input id="categoria" type="text" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" value="{{ old('categoria') }}" required>
+																			<div class="input-group">
+																				  <input id="categoria" type="text" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" value="{{ old('categoria') }}" required>
+																					<span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-plus"></i></button></span>
+																			</div>
 
 																			@if($errors->has('categoria'))
 																					<span class="invalid-feedback">
@@ -45,8 +48,10 @@
 																	<label for="tipo" class="col-md-4 col-form-label text-md-right">Tipo</label>
 
 																	<div class="col-md-6">
-																			<input id="tipo" type="text" class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" value="{{ old('tipo') }}" required>
-
+																			<div class="input-group">
+																					<input id="tipo" type="text" class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" value="{{ old('tipo') }}" required>
+																					<span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-plus"></i></button></span>
+																			</div>
 																			@if($errors->has('tipo'))
 																					<span class="invalid-feedback">
 																							<strong>{{ $errors->first('tipo') }}</strong>
@@ -60,8 +65,10 @@
 																	<label for="marca" class="col-md-4 col-form-label text-md-right">Marca</label>
 
 																	<div class="col-md-6">
-																			<input id="marca" type="text" class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" value="{{ old('marca') }}" required>
-
+																			<div class="input-group">
+																					<input id="marca" type="text" class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" value="{{ old('marca') }}" required>
+																					<span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-plus"></i></button></span>
+																			</div>
 																			@if($errors->has('marca'))
 																					<span class="invalid-feedback">
 																							<strong>{{ $errors->first('marca') }}</strong>

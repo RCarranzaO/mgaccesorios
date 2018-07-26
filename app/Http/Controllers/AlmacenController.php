@@ -88,7 +88,7 @@ class AlmacenController extends Controller
             $almacenId->existencia = $almacenId->existencia + $request->input('existencia');
             $almacenId->save();
         }
-        return redirect()->route('reportes.index')->with('success', 'Agregado correctamente!');
+        return redirect()->route('repalmacen')->with('success', 'Agregado correctamente!');
     }
 
 
