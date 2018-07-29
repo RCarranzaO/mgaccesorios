@@ -20,7 +20,7 @@
                                             <div class="form-group row">
                                                 <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
                                                 <div class="col-md-7">
-                                                    <input type="numeric" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ $fondoId->cantidad }}" disabled placeholder="Ingrese cantidad para iniciar">
+                                                    <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ $fondoId->cantidad }}" disabled placeholder="Ingrese cantidad para iniciar">
                                                 </div>
                                             </div>
                                         </div>
@@ -36,7 +36,7 @@
                                             <div class="form-group row">
                                                 <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
                                                 <div class="col-md-7">
-                                                    <input type="numeric" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ 1000 }}" required placeholder="Ingrese cantidad para iniciar">
+                                                    <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ 1000 }}" required placeholder="Ingrese cantidad para iniciar">
                                                 </div>
                                             </div>
                                         </div>
@@ -52,7 +52,7 @@
                                         <div class="form-group row">
                                             <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
                                             <div class="col-md-7">
-                                                <input type="numeric" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ 1000 }}" required placeholder="Ingrese cantidad para iniciar">
+                                                <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ 1000 }}" required placeholder="Ingrese cantidad para iniciar">
                                             </div>
                                         </div>
                                     </div>
@@ -86,14 +86,5 @@
             </div>
         </div>
     </div>
-
-    <!--<script type="text/javascript">
-        $(document).ready(function()
-        {
-            $("#myModal").modal("show");
-        });
-    </script>-->
-
-
 
 @endsection

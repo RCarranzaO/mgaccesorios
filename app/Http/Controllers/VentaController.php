@@ -69,7 +69,7 @@ class VentaController extends Controller
             }
         }
         if (empty($fondo->fecha)) {
-            return view('fondo.fondo', compact('fondo', 'user'));
+            return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } elseif ($fondo->fecha != $fecha) {
             return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } else {
@@ -95,7 +95,6 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->id);
         if ($request->ajax()) {
             $cuentas = Cuenta::all()->where('id_venta', $request->id);
             $almacenes = DetalleAlmacen::all();
