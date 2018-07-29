@@ -37,7 +37,6 @@ class VentaController extends Controller
         $user = \Auth::user();
         $total = 0;
         $articulos = 0;
-        $cobro = Cobro::all()->where('id_venta', $venta->id_venta);
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -69,10 +68,11 @@ class VentaController extends Controller
             }
         }
         if (empty($fondo->fecha)) {
-            return view('fondo.fondo', compact('fondo', 'user'));
+            return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } elseif ($fondo->fecha != $fecha) {
             return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } else {
+            $cobro = Cobro::all()->where('id_venta', $venta->id_venta);
             return view('venta.venta', compact('sucursales', 'user', 'venta', 'productos', 'cuentas', 'articulos', 'ventas', 'cobro', 'total', 'date'));
         }
     }
@@ -95,7 +95,6 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->id);
         if ($request->ajax()) {
             $cuentas = Cuenta::all()->where('id_venta', $request->id);
             $almacenes = DetalleAlmacen::all();
