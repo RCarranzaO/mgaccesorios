@@ -32,7 +32,6 @@
 																	<div class="col-md-6">
 																			<div class="input-group">
 																				  <input id="categoria" type="text" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" value="{{ old('categoria') }}" required>
-																					<span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-plus"></i></button></span>
 																			</div>
 
 																			@if($errors->has('categoria'))
@@ -50,7 +49,6 @@
 																	<div class="col-md-6">
 																			<div class="input-group">
 																					<input id="tipo" type="text" class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" value="{{ old('tipo') }}" required>
-																					<span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-plus"></i></button></span>
 																			</div>
 																			@if($errors->has('tipo'))
 																					<span class="invalid-feedback">
@@ -67,7 +65,6 @@
 																	<div class="col-md-6">
 																			<div class="input-group">
 																					<input id="marca" type="text" class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" value="{{ old('marca') }}" required>
-																					<span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-plus"></i></button></span>
 																			</div>
 																			@if($errors->has('marca'))
 																					<span class="invalid-feedback">
