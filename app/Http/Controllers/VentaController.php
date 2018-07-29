@@ -28,8 +28,7 @@ class VentaController extends Controller
     }
     public function index()
     {
-        $ventas = Venta::all();
-        $venta = $ventas->last();
+        $venta = Venta::all()->last();
         $fondo = Fondo::all()->last();
         $sucursales = Sucursal::all();
         $date = Carbon::now();
@@ -49,7 +48,7 @@ class VentaController extends Controller
             return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
         } elseif ($fondo->fecha != $fecha) {
             return view('fondo.fondo', compact('fondo', 'user'))->with('fail', 'No se puede realizar una venta, aún no se ha ingresado un fondo');
-        } else {
+        } else if(!empty($venta)){
             $cobro = Cobro::all()->where('id_venta', $venta->id_venta);
             $ventas = DB::table('cuenta')
                 ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
