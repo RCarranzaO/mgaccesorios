@@ -114,10 +114,8 @@ class ReportesController extends Controller
                             '<td class="text-right">$'.number_format($producto->precio_venta, 2).'</td>'.
                             '<td class="text-right">$'.number_format($producto->precio_venta*$producto->existencia, 2).'</td>'.
                             '</tr>';
-                    }elseif($producto->estatus == 0){
-                        $result .= '<p class="card-title texte-center">El producto esta dado de baja</p>';
-                        break;
                     }
+                    
                 }
                 return Response($result);
             }else{
