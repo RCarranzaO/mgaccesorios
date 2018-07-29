@@ -21,14 +21,16 @@
                     <tbody>
                         @if ($traspasos->count())
                             @foreach ($traspasos as $traspaso)
-                                <tr>
-                                    <td>{{ $traspaso->referencia }}</td>
-                                    <td>{{ $traspaso->categoria_producto }}, {{ $traspaso->tipo_producto }}, {{ $traspaso->marca }}, {{ $traspaso->modelo }}, {{ $traspaso->color }}</td>
-                                    <td>{{ $traspaso->existencia }}</td>
-                                    <td>
-                                        <a href="{{ route('traspaso.show', $traspaso->id_producto) }}" class="btn btn-outline-info">{{ 'Traspasar' }}</a>
-                                    </td>
-                                </tr>
+                                @if ($traspaso->estatus == 0)
+                                    <tr>
+                                        <td>{{ $traspaso->referencia }}</td>
+                                        <td>{{ $traspaso->categoria_producto }}, {{ $traspaso->tipo_producto }}, {{ $traspaso->marca }}, {{ $traspaso->modelo }}, {{ $traspaso->color }}</td>
+                                        <td>{{ $traspaso->existencia }}</td>
+                                        <td>
+                                            <a href="{{ route('traspaso.show', $traspaso->id_producto) }}" class="btn btn-outline-info">{{ 'Traspasar' }}</a>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         @else
                             <tr>
