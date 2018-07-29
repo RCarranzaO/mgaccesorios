@@ -21,7 +21,7 @@
                     <tbody>
                         @if ($traspasos->count())
                             @foreach ($traspasos as $traspaso)
-                                @if ($traspaso->estatus == 0)
+                                @if ($traspaso->estatus == 1)
                                     <tr>
                                         <td>{{ $traspaso->referencia }}</td>
                                         <td>{{ $traspaso->categoria_producto }}, {{ $traspaso->tipo_producto }}, {{ $traspaso->marca }}, {{ $traspaso->modelo }}, {{ $traspaso->color }}</td>
