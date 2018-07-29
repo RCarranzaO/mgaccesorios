@@ -11,57 +11,86 @@
             @endif
             <div class="card">
                 <div class="card-header background-light">
-                  <h4 class="card-title">{{ 'Reporte de Ventas' }}</h4>
+                  <h4 class="card-title"><i class="fa fa-calendar"></i> {{ 'Reporte de Ventas' }}</h4>
+                  <br>
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group" id="datetimepicker1">
+                             <input type="date" name="bday" max="3000-12-31" min="1980-01-01" class="form-control">
+                             <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-group" id="datetimepicker1">
+                             <input type="date" name="bday"min="1980-01-01" max="3000-12-31" class="form-control">
+                             <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <button type="submit" class="btn btn-outline-primary">Buscar</button>
+                        </div>
+                      </div>
+                    </div>
                 </div>
                   <div class="card-body">
                     <table class="table table-bordered table-responsive-sm">
-                            <tr>
-                                <th >Ventas:</th>
-                                <td>$200.00</td>
-                            </tr>
-                            <tr>
-                                <th >Costos vendidos:</th>
-                                <td class="table-danger">$110.00</td>
-                            </tr>
-                            <tr>
-                                <th >Utilidad bruta:</th>
-                                <td>$90.00</td>
-                            </tr>
-                            <tr>
-                                <th >Gastos generales:</th>
-                                <td class="table-danger">$30.00</td>
-                            </tr>
-                            <tr>
-                                <th >Utilidad operacion:</th>
-                                <td>$60.00</td>
-                            </tr>
-                            <tr>
-                                <th >Gastos financieros:</th>
-                                <td class="table-danger">$21.00</td>
-                            </tr>
-                            <tr>
-                                <th >Utilidad antes de impuesto:</th>
-                                <td>$39.00</td>
-                            </tr>
-                            <tr>
-                                <th >Impuestos:</th>
-                                <td class="table-danger">$15.60</td>
-                            </tr>
-                            <tr>
-                                <th >Utilidad neta:</th>
-                                <td>$23.40</td>
-                            </tr>
-                            <tr>
-                                <th >Asigancion de dividendos:</th>
-                                <td class="table-danger">$10.00</td>
-                            </tr>
-                            <tr>
-                                <th >Utilidades retenidas:</th>
-                                <td>$13.40</td>
-                            </tr>
+                      <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Empleado</th>
+                            <th>Número</th>
+                            <th>Estado</th>
+                            <th>Total</th>
+                            <th>ID</th>
+                            <th>Ver</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td>Publico General</td>
+                            <td>29/07/2018</td>
+                            <td>Juan</td>
+                            <td>V000001</td>
+                            <td>Pagado</td>
+                            <td>$150.00</td>
+                            <td>1</td>
+                            <td><i class="fa fa-search"></i></td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>Publico General</td>
+                            <td>29/07/2018</td>
+                            <td>Juan</td>
+                            <td>V000002</td>
+                            <td>Pagado</td>
+                            <td>$150.00</td>
+                            <td>1</td>
+                            <td><i class="fa fa-search"></i></td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td>Publico General</td>
+                            <td>29/07/2018</td>
+                            <td>Juan</td>
+                            <td>V000003</td>
+                            <td>Pagado</td>
+                            <td>$150.00</td>
+                            <td>1</td>
+                            <td><i class="fa fa-search"></i></td>
+                          </tr>
+                          </tbody>
                       </table>
                   </div>
             </div>
         </div>
 
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
 @endsection
