@@ -13,6 +13,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col" onclick="ordenar(0)">{{ 'Referencia' }} <i class="fa fa-angle-up"></i> <i class="fa fa-angle-down"></i></th>
+                            <th scope="col">{{ 'Producto' }}</th>
                             <th scope="col">{{ 'Existencia' }}</th>
                             <th scope="col" colspan="2">{{ 'Cantidad a retirar' }}</th>
                         </tr>
@@ -22,6 +23,7 @@
                             @foreach ($salidas as $salida)
                                 <tr>
                                     <td>{{ $salida->referencia }}</td>
+                                    <td>{{ $salida->categoria_producto }} {{ $salida->tipo_producto }} {{ $salida->marca }} {{ $salida->modelo }} {{ $salida->color }}</td>
                                     <td>{{ $salida->existencia }}</td>
                                     <td>
                                         <a href="{{ route('salidasesp.show', $salida->id_producto) }}" class="btn btn-outline-info">{{ 'Retirar' }}</a>
