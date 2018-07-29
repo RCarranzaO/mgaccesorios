@@ -36,7 +36,7 @@ class TraspasoController extends Controller
         $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal', 'sucursales.nombre_sucursal')
+                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal', 'sucursales.nombre_sucursal', 'producto.estatus')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
         //dd($salidas);
