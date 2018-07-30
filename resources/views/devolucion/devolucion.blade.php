@@ -66,8 +66,14 @@
     </script>
     <script>
         function cambiar(id) {
+            var venta = $('#venta').val();
             $.ajax({
-                type: 'get'
+                type: 'put',
+                url: '/devolucion/'+id,
+                data: {'venta':venta},
+                success:function(data){
+                    console.log('cambio realizado');
+                }
             })
         }
     </script>

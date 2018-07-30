@@ -51,7 +51,7 @@ class DevolucionesController extends Controller
                           '</tr>';
             }
             return Response($result);
-        } 
+        }
     }
 
     public function edit($id)
@@ -61,7 +61,9 @@ class DevolucionesController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        if ($request->ajax()) {
+            
+        }
     }
 
     public function destroy($id)

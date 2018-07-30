@@ -81,7 +81,7 @@ CREATE TABLE cuenta(
     fecha date NOT NULL,
     CONSTRAINT pk_cuenta PRIMARY KEY(id_cuenta),
     CONSTRAINT fk_cuenta_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
-    CONSTRAINT fk_cuenta_detallealmacen FOREIGN KEY(id_detallea) REFERENCES detalleAlmacen(id_detallea)
+    CONSTRAINT fk_cuenta_detallealmacen FOREIGN KEY(id_detallea) REFERENCES detallealmacen(id_detallea)
 )ENGINE=InnoDb;
 
 CREATE TABLE devoluciones(
@@ -94,7 +94,7 @@ CREATE TABLE devoluciones(
     CONSTRAINT pk_devoluciones PRIMARY KEY(id_devolucion),
     CONSTRAINT fk_devoluciones_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
     CONSTRAINT fk_devoluciones_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal),
-    CONSTRAINT fk_devoluciones_producto FOREIGN KEY(id_producto) REFERENCES producto(id_producto)
+    CONSTRAINT fk_devoluciones_detallealmacen FOREIGN KEY(id_detallea) REFERENCES detallealmacen(id_detalle)
 )ENGINE=InnoDb;
 
 CREATE TABLE fondo(
