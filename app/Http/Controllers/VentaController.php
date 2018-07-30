@@ -31,16 +31,16 @@ class VentaController extends Controller
     {
         $venta = Venta::all()->last();
         $user = \Auth::user();
+        $sucursales = Sucursal::all();
+        $date = Carbon::now();
+        $fecha = $date->toDateString();
         if (empty($venta)) {
             $venta_ = new Venta();
             $venta_->id_sucursal = $user->id_sucursal;
             $venta_->save();
-            return view('venta.venta');
+            return view('venta.venta', compact('sucursales', 'user', 'fecha'));
         } else {
             $fondo = Fondo::all()->last();
-            $sucursales = Sucursal::all();
-            $date = Carbon::now();
-            $fecha = $date->toDateString();
             $total = 0;
             $articulos = 0;
             $productos = DB::table('detallealmacen')
