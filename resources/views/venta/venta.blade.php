@@ -301,7 +301,7 @@
             console.log(id);
             $.ajax({
                 url: '{{ route('venta.store') }}',
-                type: 'get',
+                type: 'post',
                 data: {'id':id, '_token':_token},
                 success:function(data){
                     location.href = "{{ route('venta.index') }}"
