@@ -38,7 +38,7 @@ class VentaController extends Controller
             $venta_ = new Venta();
             $venta_->id_sucursal = $user->id_sucursal;
             $venta_->save();
-            return view('venta.venta', compact('sucursales', 'user', 'fecha', 'venta'));
+            return view('venta.venta', compact('sucursales', 'user', 'fecha', 'venta_'));
         } else {
             $fondo = Fondo::all()->last();
             $total = 0;
