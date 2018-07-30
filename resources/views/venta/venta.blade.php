@@ -299,18 +299,15 @@
         function store(id){
             var _token = $('input[name=_token]').val();
             console.log(id);
-            if (id!="") {
-                $.ajax({
-                    async: true,
-                    url: '/venta',
-                    type: 'post',
-                    data: {'id':id, '_token':_token},
-                    success:function(data){
-                        location.href = "{{ route('venta.index') }}";
-                        console.log('Venta realizada correctamente');
-                    }
-                });
-            }
+            $.ajax({
+                url: '{{ route('venta.store') }}',
+                type: 'post',
+                data: {'id':id, '_token':_token},
+                success:function(data){
+                    location.href = "{{ route('venta.index') }}"
+                    //console.log('Venta realizada correctamente');
+                }
+            });
         }
     </script>
     <script>
