@@ -35,10 +35,10 @@ class VentaController extends Controller
         $date = Carbon::now();
         $fecha = $date->toDateString();
         if (empty($venta)) {
-            $venta_ = new Venta();
-            $venta_->id_sucursal = $user->id_sucursal;
-            $venta_->save();
-            return view('venta.venta', compact('sucursales', 'user', 'fecha', 'venta_'));
+            $venta = new Venta();
+            $venta->id_sucursal = $user->id_sucursal;
+            $venta->save();
+            return view('venta.venta', compact('sucursales', 'user', 'fecha', 'venta'));
         } else {
             $fondo = Fondo::all()->last();
             $total = 0;
