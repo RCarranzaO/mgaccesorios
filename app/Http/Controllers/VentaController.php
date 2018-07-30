@@ -45,7 +45,7 @@ class VentaController extends Controller
             ->where('detallealmacen.id_sucursal', $user->id_sucursal)
             ->get();
         if (empty($venta)) {
-            return view('venta.venta', compact('sucursales', 'user', 'fecha'));
+            return view('venta.venta', compact('sucursales', 'user', 'fecha', 'productos'));
         } else {
             $ventas = DB::table('cuenta')
                 ->join('venta', 'cuenta.id_venta', '=', 'venta.id_venta')
