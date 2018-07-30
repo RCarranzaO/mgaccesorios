@@ -217,7 +217,8 @@ class VentaController extends Controller
         if ($request->ajax()) {
             if ($request->cantidad < $cuenta->cantidad && $request->cantidad > 0) {
                 $cuenta->cantidad = $cuenta->cantidad - $request->cantidad;
-                $cuenta->precio = $cuenta->precio - (($cuenta->precio/$cueta->cantidad)*$request->cantidad);
+                dd($cuenta->cantidad);
+                $cuenta->precio = $cuenta->precio - (($cuenta->precio/$cuenta->cantidad)*$request->cantidad);
                 $cuenta->save();
             } elseif ($request->cantidad == $cuenta->cantidad) {
                 $cuenta->delete();

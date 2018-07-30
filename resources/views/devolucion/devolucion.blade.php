@@ -33,6 +33,7 @@
                                     <th>Descripción</th>
                                     <th>Importe</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody id="info">
@@ -60,8 +61,6 @@
                         $('#info').html(data);
                     }
                 });
-            } else {
-                location.href = "{{ route('devolucion.index') }}"
             }
         });
     </script>

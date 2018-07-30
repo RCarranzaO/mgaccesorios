@@ -46,12 +46,12 @@ class DevolucionesController extends Controller
                               '<td>'.$dev->cantidad.'</td>'.
                               '<td>'.$dev->categoria_producto.' '.$dev->tipo_producto.' '.$dev->marca.'</td>'.
                               '<td>'.$dev->precio.'</td>'.
+                              '<td><a href="#" onclick="cambiar('.$dev->id_detallea.')"><i class="fa fa-exchange"></i></a></td>'.
+                              '<td><a href="#" onclick="eliminar('.$dev->id_detallea.')"><i class="fa fa-trash"></i></a></td>'.
                           '</tr>';
             }
             return Response($result);
-        } else {
-          return redirect()->route('devolucion.index');
-        }
+        } 
     }
 
     public function edit($id)
