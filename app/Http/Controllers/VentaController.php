@@ -101,50 +101,45 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->ajax());
         if ($request->ajax()) {
-                $cuentas = Cuenta::all()->where('id_venta', $request->id);
-                $almacenes = DetalleAlmacen::all();
-                $venta = Venta::find($request->id);
-                $user = \Auth::user();
-                $cobrar = new Cobro();
-                $cobro = Cobro::all()->last();
-                $total = 0;
-                $date = Carbon::now()->toDateString();
-            if (empty($cuentas)) {
-                return redirect()->route('venta.index')->with('fail', 'No ha agregado productos para vender.');
-            }else{
-
-                foreach ($cuentas as $cuenta) {
-                    $almacen = $almacenes->where('id_detallea', $cuenta->id_detallea);
-                    foreach ($almacen as $alma) {
-                        $alma->existencia = $alma->existencia - $cuenta->cantidad;
-                        $alma->save();
-                    }
-                    $total = $total + $cuenta->precio;
+            $cuentas = Cuenta::all()->where('id_venta', $request->id);
+            $almacenes = DetalleAlmacen::all();
+            $venta = Venta::find($request->id);
+            $user = \Auth::user();
+            $cobrar = new Cobro();
+            $cobro = Cobro::all()->last();
+            $total = 0;
+            $date = Carbon::now()->toDateString();
+            foreach ($cuentas as $cuenta) {
+                $almacen = $almacenes->where('id_detallea', $cuenta->id_detallea);
+                foreach ($almacen as $alma) {
+                    $alma->existencia = $alma->existencia - $cuenta->cantidad;
+                    $alma->save();
                 }
-                if (empty($cobro)) {
-                    $cobrar->id_venta = $request->id;
-                    $cobrar->id_user = $user->id_user;
-                    $cobrar->monto_total = $total;
-                    $cobrar->fecha = $date;
-                    $venta->estatus = 1;
-                    $cobrar->save();
-                    $venta->save();
-                    return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
-                }elseif ($cobro->id_venta != $venta->id_venta) {
-                    $cobrar->id_venta = $request->id;
-                    $cobrar->id_user = $user->id_user;
-                    $cobrar->monto_total = $total;
-                    $cobrar->fecha = $date;
-                    $venta->estatus = 1;
-                    $cobrar->save();
-                    $venta->save();
-                    return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
-                } elseif ($cobro->id_venta != $venta->id_venta) {
-                    return redirect()->route('venta.index')->with('fail', 'El N° de venta ya existe');
-                }
+                $total = $total + $cuenta->precio;
             }
-
+            if (empty($cobro)) {
+                $cobrar->id_venta = $request->id;
+                $cobrar->id_user = $user->id_user;
+                $cobrar->monto_total = $total;
+                $cobrar->fecha = $date;
+                $venta->estatus = 1;
+                $cobrar->save();
+                $venta->save();
+                return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
+            }elseif ($cobro->id_venta != $venta->id_venta) {
+                $cobrar->id_venta = $request->id;
+                $cobrar->id_user = $user->id_user;
+                $cobrar->monto_total = $total;
+                $cobrar->fecha = $date;
+                $venta->estatus = 1;
+                $cobrar->save();
+                $venta->save();
+                return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
+            } elseif ($cobro->id_venta != $venta->id_venta) {
+                //  return redirect()->route('venta.index')->with('fail', 'El N° de venta ya existe');
+            }
         }
     }
 
@@ -222,9 +217,8 @@ class VentaController extends Controller
         $result = '';
         if ($request->ajax()) {
             if ($request->cantidad < $cuenta->cantidad && $request->cantidad > 0) {
-                $cuenta->cantidad = $cuenta->cantidad - $request->cantidad;
-                dd($cuenta->cantidad);
                 $cuenta->precio = $cuenta->precio - (($cuenta->precio/$cuenta->cantidad)*$request->cantidad);
+                $cuenta->cantidad = $cuenta->cantidad - $request->cantidad;
                 $cuenta->save();
             } elseif ($request->cantidad == $cuenta->cantidad) {
                 $cuenta->delete();

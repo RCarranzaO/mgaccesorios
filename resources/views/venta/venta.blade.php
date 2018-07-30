@@ -138,7 +138,7 @@
                                                         <button type="button" class="btn btn-outline-dark"><i class="fa fa-search"></i> Buscar</button>
                                                     </div>
                                                     <div class="col-sm-5" id="msg">
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -299,15 +299,18 @@
         function store(id){
             var _token = $('input[name=_token]').val();
             console.log(id);
-            $.ajax({
-                url: '{{ route('venta.store') }}',
-                type: 'get',
-                data: {'id':id, '_token':_token},
-                success:function(data){
-                    location.href = "{{ route('venta.index') }}"
-                    //console.log('Venta realizada correctamente');
-                }
-            });
+            if (id!="") {
+                $.ajax({
+                    async: true,
+                    url: '/venta',
+                    type: 'post',
+                    data: {'id':id, '_token':_token},
+                    success:function(data){
+                        location.href = "{{ route('venta.index') }}";
+                        console.log('Venta realizada correctamente');
+                    }
+                });
+            }
         }
     </script>
     <script>
