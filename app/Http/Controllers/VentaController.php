@@ -26,10 +26,10 @@ class VentaController extends Controller
     {
         $this->middleware('auth');
     }
+    
     public function index()
     {
-        $ventas = Venta::all();
-        $venta = $ventas->last();
+        $venta = Venta::all()->last();
         $fondo = Fondo::all()->last();
         $sucursales = Sucursal::all();
         $date = Carbon::now();
