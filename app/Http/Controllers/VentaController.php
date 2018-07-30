@@ -63,7 +63,7 @@ class VentaController extends Controller
                 $cuentas = DB::table('cuenta')
                     ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                    ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                    ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                     ->where('cuenta.id_venta', $venta->id_venta)
                     ->get();
                 foreach ($cuentas as $cuenta) {
@@ -102,43 +102,49 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()) {
-            $cuentas = Cuenta::all()->where('id_venta', $request->id);
-            $almacenes = DetalleAlmacen::all();
-            $venta = Venta::find($request->id);
-            $user = \Auth::user();
-            $cobrar = new Cobro();
-            $cobro = Cobro::all()->last();
-            $total = 0;
-            $date = Carbon::now()->toDateString();
-            foreach ($cuentas as $cuenta) {
-                $almacen = $almacenes->where('id_detallea', $cuenta->id_detallea);
-                foreach ($almacen as $alma) {
-                    $alma->existencia = $alma->existencia - $cuenta->cantidad;
-                    $alma->save();
+                $cuentas = Cuenta::all()->where('id_venta', $request->id);
+                $almacenes = DetalleAlmacen::all();
+                $venta = Venta::find($request->id);
+                $user = \Auth::user();
+                $cobrar = new Cobro();
+                $cobro = Cobro::all()->last();
+                $total = 0;
+                $date = Carbon::now()->toDateString();
+            if (empty($cuentas)) {
+                return redirect()->route('venta.index')->with('fail', 'No ha agregado productos para vender.');
+            }else{
+
+                foreach ($cuentas as $cuenta) {
+                    $almacen = $almacenes->where('id_detallea', $cuenta->id_detallea);
+                    foreach ($almacen as $alma) {
+                        $alma->existencia = $alma->existencia - $cuenta->cantidad;
+                        $alma->save();
+                    }
+                    $total = $total + $cuenta->precio;
                 }
-                $total = $total + $cuenta->precio;
+                if (empty($cobro)) {
+                    $cobrar->id_venta = $request->id;
+                    $cobrar->id_user = $user->id_user;
+                    $cobrar->monto_total = $total;
+                    $cobrar->fecha = $date;
+                    $venta->estatus = 1;
+                    $cobrar->save();
+                    $venta->save();
+                    return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
+                }elseif ($cobro->id_venta != $venta->id_venta) {
+                    $cobrar->id_venta = $request->id;
+                    $cobrar->id_user = $user->id_user;
+                    $cobrar->monto_total = $total;
+                    $cobrar->fecha = $date;
+                    $venta->estatus = 1;
+                    $cobrar->save();
+                    $venta->save();
+                    return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
+                } elseif ($cobro->id_venta != $venta->id_venta) {
+                    return redirect()->route('venta.index')->with('fail', 'El N° de venta ya existe');
+                }
             }
-            if (empty($cobro)) {
-                $cobrar->id_venta = $request->id;
-                $cobrar->id_user = $user->id_user;
-                $cobrar->monto_total = $total;
-                $cobrar->fecha = $date;
-                $venta->estatus = 1;
-                $cobrar->save();
-                $venta->save();
-                return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
-            }elseif ($cobro->id_venta != $venta->id_venta) {
-                $cobrar->id_venta = $request->id;
-                $cobrar->id_user = $user->id_user;
-                $cobrar->monto_total = $total;
-                $cobrar->fecha = $date;
-                $venta->estatus = 1;
-                $cobrar->save();
-                $venta->save();
-                return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
-            } elseif ($cobro->id_venta != $venta->id_venta) {
-                return redirect()->route('venta.index')->with('fail', 'El N° de venta ya existe');
-            }
+
         }
     }
 
@@ -156,13 +162,13 @@ class VentaController extends Controller
             $cuentas = DB::table('cuenta')
                         ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                         ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                         ->where('cuenta.id_venta', $request->venta)
                         ->get();
             foreach ($cuentas as $cart) {
                 $result.= '<tr>'.
                           '   <td>'.$cart->referencia.'</td>'.
-                          '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
+                          '   <td class="text-center"><input type="number" min="1" max="'.$cart->existencia.'" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                           '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                           '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                           '   <td>$'.number_format($cart->precio, 2).'</td>'.
@@ -287,27 +293,19 @@ class VentaController extends Controller
                     } elseif ($ventas->estatus == 0) {
                         return redirect()->route('venta.index')->with('fail', 'La venta esta cancelada');
                     }
-                } else {
-                    $result .= '<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    Existencias insufcientes!
-                                </div>';
-                    return Response($result);
                 }
                 $venta = Venta::all()->last();
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                            ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                            ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                             ->where('cuenta.id_venta', $venta->id_venta)
                             ->get();
                 //dd($cuentas);
                 foreach ($cuentas as $cart) {
                     $result.= '<tr>'.
                               '   <td>'.$cart->referencia.'</td>'.
-                              '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
+                              '   <td class="text-center"><input type="number" min="1" max="'.$cart->existencia.'" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.

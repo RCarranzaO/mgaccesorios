@@ -100,7 +100,7 @@
                                             @foreach ($cuentas as $cuenta)
                                                 <tr>
                                                     <td>{{ $cuenta->referencia }}</td>
-                                                    <td class="text-center"><input type="number" id="cantidad_{{ $cuenta->id_cuenta }}" class="text-center" style="width:50px" value="{{ $cuenta->cantidad }}"></td>
+                                                    <td class="text-center"><input type="number" min="1" max="{{ $cuenta->existencia }}" id="cantidad_{{ $cuenta->id_cuenta }}" class="text-center" style="width:50px" value="{{ $cuenta->cantidad }}"></td>
                                                     <td>{{ $cuenta->categoria_producto }}, {{ $cuenta->tipo_producto }}, {{ $cuenta->marca }}, {{ $cuenta->modelo }}, {{ $cuenta->color }}</td>
                                                     <td>${{ number_format($cuenta->precio_venta, 2) }}</td>
                                                     <td>${{ number_format($cuenta->precio, 2) }}</td>
@@ -137,6 +137,9 @@
                                                     <div class="col-sm-3">
                                                         <button type="button" class="btn btn-outline-dark"><i class="fa fa-search"></i> Buscar</button>
                                                     </div>
+                                                    <div class="col-sm-5" id="msg">
+                                                        
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -165,7 +168,7 @@
                                                               <td class="text-left">{{ $producto->nombre_sucursal }}</td>
                                                               <td>{{ $producto->existencia }}</td>
                                                               <td class="text-right">${{ number_format($producto->precio_venta, 2) }}</td>
-                                                              <td><input type="number" id="cantidad_{{ $producto->id_detallea }}" class="text-center" style="width:50px"></td>
+                                                              <td><input type="number" min="1" max="{{ $producto->existencia }}" id="cantidad_{{ $producto->id_detallea }}" class="text-center" style="width:50px"></td>
                                                               <td><button type="button" class="btn btn-outline-primary" onclick="agregar({{ $producto->id_detallea }})">Agregar</button></td>
                                                             </tr>
                                                         @endif
@@ -295,9 +298,10 @@
     <script>
         function store(id){
             var _token = $('input[name=_token]').val();
+            console.log(id);
             $.ajax({
                 url: '{{ route('venta.store') }}',
-                type: 'post',
+                type: 'get',
                 data: {'id':id, '_token':_token},
                 success:function(data){
                     location.href = "{{ route('venta.index') }}"
@@ -311,18 +315,27 @@
           console.log('agregar');
             var cantidad = $('#cantidad_'+id).val();
             var _token = $('input[name=_token]').val();
-            console.log(cantidad);
+            var max = $('#cantidad_'+id).attr("max");
+            var min = $('#cantidad_'+id).attr("min");
+            console.log(max);
             if(cantidad != ''){
-              console.log(id);
-                $.ajax({
-                    url: '/cart',
-                    type: 'get',
-                    data: {'cantidad':cantidad, 'id':id, '_token':_token},
-                    success:function(data){
-                        $('#carrito').html(data);
+                if (cantidad > max) {
+                    $('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La cantidad ingresada excede el número de existencias</div>');
+                }else if(cantidad < min){
+                    $('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La cantidad ingresada es menor al mínimo requerido para vender.</div>');
+                }else{
 
-                    }
-                });
+                  console.log(id);
+                    $.ajax({
+                        url: '/cart',
+                        type: 'get',
+                        data: {'cantidad':cantidad, 'id':id, '_token':_token},
+                        success:function(data){
+                            $('#carrito').html(data);
+                            $('#msg').html('<div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Producto agregado.</div>');
+                        }
+                    });
+                }
             }
         }
     </script>
