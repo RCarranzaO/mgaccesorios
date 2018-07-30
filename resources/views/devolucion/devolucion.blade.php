@@ -64,6 +64,13 @@
             }
         });
     </script>
+    <script>
+        function cambiar(id) {
+            $.ajax({
+                type: 'get'
+            })
+        }
+    </script>
     <script type="text/javascript">
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
     </script>
