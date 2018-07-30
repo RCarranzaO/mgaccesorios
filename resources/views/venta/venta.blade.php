@@ -7,6 +7,7 @@
             </div>
             @include('alerts.errores')
             @include('alerts.success')
+            <div id="msgventa" class="col-sm-5"></div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
@@ -247,7 +248,7 @@
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
-                                                                <p style="text-align: center; align-content: center;">GRACIAS POR SU COMPRA!!<br>MgAccesorios</p>
+                                                                <p style="text-align: center; align-content: center;">¡GRACIAS POR SU COMPRA!<br>MgAccesorios</p>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -304,7 +305,8 @@
                 type: 'post',
                 data: {'id':id, '_token':_token},
                 success:function(data){
-                    location.href = "{{ route('venta.index') }}"
+                    location.href = "{{ route('venta.index') }}";
+                    $('#msgventa').html('<div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Venta realizada con éxito.</div>');
                     //console.log('Venta realizada correctamente');
                 }
             });
