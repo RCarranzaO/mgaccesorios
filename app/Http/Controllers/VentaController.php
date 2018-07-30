@@ -63,7 +63,7 @@ class VentaController extends Controller
                 $cuentas = DB::table('cuenta')
                     ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                    ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                    ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                     ->where('cuenta.id_venta', $venta->id_venta)
                     ->get();
                 foreach ($cuentas as $cuenta) {
@@ -162,13 +162,13 @@ class VentaController extends Controller
             $cuentas = DB::table('cuenta')
                         ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                         ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                         ->where('cuenta.id_venta', $request->venta)
                         ->get();
             foreach ($cuentas as $cart) {
                 $result.= '<tr>'.
                           '   <td>'.$cart->referencia.'</td>'.
-                          '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
+                          '   <td class="text-center"><input type="number" min="1" max="'.$cart->existencia.'" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                           '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                           '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                           '   <td>$'.number_format($cart->precio, 2).'</td>'.
@@ -297,14 +297,14 @@ class VentaController extends Controller
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                            ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                            ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                             ->where('cuenta.id_venta', $venta->id_venta)
                             ->get();
                 //dd($cuentas);
                 foreach ($cuentas as $cart) {
                     $result.= '<tr>'.
                               '   <td>'.$cart->referencia.'</td>'.
-                              '   <td class="text-center"><input type="number" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
+                              '   <td class="text-center"><input type="number" min="1" max="'.$cart->existencia.'" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
                               '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.

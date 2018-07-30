@@ -100,7 +100,7 @@
                                             @foreach ($cuentas as $cuenta)
                                                 <tr>
                                                     <td>{{ $cuenta->referencia }}</td>
-                                                    <td class="text-center"><input type="number" id="cantidad_{{ $cuenta->id_cuenta }}" class="text-center" style="width:50px" value="{{ $cuenta->cantidad }}"></td>
+                                                    <td class="text-center"><input type="number" min="1" max="{{ $cuenta->existencia }}" id="cantidad_{{ $cuenta->id_cuenta }}" class="text-center" style="width:50px" value="{{ $cuenta->cantidad }}"></td>
                                                     <td>{{ $cuenta->categoria_producto }}, {{ $cuenta->tipo_producto }}, {{ $cuenta->marca }}, {{ $cuenta->modelo }}, {{ $cuenta->color }}</td>
                                                     <td>${{ number_format($cuenta->precio_venta, 2) }}</td>
                                                     <td>${{ number_format($cuenta->precio, 2) }}</td>
@@ -321,10 +321,8 @@
             if(cantidad != ''){
                 if (cantidad > max) {
                     $('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La cantidad ingresada excede el número de existencias</div>');
-                    //alert("La cantidad ingresada excede el número de existencias.");
                 }else if(cantidad < min){
                     $('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La cantidad ingresada es menor al mínimo requerido para vender.</div>');
-                    //alert("La cantidad ingresada es menor al mínimo requerido para vender.");
                 }else{
 
                   console.log(id);
@@ -334,7 +332,7 @@
                         data: {'cantidad':cantidad, 'id':id, '_token':_token},
                         success:function(data){
                             $('#carrito').html(data);
-
+                            $('#msg').html('<div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Producto agregado.</div>');
                         }
                     });
                 }
