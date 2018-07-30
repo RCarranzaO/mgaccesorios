@@ -101,7 +101,6 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->ajax());
         if ($request->ajax()) {
             $cuentas = Cuenta::all()->where('id_venta', $request->id);
             $almacenes = DetalleAlmacen::all();
@@ -138,7 +137,7 @@ class VentaController extends Controller
                 $venta->save();
                 return redirect()->route('guardarCobro')->with('success', 'Venta realizada correctamente');
             } elseif ($cobro->id_venta != $venta->id_venta) {
-                //  return redirect()->route('venta.index')->with('fail', 'El N° de venta ya existe');
+                return redirect()->route('venta.index')->with('fail', 'El N° de venta ya existe');
             }
         }
     }
