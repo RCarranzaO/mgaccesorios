@@ -139,7 +139,7 @@
                                                         <button type="button" class="btn btn-outline-dark"><i class="fa fa-search"></i> Buscar</button>
                                                     </div>
                                                     <div class="col-sm-5" id="msg">
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>

@@ -33,6 +33,7 @@
                                     <th>Descripción</th>
                                     <th>Importe</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody id="info">
@@ -60,10 +61,15 @@
                         $('#info').html(data);
                     }
                 });
-            } else {
-                location.href = "{{ route('devolucion.index') }}"
             }
         });
+    </script>
+    <script>
+        function cambiar(id) {
+            $.ajax({
+                type: 'get'
+            })
+        }
     </script>
     <script type="text/javascript">
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
