@@ -137,6 +137,9 @@
                                                     <div class="col-sm-3">
                                                         <button type="button" class="btn btn-outline-dark"><i class="fa fa-search"></i> Buscar</button>
                                                     </div>
+                                                    <div class="col-sm-5" id="msg">
+                                                        
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -312,18 +315,29 @@
           console.log('agregar');
             var cantidad = $('#cantidad_'+id).val();
             var _token = $('input[name=_token]').val();
-            console.log(cantidad);
+            var max = $('#cantidad_'+id).attr("max");
+            var min = $('#cantidad_'+id).attr("min");
+            console.log(max);
             if(cantidad != ''){
-              console.log(id);
-                $.ajax({
-                    url: '/cart',
-                    type: 'get',
-                    data: {'cantidad':cantidad, 'id':id, '_token':_token},
-                    success:function(data){
-                        $('#carrito').html(data);
+                if (cantidad > max) {
+                    $('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La cantidad ingresada excede el número de existencias</div>');
+                    //alert("La cantidad ingresada excede el número de existencias.");
+                }else if(cantidad < min){
+                    $('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La cantidad ingresada es menor al mínimo requerido para vender.</div>');
+                    //alert("La cantidad ingresada es menor al mínimo requerido para vender.");
+                }else{
 
-                    }
-                });
+                  console.log(id);
+                    $.ajax({
+                        url: '/cart',
+                        type: 'get',
+                        data: {'cantidad':cantidad, 'id':id, '_token':_token},
+                        success:function(data){
+                            $('#carrito').html(data);
+
+                        }
+                    });
+                }
             }
         }
     </script>

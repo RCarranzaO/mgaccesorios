@@ -292,14 +292,6 @@ class VentaController extends Controller
                     } elseif ($ventas->estatus == 0) {
                         return redirect()->route('venta.index')->with('fail', 'La venta esta cancelada');
                     }
-                } else {
-                    $result .= '<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    Existencias insufcientes!
-                                </div>';
-                    return Response($result);
                 }
                 $venta = Venta::all()->last();
                 $cuentas = DB::table('cuenta')
