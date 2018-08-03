@@ -58,6 +58,7 @@ class FondoController extends Controller
                 return redirect()->route('fondo')->with('fail','Ya se ha registrado una salida de dinero. El fondo de caja no puede ser modificado.');
             } elseif ($fondoId->fecha == $date) {
                 $fondoId->id_user = $user->id_user;
+                //$fondoId->id_sucursal = $user->id_sucursal;
                 $fondoId->cantidad = $request->input('cantidad');
                 $fondoId->save();
             } elseif ($fondoId->fecha != $date) {

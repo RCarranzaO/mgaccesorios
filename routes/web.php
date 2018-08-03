@@ -102,3 +102,12 @@ Route::get('/buscarS', 'SalidasespController@buscarS')->name('buscarS');//Busque
 
 //Ruta de búsqueda de productos para traspasos
 Route::get('/buscarT', 'TraspasoController@buscarT')->name('buscarT');//Busqueda de productos para traspasos
+
+//Rutas de categorias
+Route::resource('/categorias','CategoriaController');
+
+//Rutas de tipos
+Route::resource('/tipos','TipoController');
+
+//Rutas de marcas
+Route::resource('/marcas','MarcaController');
