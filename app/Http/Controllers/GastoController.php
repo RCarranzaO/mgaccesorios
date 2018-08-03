@@ -50,6 +50,7 @@ class GastoController extends Controller
         $fondoId = $fondo->last();
         $date = Carbon::now();
         $date = $date->toDateString();
+        $user = \Auth::user();
 
         if ($saldoId->fecha == $date) {
             if ($request->input('cantidad') >=0 && $request->input('cantidad') <= $saldoId->saldo_actual) {
@@ -59,6 +60,7 @@ class GastoController extends Controller
                     $gastos->id_fondo = $fondoId->id_fondo;
                     $gastos->descripcion = $request->input('descripcion');
                     $gastos->cantidad = $request->input('cantidad');
+                    $gastos->id_sucursal = $user->id_sucursal; 
                     $gastos->fecha = $date;
                     $gastos->save();
                     return redirect()->route('guardarGasto');
