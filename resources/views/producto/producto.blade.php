@@ -30,9 +30,9 @@
                       @foreach ($productos as $producto)
                           <tr>
                               <td>{{ $producto->referencia }}</td>
-                              <td>{{ $producto->categoria_producto }}</td>
-                              <td>{{ $producto->tipo_producto }}</td>
-                              <td>{{ $producto->marca }}</td>
+                              <td>{{ $producto->nombrec }}</td>
+                              <td>{{ $producto->nombret }}</td>
+                              <td>{{ $producto->nombrem }}</td>
                               <td>{{ $producto->modelo }}</td>
                               <td>{{ $producto->color }}</td>
                               <td>$ {{ $producto->precio_compra}}</td>

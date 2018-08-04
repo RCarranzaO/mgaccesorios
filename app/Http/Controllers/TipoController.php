@@ -51,11 +51,11 @@ class TipoController extends Controller
     public function store(Request $request)
     {
         $validateData = $this->validate($request,[
-            'nombre' => 'required|string|max:20|unique:categorias',
+            'nombret' => 'required|string|max:20|unique:tipos',
         ]);
 
         $tipo = new Tipo();
-        $tipo->nombre = $request->input('nombre');
+        $tipo->nombret = $request->input('nombret');
         $tipo->estatus = $request->input('estatus');
 
         $tipo->save();
@@ -96,11 +96,11 @@ class TipoController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'nombre' => 'required|string|max:20|unique:categorias',
+            'nombret' => 'required|string|max:20|unique:tipos',
         ]);
 
         $tipo = Tipo::find($id);
-        $tipo->nombre = $request->input('nombre');
+        $tipo->nombret = $request->input('nombret');
         $tipo->save();
         return redirect()->route('tipos.index')->with('success', '¡Tipo de producto actualizado!');
     }

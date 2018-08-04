@@ -51,11 +51,11 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $validateData = $this->validate($request,[
-            'nombre' => 'required|string|max:20|unique:categorias',
+            'nombrec' => 'required|string|max:20|unique:categorias',
         ]);
 
         $categoria = new Categoria();
-        $categoria->nombre = $request->input('nombre');
+        $categoria->nombrec = $request->input('nombrec');
         $categoria->estatus = $request->input('estatus');
 
         $categoria->save();
@@ -96,11 +96,11 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'nombre' => 'required|string|max:20|unique:categorias',
+            'nombrec' => 'required|string|max:20|unique:categorias',
         ]);
 
         $categoria = Categoria::find($id);
-        $categoria->nombre = $request->input('nombre');
+        $categoria->nombrec = $request->input('nombrec');
         $categoria->save();
         return redirect()->route('categorias.index')->with('success', '¡Categoría actualizada!');
     }

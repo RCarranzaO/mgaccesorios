@@ -5,6 +5,7 @@
 @if (Auth::user()->rol == 1)
 		<div class="container">
 				@include('alerts.success')
+				{{ $categorias->links() }}
 				<table class="table text-center table-responsive-sm">
 						<thead class="thead-dark">
 								<tr>
@@ -19,7 +20,7 @@
 								@foreach($categorias as $categoria)
 										<tr>
 												<td>{{ $categoria->id_categoria }}</td>
-												<td>{{ $categoria->nombre }}</td>
+												<td>{{ $categoria->nombrec }}</td>
 												<td>
 														@if($categoria->estatus == 1)
 																{{ $rol = 'Activo' }}

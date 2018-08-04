@@ -5,6 +5,7 @@
 @if (Auth::user()->rol == 1)
 		<div class="container">
 				@include('alerts.success')
+				{{ $tipos->links() }}
 				<table class="table text-center table-responsive-sm">
 						<thead class="thead-dark">
 								<tr>
@@ -19,7 +20,7 @@
 								@foreach($tipos as $tipo)
 										<tr>
 												<td>{{ $tipo->id_tipo }}</td>
-												<td>{{ $tipo->nombre }}</td>
+												<td>{{ $tipo->nombret }}</td>
 												<td>
 														@if($tipo->estatus == 1)
 																{{ $rol = 'Activo' }}

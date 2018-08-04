@@ -16,7 +16,7 @@
 														<div class="form-group row">
 																<label for="nombre" class="col-md-4 col-form-label text-md-right">{{ "Nombre de categoría:" }}</label>
 																<div class="col-md-6">
-																		<input id="nombre" type="text" class="form-control{{ $errors->has('nombre') ? ' is-invalid' : '' }}" name="nombre" value="{{ $categoria->nombre }}" required>
+																		<input id="nombre" type="text" class="form-control{{ $errors->has('nombre') ? ' is-invalid' : '' }}" name="nombre" value="{{ $categoria->nombrec }}" required>
 																		@if($errors->has('nombre'))
 																				<span class="invalid-feedback">
 																						<strong>{{ $errors->first('nombre') }}</strong>

@@ -51,26 +51,26 @@ CREATE TABLE cobro(
 
 CREATE TABLE categorias(
     id_categoria INT(6) auto_increment NOT NULL,
-    nombre VARCHAR(20) NOT NULL,
+    nombrec VARCHAR(20) NOT NULL,
     estatus INT(2) NOT NULL,
     CONSTRAINT pk_categoria PRIMARY KEY(id_categoria),
-    CONSTRAINT categorias_nombre_unique UNIQUE(nombre)
+    CONSTRAINT categorias_nombre_unique UNIQUE(nombrec)
 );
 
 CREATE TABLE tipos(
     id_tipo INT(6) auto_increment NOT NULL,
-    nombre VARCHAR(20) NOT NULL,
+    nombret VARCHAR(20) NOT NULL,
     estatus INT(2) NOT NULL,
     CONSTRAINT pk_tipo PRIMARY KEY(id_tipo),
-    CONSTRAINT tipos_nombre_unique UNIQUE(nombre)
+    CONSTRAINT tipos_nombre_unique UNIQUE(nombret)
 );
 
 CREATE TABLE marcas(
     id_marca INT(6) auto_increment NOT NULL,
-    nombre VARCHAR(20) NOT NULL,
+    nombrem VARCHAR(20) NOT NULL,
     estatus INT(2) NOT NULL,
     CONSTRAINT pk_marca PRIMARY KEY(id_marca),
-    CONSTRAINT marcas_nombre_unique UNIQUE(nombre)
+    CONSTRAINT marcas_nombre_unique UNIQUE(nombrem)
 );
 
 CREATE TABLE producto(

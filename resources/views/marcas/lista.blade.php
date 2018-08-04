@@ -5,6 +5,7 @@
 @if (Auth::user()->rol == 1)
 		<div class="container">
 				@include('alerts.success')
+				{{ $marcas->links() }}
 				<table class="table text-center table-responsive-sm">
 						<thead class="thead-dark">
 								<tr>
@@ -19,7 +20,7 @@
 								@foreach($marcas as $marca)
 										<tr>
 												<td>{{ $marca->id_marca }}</td>
-												<td>{{ $marca->nombre }}</td>
+												<td>{{ $marca->nombrem }}</td>
 												<td>
 														@if($marca->estatus == 1)
 																{{ $rol = 'Activo' }}

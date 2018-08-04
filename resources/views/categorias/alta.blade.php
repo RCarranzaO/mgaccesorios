@@ -20,12 +20,12 @@
 																</div>
 														@endif
 														<div class="form-group row">
-																<label for="nombre" class="col-md-4 col-form-label text-md-right">{{ "Nombre de categoría:" }}</label>
+																<label for="nombrec" class="col-md-4 col-form-label text-md-right">{{ "Nombre de categoría:" }}</label>
 																<div class="col-md-6">
-																		<input class="form-control {{ $errors->has('nombre_sucrusal') ? ' is-invalid' : '' }}" type="text" name="nombre" placeholder="Nombre" required>
-																		@if($errors->has('nombre'))
+																		<input class="form-control {{ $errors->has('nombrec') ? ' is-invalid' : '' }}" type="text" name="nombrec" placeholder="Nombre" required>
+																		@if($errors->has('nombrec'))
 																				<span class="help-block">
-																						<strong>{{ $errors->first('nombre') }}</strong>
+																						<strong>{{ $errors->first('nombrec') }}</strong>
 																				</span>
 																		@endif
 																</div>

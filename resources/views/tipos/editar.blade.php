@@ -14,12 +14,12 @@
 														<input type="hidden" name="_method" value="PATCH">
 
 														<div class="form-group row">
-																<label for="descripcion" class="col-md-4 col-form-label text-md-right">{{ "Tipo de producto:" }}</label>
+																<label for="nombret" class="col-md-4 col-form-label text-md-right">{{ "Tipo de producto:" }}</label>
 																<div class="col-md-6">
-																		<input id="descripcion" type="text" class="form-control{{ $errors->has('descripcion') ? ' is-invalid' : '' }}" name="descripcion" value="{{ $tipo->descripcion }}" required>
-																		@if($errors->has('descripcion'))
+																		<input id="nombret" type="text" class="form-control{{ $errors->has('nombret') ? ' is-invalid' : '' }}" name="nombret" value="{{ $tipo->nombret }}" required>
+																		@if($errors->has('nombret'))
 																				<span class="invalid-feedback">
-																						<strong>{{ $errors->first('descripcion') }}</strong>
+																						<strong>{{ $errors->first('nombret') }}</strong>
 																				</span>
 																		@endif
 																</div>
