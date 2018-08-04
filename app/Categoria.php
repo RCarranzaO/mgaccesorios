@@ -10,7 +10,7 @@ class Categoria extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_categoria';
     protected $fillable = [
-    	'descripcion', 'estatus',
+    	'nombre', 'estatus',
     ];
     
     public function Producto()

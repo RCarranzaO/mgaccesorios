@@ -10,7 +10,7 @@ class Tipo extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_tipo';
     protected $fillable = [
-    	'descripcion', 'estatus',
+    	'nombre', 'estatus',
     ];
     
     public function Producto()
