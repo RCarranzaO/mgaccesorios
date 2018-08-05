@@ -9,7 +9,7 @@
               {{ $productos->links() }}
             </form>
           </nav>
-          <table id="myTable" class="table text-center table-responsive-sm">
+          <table id="myTable" class="table text-center table-responsive-lg">
               <thead class="thead-dark">
                   <tr>
                       <th scope="col" onclick="ordenar(0)">{{ 'Refencia' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>

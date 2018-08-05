@@ -5,7 +5,7 @@
 @if (Auth::user()->rol == 1)
 		<div class="container">
 				@include('alerts.success')
-				<table class="table text-center table-responsive-sm">
+				<table class="table text-center table-responsive-lg">
 						<thead class="thead-dark">
 								<tr>
 										<th scope="col">ID</th>
