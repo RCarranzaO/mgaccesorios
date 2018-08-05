@@ -49,14 +49,23 @@
                             </div>
                             <div class="modal-body">
                                 <table>
-                                    <tr>
-                                        <td id="venta">
-                                        </td>
-                                        <td></td>
-                                        <td>
+                                    <thead>
+                                        <tr>
+                                            <td>Venta</td>
+                                            <td></td>
+                                            <td>Productos cambio</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="venta">
+                                            </td>
+                                            <td></td>
+                                            <td>
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                             <div class="modal-footer">

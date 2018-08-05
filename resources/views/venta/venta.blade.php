@@ -21,7 +21,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="text-right">
-                                                <button type="button" class="btn btn-outline-secondary pull-right" onclick="store({{ empty($venta->id_venta) ? 1 : $venta->id_venta }})" name="check"><i class="fa fa-check"></i>Realizar venta</button>
+                                                <button type="button" class="btn btn-outline-secondary pull-right" onclick="store({{ empty($venta->id_venta) ? 1 : $venta->id_venta+1 }})" name="check"><i class="fa fa-check"></i>Realizar venta</button>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
