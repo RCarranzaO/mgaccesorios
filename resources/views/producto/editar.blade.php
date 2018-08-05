@@ -26,50 +26,62 @@
     															</div>
     													</div>
 
+                              <div class="form-group row">
+                                <label for="categoria" class="col-md-4 col-form-label text-md-right">Categoria</label>
+                                <div class="col-md-6">
+                                    <select class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" required>
+                                        <option value="{{$categorias->id_categoria}}">{{$categorias->nombrec}}</option>
+                                        @foreach ($categoriaId as $categoria)
+                                            @if ($categoria->id_categoria != $categorias->id_categoria)
+                                                <option value={{$categoria->id_categoria}}>{{$categoria->nombrec}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @if($errors->has('categoria'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('categoria') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <label for="tipo" class="col-md-4 col-form-label text-md-right">Tipo</label>
+                                <div class="col-md-6">
+                                    <select class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" required>
+                                        <option value="{{$tipos->id_tipo}}">{{$tipos->nombret}}</option>
+                                        @foreach ($tipoId as $tipo)
+                                            @if ($tipo->id_tipo != $tipos->id_tipo)
+                                                <option value={{$tipo->id_tipo}}>{{$tipo->nombret}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @if($errors->has('tipo'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('tipo') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                              </div>
+
     													<div class="form-group row">
-    															<label for="categoria" class="col-md-4 col-form-label text-md-right">Categoria</label>
-
-    															<div class="col-md-6">
-    																	<input id="categoria" type="text" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" value="{{ $producto->categoria_producto }}" required>
-
-    																	@if($errors->has('categoria'))
-    																			<span class="invalid-feedback">
-    																					<strong>{{ $errors->first('categoria') }}</strong>
-    																			</span>
-    																	@endif
-
-    															</div>
-    													</div>
-
-    													<div class="form-group row">
-    															<label for="tipo" class="col-md-4 col-form-label text-md-right">Tipo</label>
-
-    															<div class="col-md-6">
-    																	<input id="tipo" type="text" class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" value="{{ $producto->tipo_producto }}" required>
-
-    																	@if($errors->has('tipo'))
-    																			<span class="invalid-feedback">
-    																					<strong>{{ $errors->first('tipo') }}</strong>
-    																			</span>
-    																	@endif
-
-    															</div>
-    													</div>
-
-    													<div class="form-group row">
-    															<label for="marca" class="col-md-4 col-form-label text-md-right">Marca</label>
-
-    															<div class="col-md-6">
-    																	<input id="marca" type="text" class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" value="{{ $producto->marca }}" required>
-
-    																	@if($errors->has('marca'))
-    																			<span class="invalid-feedback">
-    																					<strong>{{ $errors->first('marca') }}</strong>
-    																			</span>
-    																	@endif
-
-    															</div>
-    													</div>
+                                <label for="marca" class="col-md-4 col-form-label text-md-right">Marca</label>
+                                <div class="col-md-6">
+                                    <select class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" required>
+                                        <option value="{{$marcas->id_marca}}">{{$marcas->nombrem}}</option>
+                                        @foreach ($marcaId as $marca)
+                                            @if ($marca->id_marca != $marcas->id_marca)
+                                                <option value={{$marca->id_marca}}>{{$marca->nombrem}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @if($errors->has('marca'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('marca') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                              </div>
 
     													<div class="form-group row">
     															<label for="modelo" class="col-md-4 col-form-label text-md-right">Modelo</label>

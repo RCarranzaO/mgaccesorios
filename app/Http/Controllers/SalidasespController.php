@@ -36,7 +36,10 @@ class SalidasespController extends Controller
         $salidas = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->orderBy('detallealmacen.id_detallea')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
@@ -56,7 +59,10 @@ class SalidasespController extends Controller
                 $salidas = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->orderBy('detallealmacen.id_detallea')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
@@ -64,7 +70,10 @@ class SalidasespController extends Controller
                 $salidas = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->orderBy('detallealmacen.id_detallea')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
@@ -75,7 +84,7 @@ class SalidasespController extends Controller
 
                     $result.= '<tr>'.
                         '<td>'.$salida->referencia.'</td>'.
-                        '<td>'.$salida->categoria_producto.' '.$salida->tipo_producto.' '.$salida->marca.' '.$salida->modelo.' '.$salida->color.'</td>'.
+                        '<td>'.$salida->nombrec.' '.$salida->nombret.' '.$salida->nombrem.' '.$salida->modelo.' '.$salida->color.'</td>'.
                         '<td>'.$salida->existencia.'</td>'.
                         '<td><a href="'.route("salidasesp.show", $salida->id_producto).'" class="btn btn-outline-info">Retirar</a></td>'.
                         '</tr>';

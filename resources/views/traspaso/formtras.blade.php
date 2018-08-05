@@ -25,7 +25,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                      									<label for="sucursal" class="col-md-4 col-form-label text-md-right">Sucursal Producto</label>
+                      									<label for="sucursal" class="col-md-4 col-form-label text-md-right">Sucursal Destino</label>
 
                       									<div class="col-md-6">
                         										<select class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
@@ -47,7 +47,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-6 offset-md-4">
                                             <button type="submit" class="btn btn-outline-primary">Aceptar</button>
-                                            <a href="{{ route('trapaso.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                                            <a href="{{ route('traspaso.index') }}" class="btn btn-outline-secondary">Cancelar</a>
                                         </div>
                                     </div>
                                 </form>

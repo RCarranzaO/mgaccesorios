@@ -9,6 +9,10 @@ use Barryvdh\DomPDF\Facade as PDF;
 use mgaccesorios\DetalleAlmacen;
 use mgaccesorios\Producto;
 use mgaccesorios\Sucursal;
+use mgaccesorios\Categoria;
+use mgaccesorios\Tipo;
+use mgaccesorios\Marca;
+
 
 class AlmacenController extends Controller
 {
@@ -36,7 +40,10 @@ class AlmacenController extends Controller
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('detallealmacen.id_detallea','producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
+            ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+            ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+            ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+            ->select('detallealmacen.id_detallea','producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
             ->orderBy('detallealmacen.id_detallea')
             ->paginate(10);
 
@@ -51,7 +58,13 @@ class AlmacenController extends Controller
     public function create()
     {
         $sucursales = Sucursal::all();
-        $productos = Producto::all();
+        $productos = DB::table('producto')
+            ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+            ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+            ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+            ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.estatus')
+            ->orderBy('producto.id_producto')
+            ->get();
         return view('entradas.compra', compact('sucursales', 'productos'));
     }
 
@@ -122,7 +135,10 @@ class AlmacenController extends Controller
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
+            ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+            ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+            ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+            ->select('producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia')
             ->get();
         $fecha = date('Y-m-d');
 

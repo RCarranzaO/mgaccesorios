@@ -23,7 +23,7 @@
                             @foreach ($salidas as $salida)
                                 <tr>
                                     <td>{{ $salida->referencia }}</td>
-                                    <td>{{ $salida->categoria_producto }} {{ $salida->tipo_producto }} {{ $salida->marca }} {{ $salida->modelo }} {{ $salida->color }}</td>
+                                    <td>{{ $salida->nombrec }} {{ $salida->nombret }} {{ $salida->nombrem }} {{ $salida->modelo }} {{ $salida->color }}</td>
                                     <td>{{ $salida->existencia }}</td>
                                     <td>
                                         <a href="{{ route('salidasesp.show', $salida->id_producto) }}" class="btn btn-outline-info">{{ 'Retirar' }}</a>
