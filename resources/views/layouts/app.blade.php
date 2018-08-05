@@ -33,9 +33,9 @@
 </head>
 <body>
     <div class="m-b-md" id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel mr-auto">
+        <nav class="navbar navbar-expand-md navbar-light navbar-laravel mr-auto" style="background-color: #045FB4;color:#fff">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/home') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}" style="color:#fff">
                     MgAccesorios
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,21 +49,21 @@
 
                         @else
                             <li class="nav-item dropdown links" >
-                                <a class="nav-link dropdown-toggle" id="navbarDropdowncajaLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Caja</a>
+                                <a class="nav-link dropdown-toggle" id="navbarDropdowncajaLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="color:#fff">Caja</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdowncajaLink">
                                     <a class="dropdown-item" href="{{ route('fondo') }}">Fondo</a>
                                     <a class="dropdown-item" href="{{ route('gasto') }}">Retiro</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown links">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Entradas</a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#fff">Entradas</a>
                                 <div class="dropdown-menu" aria-labelledby>
                                     <a class="dropdown-item" href="{{ route('almacen.create') }}">Ingreso de existencia</a>
                                     <a class="dropdown-item" href="{{ route('devolucion.index') }}">Devoluciones</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown links">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Salidas</a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#fff">Salidas</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ route('venta.index') }}">Ventas</a>
                                     <a class="dropdown-item" href="{{ route('traspaso.index') }}">Traspaso a Sucursal</a>
@@ -80,7 +80,7 @@
                             </li>-->
                             @if (Auth::user()->rol == 1)
                                 <li class="nav-item dropdown links">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#fff">Productos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('producto.create') }}">Alta Producto</a>
                                         <a class="dropdown-item" href="{{ route('producto.index') }}">Lista de Productos</a>
@@ -96,14 +96,14 @@
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#fff">Usuarios</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('usuario.create') }}">Alta Usuario</a>
                                         <a class="dropdown-item" href="{{ route('usuario.index') }}">Lista de Usuarios</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Sucursal</a>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#fff">Sucursal</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('sucursal.create') }}">Alta Sucursal</a>
                                         <a class="dropdown-item" href="{{ route('sucursal.index') }}">Lista de Sucursales</a>
@@ -111,14 +111,14 @@
                                 </li>
                             @endif
                             <li class="nav-item dropdown links">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Reportes</a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#fff">Reportes</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ route('repventa') }}">Venta</a>
                                     <a class="dropdown-item" href="{{ route('repalmacen') }}">Inventario</a>
                                 </div>
                             </li>
                             <li class="nav-item  links">
-                                <a class="nav-link " href="{{ route('saldo') }}">Saldo</a>
+                                <a class="nav-link " href="{{ route('saldo') }}" style="color:#fff">Saldo</a>
                             </li>
                         @endguest
                     </ul>
@@ -126,7 +126,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesion') }}</a></li>
+                            <li><a class="nav-link" href="{{ route('login') }}" style="color:#fff">{{ __('Iniciar Sesion') }}</a></li>
                         @else
                             <?php
                                 $user = \Auth::user();
@@ -137,7 +137,7 @@
                                     ->first();
                             ?>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#fff" v-pre>
                                   <i class="fa fa-user"></i>  {{ Auth::user()->username }} | {{ $sucursal->nombre_sucursal }} <span class="caret"></span>
                                 </a>
 

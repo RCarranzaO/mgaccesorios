@@ -38,12 +38,14 @@ class DevolucionesController extends Controller
                     ->get();
                 dd($ventas);
                 foreach ($ventas as $dev) {
-                    $result .= '<tr>'.
-                                  '<td>'.$dev->cantidad.'</td>'.
-                                  '<td>'.$dev->categoria_producto.' '.$dev->tipo_producto.' '.$dev->marca.'</td>'.
-                                  '<td>'.$dev->precio.'</td>'.
-                                  '<td><a href=# onclick="elminar('.$dev->id_detallea.')"><i class="fa fa-trash"></i></a></td>'.
-                              '</tr>';
+                    $result .='<table cellspacing="3">'.
+                                  '<tr>'.
+                                      '<td>'.$dev->cantidad.'</td>'.
+                                      '<td>'.$dev->categoria_producto.' '.$dev->tipo_producto.' '.$dev->marca.'</td>'.
+                                      '<td>'.$dev->precio.'</td>'.
+                                      '<td><a href=# onclick="elminar('.$dev->id_detallea.')"><i class="fa fa-trash"></i></a></td>'.
+                                  '</tr>'.
+                              '</table>';
                 }
                 $result.= '<tr>'.
                           '   <td colspan="2">Neto $</td>'.

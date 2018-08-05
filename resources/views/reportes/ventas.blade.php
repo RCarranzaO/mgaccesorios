@@ -14,23 +14,25 @@
                   <h4 class="card-title"><i class="fa fa-calendar"></i> {{ 'Reporte de Ventas' }}</h4>
                   <br>
                     <div class="container">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="input-group" id="datetimepicker1">
-                             <input type="date" name="bday" max="3000-12-31" min="1980-01-01" class="form-control">
-                             <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
+                      <form class="" action="" method="post">
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="input-group" id="datetimepicker1">
+                              <input type="date" name="bday" max="3000-12-31" min="1980-01-01" class="form-control">
+                              <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-group" id="datetimepicker1">
+                              <input type="date" name="bday"min="1980-01-01" max="3000-12-31" class="form-control">
+                              <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <button type="submit" class="btn btn-outline-primary">Buscar</button>
                           </div>
                         </div>
-                        <div class="col-md-4">
-                          <div class="input-group" id="datetimepicker1">
-                             <input type="date" name="bday"min="1980-01-01" max="3000-12-31" class="form-control">
-                             <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <button type="submit" class="btn btn-outline-primary">Buscar</button>
-                        </div>
-                      </div>
+                      </form>
                     </div>
                 </div>
                   <div class="card-body">

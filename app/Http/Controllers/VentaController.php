@@ -130,6 +130,7 @@ class VentaController extends Controller
             if (empty($cobro)) {
                 $cobrar->id_venta = $request->id;
                 $cobrar->id_user = $user->id_user;
+                $cobrar->id_sucursal = $user->id_sucursal;
                 $cobrar->monto_total = $total;
                 $cobrar->fecha = $date;
                 $venta->estatus = 1;
@@ -139,6 +140,7 @@ class VentaController extends Controller
             }elseif ($cobro->id_venta != $venta->id_venta) {
                 $cobrar->id_venta = $request->id;
                 $cobrar->id_user = $user->id_user;
+                $cobrar->id_sucursal = $user->id_sucursal;
                 $cobrar->monto_total = $total;
                 $cobrar->fecha = $date;
                 $venta->estatus = 1;
