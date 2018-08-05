@@ -59,23 +59,7 @@ class ReportesController extends Controller
             $user = \Auth::user();
             $result = "";
             
-            if ($request->buscador == "0" && $request->buscar != "" && $user->rol == "1") {
-                $productos = DB::table('detallealmacen')
-                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
-                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
-                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
-                    ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
-                    ->orderBy('detallealmacen.id_detallea')
-                    ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('categorias.nombrec', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('tipos.nombret', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('marcas.nombrem', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('producto.color', 'like', '%'.$request->buscar.'%')
-                    ->paginate(10);
-            }elseif ($request->buscador == "0" && $request->buscar == "" && $user->rol == "1") {
+            if ($request->buscador == "0" && $request->buscar == "" && $user->rol == "1") {
                 $productos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -85,7 +69,29 @@ class ReportesController extends Controller
                     ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
                     ->orderBy('detallealmacen.id_detallea')
                     ->paginate(10);
+
+            }elseif ($request->buscador == "0" && $request->buscar != "" && $user->rol == "1") {
+
+                $productos = DB::table('detallealmacen')
+                    ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
+                    ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                    ->orderBy('detallealmacen.id_detallea')
+                    ->where(function ($query) use ($request){
+                        $query->where('producto.referencia', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('categorias.nombrec', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('tipos.nombret', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('marcas.nombrem', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
+                    })
+                    ->paginate(10);
+
             }elseif ($request->buscador != "0" && $request->buscar == "") {
+
                 $productos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -96,8 +102,10 @@ class ReportesController extends Controller
                     ->orderBy('detallealmacen.id_detallea')
                     ->where('sucursales.id_sucursal', '=', $request->buscador)
                     ->paginate(10);
+
             }
             elseif ($request->buscador != "0" && $request->buscar != "") {
+
                 $productos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -116,15 +124,16 @@ class ReportesController extends Controller
                             ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
                     })
                     ->paginate(10);
+
             }
             if ($productos->count()) {
                 foreach ($productos as $producto) {
                     if ($producto->estatus != 0) {
                         $result.= '<tr>'.
                             '<td>'.$producto->referencia.'</td>'.
-                            '<td>'.$producto->categoria_producto.'</td>'.
-                            '<td>'.$producto->tipo_producto.'</td>'.
-                            '<td>'.$producto->marca.'</td>'.
+                            '<td>'.$producto->nombrec.'</td>'.
+                            '<td>'.$producto->nombret.'</td>'.
+                            '<td>'.$producto->nombrem.'</td>'.
                             '<td>'.$producto->modelo.'</td>'.
                             '<td>'.$producto->color.'</td>'.
                             '<td class="text-left">'.$producto->nombre_sucursal.'</td>'.
@@ -155,9 +164,10 @@ class ReportesController extends Controller
                 ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                 ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                 ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
-                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
-                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
                 ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                ->orderBy('detallealmacen.id_detallea')
                 ->get();
                 
         }elseif ($request->buscador == "0" && $request->buscar != "" && $user->rol == "1") {
@@ -166,9 +176,10 @@ class ReportesController extends Controller
                 ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                 ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                 ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
-                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
-                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
                 ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                ->orderBy('detallealmacen.id_detallea')
                 ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
                 ->orWhere('categorias.nombrec', 'like', '%'.$request->buscar.'%')
                 ->orWhere('tipos.nombret', 'like', '%'.$request->buscar.'%')
@@ -183,9 +194,10 @@ class ReportesController extends Controller
                 ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                 ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                 ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
-                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
-                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
                 ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
+                ->orderBy('detallealmacen.id_detallea')
                 ->where('sucursales.id_sucursal', '=', $request->buscador)
                 ->get();
                 
@@ -195,8 +207,8 @@ class ReportesController extends Controller
                 ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                 ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
                 ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
-                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
-                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
                 ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
                 ->orderBy('detallealmacen.id_detallea')
                 ->where('sucursales.id_sucursal', '=', $request->buscador)
