@@ -40,25 +40,54 @@ CREATE TABLE cobro(
     id_cobro INT(6) auto_increment NOT NULL,
     id_venta INT(6) NOT NULL,
     id_user INT(6) NOT NULL,
+    id_sucursal INT(6) NOT NULL,
     monto_total DECIMAL(7,0) NOT NULL,
     fecha date NOT NULL,
     CONSTRAINT pk_cobro PRIMARY KEY(id_cobro),
     CONSTRAINT fk_cobro_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
-    CONSTRAINT fk_cobro_users FOREIGN KEY(id_user) REFERENCES users(id_user)
+    CONSTRAINT fk_cobro_users FOREIGN KEY(id_user) REFERENCES users(id_user),
+    CONSTRAINT fk_cobro_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
+
+CREATE TABLE categorias(
+    id_categoria INT(6) auto_increment NOT NULL,
+    nombrec VARCHAR(20) NOT NULL,
+    estatus INT(2) NOT NULL,
+    CONSTRAINT pk_categoria PRIMARY KEY(id_categoria),
+    CONSTRAINT categorias_nombre_unique UNIQUE(nombrec)
+);
+
+CREATE TABLE tipos(
+    id_tipo INT(6) auto_increment NOT NULL,
+    nombret VARCHAR(20) NOT NULL,
+    estatus INT(2) NOT NULL,
+    CONSTRAINT pk_tipo PRIMARY KEY(id_tipo),
+    CONSTRAINT tipos_nombre_unique UNIQUE(nombret)
+);
+
+CREATE TABLE marcas(
+    id_marca INT(6) auto_increment NOT NULL,
+    nombrem VARCHAR(20) NOT NULL,
+    estatus INT(2) NOT NULL,
+    CONSTRAINT pk_marca PRIMARY KEY(id_marca),
+    CONSTRAINT marcas_nombre_unique UNIQUE(nombrem)
+);
 
 CREATE TABLE producto(
     id_producto INT(6) auto_increment NOT NULL,
     referencia VARCHAR(10) NOT NULL,
-    categoria_producto VARCHAR(20) NOT NULL,
-    tipo_producto VARCHAR(20) NOT NULL,
-    marca TEXT NOT NULL,
+    id_categoria INT(6) NOT NULL,
+    id_tipo INT(6) NOT NULL,
+    id_marca INT(6) NOT NULL,
     modelo VARCHAR(20) NOT NULL,
     color VARCHAR(20) NOT NULL,
     precio_compra DECIMAL(7,0) NOT NULL,
     precio_venta DECIMAL(7,0) NOT NULL,
     estatus INT(2) NOT NULL,
     CONSTRAINT pk_producto PRIMARY KEY(id_producto),
+    CONSTRAINT fk_producto_categorias FOREIGN KEY(id_categoria) REFERENCES categorias(id_categoria),
+    CONSTRAINT fk_producto_tipos FOREIGN KEY(id_tipo) REFERENCES tipos(id_tipo),
+    CONSTRAINT fk_producto_marcas FOREIGN KEY(id_marca) REFERENCES marcas(id_marca),
     CONSTRAINT producto_referencia_unique UNIQUE(referencia)
 )ENGINE=InnoDb;
 
@@ -88,32 +117,36 @@ CREATE TABLE devoluciones(
     id_devolucion INT(6) auto_increment NOT NULL,
     id_venta INT(6) NOT NULL,
     id_sucursal INT(6) NOT NULL,
-    id_producto INT(6) NOT NULL,
+    id_detallea INT(6) NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
     cantidad INT(5) NOT NULL,
     CONSTRAINT pk_devoluciones PRIMARY KEY(id_devolucion),
     CONSTRAINT fk_devoluciones_venta FOREIGN KEY(id_venta) REFERENCES venta(id_venta),
     CONSTRAINT fk_devoluciones_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal),
-    CONSTRAINT fk_devoluciones_detallealmacen FOREIGN KEY(id_detallea) REFERENCES detallealmacen(id_detalle)
+    CONSTRAINT fk_devoluciones_detallealmacen FOREIGN KEY(id_detallea) REFERENCES detallealmacen(id_detallea)
 )ENGINE=InnoDb;
 
 CREATE TABLE fondo(
     id_fondo INT(6) auto_increment NOT NULL,
     id_user INT(6) NOT NULL,
+    id_sucursal INT(6) NOT NULL,
     cantidad INT(5) NOT NULL,
     fecha date NOT NULL,
     CONSTRAINT pk_fondo PRIMARY KEY(id_fondo),
-    CONSTRAINT fk_fondo_users FOREIGN KEY(id_user) REFERENCES users(id_user)
+    CONSTRAINT fk_fondo_users FOREIGN KEY(id_user) REFERENCES users(id_user),
+    CONSTRAINT fk_fondo_sucursales FOREIGN KEY(id_sucursal) REFERENCES users(id_user)
 )ENGINE=InnoDb;
 
 CREATE TABLE gastos(
     id_gasto INT(6) auto_increment NOT NULL,
     id_fondo int(6) NOT NULL,
+    id_sucursal INT(6) NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
     cantidad INT(5) NOT NULL,
     fecha date NOT NULL,
     CONSTRAINT pk_gastos PRIMARY KEY(id_gasto),
-    CONSTRAINT fk_gastos_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo)
+    CONSTRAINT fk_gastos_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo),
+    CONSTRAINT fk_gastos_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
 
 CREATE TABLE salidaespecial(
@@ -149,13 +182,15 @@ CREATE TABLE saldo(
     id_cobro INT(6) NULL,
     id_gasto INT(6) NULL,
     id_devolucion INT(6) NULL,
+    id_sucursal INT(6) NULL,
     saldo_actual INT(10) NOT NULL,
     fecha date NOT NULL,
     CONSTRAINT pk_saldo PRIMARY KEY(id_saldo),
     CONSTRAINT fk_saldo_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo),
     CONSTRAINT fk_saldo_cobro FOREIGN KEY(id_cobro) REFERENCES cobro(id_cobro),
     CONSTRAINT fk_saldo_gastos FOREIGN KEY(id_gasto) REFERENCES gastos(id_gasto),
-    CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion)
+    CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion),
+    CONSTRAINT fk_saldo_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
 
 CREATE TABLE password_resets(

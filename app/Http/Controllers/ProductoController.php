@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use mgaccesorios\Producto;
 use mgaccesorios\Usuario;
+use mgaccesorios\Categoria;
+use mgaccesorios\Tipo;
+use mgaccesorios\Marca;
 
 class ProductoController extends Controller
 {
@@ -27,6 +30,11 @@ class ProductoController extends Controller
     {
 
         $productos = DB::table('producto')
+            ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+            ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+            ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+            ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_compra', 'producto.precio_venta', 'producto.estatus')
+            ->orderBy('producto.id_producto')
             ->paginate(10);
 
         return view('producto.producto', compact('productos'));
@@ -41,17 +49,26 @@ class ProductoController extends Controller
             if ($request->buscar != "") {
 
                 $productos = DB::table('producto')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_compra', 'producto.precio_venta', 'producto.estatus')
                     ->orderBy('producto.id_producto')
                     ->where('producto.referencia', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
-                    ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('categorias.nombrec', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('tipos.nombret', 'like', '%'.$request->buscar.'%')
+                    ->orWhere('marcas.nombrem', 'like', '%'.$request->buscar.'%')
                     ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
                     ->orWhere('producto.color', 'like', '%'.$request->buscar.'%')
                     ->paginate(10);
 
             }elseif ($request->buscar == "") {
                 $productos = DB::table('producto')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_compra', 'producto.precio_venta', 'producto.estatus')
+                    ->orderBy('producto.id_producto')
                     ->paginate(10);
             }
             $estado = "";
@@ -73,9 +90,9 @@ class ProductoController extends Controller
                     }
                     $result.= '<tr>'.
                         '<td>'.$producto->referencia.'</td>'.
-                        '<td>'.$producto->categoria_producto.'</td>'.
-                        '<td>'.$producto->tipo_producto.'</td>'.
-                        '<td>'.$producto->marca.'</td>'.
+                        '<td>'.$producto->nombrec.'</td>'.
+                        '<td>'.$producto->nombret.'</td>'.
+                        '<td>'.$producto->nombrem.'</td>'.
                         '<td>'.$producto->modelo.'</td>'.
                         '<td>'.$producto->color.'</td>'.
                         '<td>'.$producto->precio_compra.'</td>'.
@@ -125,7 +142,10 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        return view('producto.alta');
+        $categorias = Categoria::all();
+        $tipos = Tipo::all();
+        $marcas = Marca::all();
+        return view('producto.alta', compact('categorias', 'tipos', 'marcas'));
     }
 
     /**
@@ -141,9 +161,9 @@ class ProductoController extends Controller
     {
         $validateData = $this->validate($request,[
             'referencia' => 'required|string|unique:producto',
-            'categoria' => 'required|string|max:255',
-            'tipo' => 'required|string|max:255',
-            'marca' => 'required|string|max:255',
+            'categoria' => 'integer|required',
+            'tipo' => 'integer|required',
+            'marca' => 'integer|required',
             'modelo' => 'required|string|max:255',
             'color' => 'required|string|max:255',
             'precio_compra' => 'required|numeric',
@@ -152,9 +172,9 @@ class ProductoController extends Controller
 
         $producto = new Producto();
         $producto->referencia = $request->input('referencia');
-        $producto->categoria_producto = $request->input('categoria');
-        $producto->tipo_producto = $request->input('tipo');
-        $producto->marca = $request->input('marca');
+        $producto->id_categoria = $request->input('categoria');
+        $producto->id_tipo = $request->input('tipo');
+        $producto->id_marca = $request->input('marca');
         $producto->modelo = $request->input('modelo');
         $producto->color = $request->input('color');
         $producto->precio_compra = $request->input('precio_compra');
@@ -182,7 +202,13 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::find($id);
-        return view('producto/editar', compact('producto', 'id_producto'));
+        $categorias = Categoria::find($producto->id_categoria);
+        $categoriaId = Categoria::all();
+        $tipos = Tipo::find($producto->id_tipo);
+        $tipoId = Tipo::all();
+        $marcas = Marca::find($producto->id_marca);
+        $marcaId = Marca::all();
+        return view('producto/editar', compact('producto', 'id_producto', 'categorias', 'categoriaId', 'tipos', 'tipoId', 'marcas', 'marcaId'));
     }
 
     /**
@@ -195,9 +221,9 @@ class ProductoController extends Controller
     {
         $this->validate($request,[
             'referencia' => 'required|string',
-            'categoria' => 'required|string|max:255',
-            'tipo' => 'required|string|max:255',
-            'marca' => 'required|string|max:255',
+            'categoria' => 'integer|required',
+            'tipo' => 'integer|required',
+            'marca' => 'integer|required',
             'modelo' => 'required|string|max:255',
             'color' => 'required|string|max:255',
             'precio_compra' => 'required|numeric',
@@ -206,9 +232,9 @@ class ProductoController extends Controller
 
         $producto = Producto::find($id);
         $producto->referencia = $request->input('referencia');
-        $producto->categoria_producto = $request->input('categoria');
-        $producto->tipo_producto = $request->input('tipo');
-        $producto->marca = $request->input('marca');
+        $producto->id_categoria = $request->input('categoria');
+        $producto->id_tipo = $request->input('tipo');
+        $producto->id_marca = $request->input('marca');
         $producto->modelo = $request->input('modelo');
         $producto->color = $request->input('color');
         $producto->precio_compra = $request->input('precio_compra');

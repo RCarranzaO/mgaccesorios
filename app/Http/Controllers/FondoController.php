@@ -50,6 +50,7 @@ class FondoController extends Controller
 
         if (empty($fondoId)) {
             $fondo->id_user = $user->id_user;
+            $fondo->id_sucursal = $user->id_sucursal;
             $fondo->cantidad = $request->input('cantidad');
             $fondo->fecha = $date;
             $fondo->save();
@@ -62,12 +63,14 @@ class FondoController extends Controller
                 $fondoId->save();
             } elseif ($fondoId->fecha != $date) {
                 $fondo->id_user = $user->id_user;
+                $fondo->id_sucursal = $user->id_sucursal;
                 $fondo->cantidad = $request->input('cantidad');
                 $fondo->fecha = $date;
                 $fondo->save();
             }
         } else {
             $fondo->id_user = $user->id_user;
+            $fondo->id_sucursal = $user->id_sucursal;
             $fondo->cantidad = $request->input('cantidad');
             $fondo->fecha = $date;
             $fondo->save();

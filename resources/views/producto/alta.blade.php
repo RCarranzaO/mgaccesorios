@@ -27,52 +27,60 @@
 															</div>
 
 															<div class="form-group row">
-																	<label for="categoria" class="col-md-4 col-form-label text-md-right">Categoria</label>
-
-																	<div class="col-md-6">
-																			<div class="input-group">
-																				  <input id="categoria" type="text" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" value="{{ old('categoria') }}" required>
-																			</div>
-
-																			@if($errors->has('categoria'))
-																					<span class="invalid-feedback">
-																							<strong>{{ $errors->first('categoria') }}</strong>
-																					</span>
-																			@endif
-
-																	</div>
+																		<label for="categoria" class="col-md-4 col-form-label text-md-right">Categoría</label>
+																		<div class="col-md-6">
+																				<select class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" required>
+																						<option>Elija una opcion</option>
+																						@foreach ($categorias as $categoria)
+																								@if ($categoria->estatus != 0)
+																										<option value="{{$categoria->id_categoria}}">{{$categoria->nombrec}}</option>
+																								@endif
+																						@endforeach
+																				</select>
+																				@if($errors->has('categoria'))
+																						<span class="invalid-feedback">
+																								<strong>{{ $errors->first('categoria') }}</strong>
+																						</span>
+																				@endif
+																		</div>
 															</div>
 
 															<div class="form-group row">
-																	<label for="tipo" class="col-md-4 col-form-label text-md-right">Tipo</label>
-
-																	<div class="col-md-6">
-																			<div class="input-group">
-																					<input id="tipo" type="text" class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" value="{{ old('tipo') }}" required>
-																			</div>
-																			@if($errors->has('tipo'))
-																					<span class="invalid-feedback">
-																							<strong>{{ $errors->first('tipo') }}</strong>
-																					</span>
-																			@endif
-
-																	</div>
+																		<label for="tipo" class="col-md-4 col-form-label text-md-right">Tipo</label>
+																		<div class="col-md-6">
+																				<select class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" required>
+																						<option>Elija una opcion</option>
+																						@foreach ($tipos as $tipo)
+																								@if ($tipo->estatus != 0)
+																										<option value="{{$tipo->id_tipo}}">{{$tipo->nombret}}</option>
+																								@endif
+																						@endforeach
+																				</select>
+																				@if($errors->has('tipo'))
+																						<span class="invalid-feedback">
+																								<strong>{{ $errors->first('tipo') }}</strong>
+																						</span>
+																				@endif
+																		</div>
 															</div>
 
 															<div class="form-group row">
-																	<label for="marca" class="col-md-4 col-form-label text-md-right">Marca</label>
-
-																	<div class="col-md-6">
-																			<div class="input-group">
-																					<input id="marca" type="text" class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" value="{{ old('marca') }}" required>
-																			</div>
-																			@if($errors->has('marca'))
-																					<span class="invalid-feedback">
-																							<strong>{{ $errors->first('marca') }}</strong>
-																					</span>
-																			@endif
-
-																	</div>
+																		<label for="marca" class="col-md-4 col-form-label text-md-right">Marca</label>
+																		<div class="col-md-6">
+																				<select class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" required>
+																						<option>Elija una opcion</option>
+																						@foreach ($marcas as $marca)
+																								@if ($marca->estatus != 0)
+																										<option value="{{$marca->id_marca}}">{{$marca->nombrem}}</option>
+																								@endif
+																						@endforeach
+																				</select>
+																				@if($errors->has('marca'))
+																						<span class="invalid-feedback">
+																								<strong>{{ $errors->first('marca') }}</strong>
+																						</span>
+																				@endif
+																		</div>
 															</div>
 
 															<div class="form-group row">

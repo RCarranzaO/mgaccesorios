@@ -24,7 +24,7 @@
                                 @if ($traspaso->estatus == 1)
                                     <tr>
                                         <td>{{ $traspaso->referencia }}</td>
-                                        <td>{{ $traspaso->categoria_producto }}, {{ $traspaso->tipo_producto }}, {{ $traspaso->marca }}, {{ $traspaso->modelo }}, {{ $traspaso->color }}</td>
+                                        <td>{{ $traspaso->nombrec }}, {{ $traspaso->nombret }}, {{ $traspaso->nombrem }}, {{ $traspaso->modelo }}, {{ $traspaso->color }}</td>
                                         <td>{{ $traspaso->existencia }}</td>
                                         <td>
                                             <a href="{{ route('traspaso.show', $traspaso->id_producto) }}" class="btn btn-outline-info">{{ 'Traspasar' }}</a>

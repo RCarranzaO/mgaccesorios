@@ -84,6 +84,15 @@
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('producto.create') }}">Alta Producto</a>
                                         <a class="dropdown-item" href="{{ route('producto.index') }}">Lista de Productos</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ route('categorias.create') }}">Alta Categorias</a>
+                                        <a class="dropdown-item" href="{{ route('categorias.index') }}">Lista de Categorias</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ route('tipos.create') }}">Alta Tipos</a>
+                                        <a class="dropdown-item" href="{{ route('tipos.index') }}">Lista de Tipos</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ route('marcas.create') }}">Alta Marcas</a>
+                                        <a class="dropdown-item" href="{{ route('marcas.index') }}">Lista de Marcas</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown links">

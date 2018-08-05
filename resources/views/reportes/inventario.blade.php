@@ -58,9 +58,9 @@
                                     @if($producto->estatus != 0)
                                         <tr>
                                           <td>{{ $producto->referencia }}</td>
-                                          <td>{{ $producto->categoria_producto }}</td>
-                                          <td>{{ $producto->tipo_producto }}</td>
-                                          <td>{{ $producto->marca }}</td>
+                                          <td>{{ $producto->nombrec }}</td>
+                                          <td>{{ $producto->nombret }}</td>
+                                          <td>{{ $producto->nombrem }}</td>
                                           <td>{{ $producto->modelo }}</td>
                                           <td>{{ $producto->color }}</td>
                                           <td class="text-left">{{ $producto->nombre_sucursal }}</td>

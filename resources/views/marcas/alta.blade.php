@@ -6,9 +6,9 @@
 						<div class="col-md-8">
 
 								<div class="card">
-										<div class="card-header"><h4>Alta sucursal</h4></div>
+										<div class="card-header"><h4>{{ "Alta de marca" }}</h4></div>
 										<div class="card-body">
-												<form class="form-control" method="post" action="{{ route('sucursal.store') }}">
+												<form class="form-control" method="post" action="{{ route('marcas.store') }}">
 														@csrf
 														@if($errors->any())
 																<div class="alert alert-danger">
@@ -20,36 +20,12 @@
 																</div>
 														@endif
 														<div class="form-group row">
-																<label for="nombre_sucursal" class="col-md-4 col-form-label text-md-right">Nombre sucursal</label>
+																<label for="nombrem" class="col-md-4 col-form-label text-md-right">{{ "Nombre de la marca:" }}</label>
 																<div class="col-md-6">
-																		<input class="form-control {{ $errors->has('nombre_sucrusal') ? ' is-invalid' : '' }}" type="text" name="nombre_sucursal" placeholder="Nombre sucursal" required>
-																		@if($errors->has('nombre_sucursal'))
+																		<input class="form-control {{ $errors->has('nombrem') ? ' is-invalid' : '' }}" type="text" name="nombrem" placeholder="Nombre" required>
+																		@if($errors->has('nombrem'))
 																				<span class="help-block">
-																						<strong>{{ $errors->first('nombre_sucursal') }}</strong>
-																				</span>
-																		@endif
-																</div>
-														</div>
-
-														<div class="form-group row">
-																<label for="direccion" class="col-md-4 col-form-label text-md-right">Dirección</label>
-																<div class="col-md-6">
-																		<input class="form-control {{ $errors->has('direccion') ? ' is-invalid' : '' }}" type="text" name="direccion" placeholder="Dirección" required>
-																		@if($errors->has('direccion'))
-																				<span class="invalid-feedback">
-																						<strong>{{ $errors->first('direccion') }}</strong>
-																				</span>
-																		@endif
-																</div>
-														</div>
-
-														<div class="form-group row">
-																<label for="telefono" class="col-md-4 col-form-label text-md-right">Teléfono</label>
-																<div class="col-md-6">
-																		<input class="form-control {{ $errors->has('telefono') ? ' is-invalid' : '' }}" type="text" name="telefono" placeholder="Teléfono">
-																		@if($errors->has('telefono'))
-																				<span class="invalid-feedback">
-																						<strong>{{ $errors->first('telefono') }}</strong>
+																						<strong>{{ $errors->first('nombrem') }}</strong>
 																				</span>
 																		@endif
 																</div>
@@ -71,13 +47,13 @@
 																<div class="modal-dialog" role="document">
 																		<div class="modal-content">
 																				<div class="modal-header">
-																						<h5 class="modal-title"  id="exampleModalLabel">Alta Sucursal</h5>
+																						<h5 class="modal-title"  id="exampleModalLabel">{{ "Alta Marca" }}</h5>
 																						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																								<span aria-hidden="true">&times;</span>
 																						</button>
 																				</div>
 																				<div class="modal-body">
-																						<p class="card-text">¿Desea registrar la sucursal?</p>
+																						<p class="card-text">{{ "¿Desea registrar la marca?" }}</p>
 																				</div>
 																				<div class="modal-footer">
 																						<button type="submit" class="btn btn-outline-primary" data-toogle="modal" data-target="#myModal">Aceptar</button>
@@ -110,7 +86,7 @@
 										</button>
 								</div>
 								<div class="modal-body">
-										<p class="text-center">No tienes lo privilegios para entrar aquí!! Adios!</p>
+										<p class="text-center">{{ "Usted no cuenta con los privilegios para estar aquí." }}</p>
 								</div>
 								<div class="modal-footer">
 										<form class="" action="{{ route('home') }}">
