@@ -37,7 +37,7 @@
                           @if($producto->estatus != 0)
                               <tr style="font-size: 12px">
                                   <td class="text-center">{{ $producto->referencia }}</td>
-                                  <td colspan="4" class="text-left">{{ $producto->categoria_producto }} {{ $producto->tipo_producto }} {{ $producto->marca }} {{ $producto->modelo }}</td>
+                                  <td colspan="4" class="text-left">{{ $producto->nombrec }} {{ $producto->nombret }} {{ $producto->nombrem }} {{ $producto->modelo }}</td>
                                   <td colspan="2" class="text-left">{{ $producto->nombre_sucursal }}</td>
                                   <td class="text-center">{{ $producto->existencia }}</td>
                                   <td class="text-right">$ {{ number_format($producto->precio_venta, 2) }}</td>

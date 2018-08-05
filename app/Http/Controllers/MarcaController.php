@@ -4,6 +4,8 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use mgaccesorios\Marca;
 
 class MarcaController extends Controller
 {
@@ -16,7 +18,7 @@ class MarcaController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +26,10 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        $marcas = DB::table('marcas')
+            ->paginate(10);
+
+        return view('marcas.lista', compact('marcas'));
     }
 
     /**
@@ -34,7 +39,7 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        return view('marca.alta');
+        return view('marcas.alta');
     }
 
     /**
@@ -45,7 +50,17 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $this->validate($request,[
+            'nombrem' => 'required|string|max:20|unique:marcas',
+        ]);
+
+        $marca = new Marca();
+        $marca->nombrem = $request->input('nombrem');
+        $marca->estatus = $request->input('estatus');
+
+        $marca->save();
+
+        return redirect()->route('home')->with('success', '¡La marca fue registrada correctamente!');
     }
 
     /**
@@ -67,7 +82,8 @@ class MarcaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $marca = Marca::find($id);
+        return view('marcas/editar', compact('marca', 'id_marca'));
     }
 
     /**
@@ -79,7 +95,14 @@ class MarcaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nombrem' => 'required|string|max:20|unique:marcas',
+        ]);
+
+        $marca = Marca::find($id);
+        $marca->nombrem = $request->input('nombre');
+        $marca->save();
+        return redirect()->route('marcas.index')->with('success', '¡Marca actualizada!');
     }
 
     /**
@@ -90,6 +113,14 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $marca = Marca::find($id);
+        
+        if ($marca->estatus == 1) {
+            $marca->estatus = 0;
+        }else{
+            $marca->estatus = 1;
+        }
+        $marca->save();
+        return redirect()->route('marcas.index');
     }
 }

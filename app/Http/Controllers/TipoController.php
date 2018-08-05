@@ -4,6 +4,8 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use mgaccesorios\Tipo;
 
 class TipoController extends Controller
 {
@@ -48,7 +50,17 @@ class TipoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $this->validate($request,[
+            'nombret' => 'required|string|max:20|unique:tipos',
+        ]);
+
+        $tipo = new Tipo();
+        $tipo->nombret = $request->input('nombret');
+        $tipo->estatus = $request->input('estatus');
+
+        $tipo->save();
+
+        return redirect()->route('home')->with('success', '¡El tipo de producto fue registrado correctamente!');
     }
 
     /**
@@ -70,7 +82,8 @@ class TipoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tipo = Tipo::find($id);
+        return view('tipos/editar', compact('tipo', 'id_tipo'));
     }
 
     /**
@@ -82,7 +95,14 @@ class TipoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nombret' => 'required|string|max:20|unique:tipos',
+        ]);
+
+        $tipo = Tipo::find($id);
+        $tipo->nombret = $request->input('nombret');
+        $tipo->save();
+        return redirect()->route('tipos.index')->with('success', '¡Tipo de producto actualizado!');
     }
 
     /**
@@ -93,6 +113,14 @@ class TipoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tipo = Tipo::find($id);
+        
+        if ($tipo->estatus == 1) {
+            $tipo->estatus = 0;
+        }else{
+            $tipo->estatus = 1;
+        }
+        $tipo->save();
+        return redirect()->route('tipos.index');
     }
 }

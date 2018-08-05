@@ -20,7 +20,7 @@
 																					<option>Elija una opcion</option>
 																					@foreach ($productos as $producto)
 																							@if ($producto->estatus != 0)
-																									<option value={{$producto->id_producto}}>{{$producto->referencia}} - {{$producto->categoria_producto}}, {{$producto->tipo_producto}}, {{$producto->marca}}, {{$producto->modelo}}, {{$producto->color}}</option>
+																									<option value={{$producto->id_producto}}>{{$producto->referencia}} - {{$producto->nombrec}}, {{$producto->nombret}}, {{$producto->nombrem}}, {{$producto->modelo}}, {{$producto->color}}</option>
 																							@endif
 																					@endforeach
 																			</select>

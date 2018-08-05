@@ -51,26 +51,26 @@ CREATE TABLE cobro(
 
 CREATE TABLE categorias(
     id_categoria INT(6) auto_increment NOT NULL,
-    descripcion VARCHAR(20) NOT NULL,
+    nombrec VARCHAR(20) NOT NULL,
     estatus INT(2) NOT NULL,
     CONSTRAINT pk_categoria PRIMARY KEY(id_categoria),
-    CONSTRAINT categorias_descripcion_unique UNIQUE(descripcion)
+    CONSTRAINT categorias_nombre_unique UNIQUE(nombrec)
 );
 
 CREATE TABLE tipos(
     id_tipo INT(6) auto_increment NOT NULL,
-    descripcion VARCHAR(20) NOT NULL,
+    nombret VARCHAR(20) NOT NULL,
     estatus INT(2) NOT NULL,
     CONSTRAINT pk_tipo PRIMARY KEY(id_tipo),
-    CONSTRAINT tipos_descripcion_unique UNIQUE(descripcion)
+    CONSTRAINT tipos_nombre_unique UNIQUE(nombret)
 );
 
 CREATE TABLE marcas(
     id_marca INT(6) auto_increment NOT NULL,
-    descripcion VARCHAR(20) NOT NULL,
+    nombrem VARCHAR(20) NOT NULL,
     estatus INT(2) NOT NULL,
     CONSTRAINT pk_marca PRIMARY KEY(id_marca),
-    CONSTRAINT marcas_descripcion_unique UNIQUE(descripcion)
+    CONSTRAINT marcas_nombre_unique UNIQUE(nombrem)
 );
 
 CREATE TABLE producto(
@@ -182,13 +182,15 @@ CREATE TABLE saldo(
     id_cobro INT(6) NULL,
     id_gasto INT(6) NULL,
     id_devolucion INT(6) NULL,
+    id_sucursal INT(6) NULL,
     saldo_actual INT(10) NOT NULL,
     fecha date NOT NULL,
     CONSTRAINT pk_saldo PRIMARY KEY(id_saldo),
     CONSTRAINT fk_saldo_fondo FOREIGN KEY(id_fondo) REFERENCES fondo(id_fondo),
     CONSTRAINT fk_saldo_cobro FOREIGN KEY(id_cobro) REFERENCES cobro(id_cobro),
     CONSTRAINT fk_saldo_gastos FOREIGN KEY(id_gasto) REFERENCES gastos(id_gasto),
-    CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion)
+    CONSTRAINT fk_saldo_devoluciones FOREIGN KEY(id_devolucion) REFERENCES devoluciones(id_devolucion),
+    CONSTRAINT fk_saldo_sucursales FOREIGN KEY(id_sucursal) REFERENCES sucursales(id_sucursal)
 )ENGINE=InnoDb;
 
 CREATE TABLE password_resets(

@@ -4,6 +4,8 @@ namespace mgaccesorios\Http\Controllers;
 
 use Illuminate\Http\Request;
 use mgaccesorios\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use mgaccesorios\Categoria;
 
 class CategoriaController extends Controller
 {
@@ -48,7 +50,17 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $this->validate($request,[
+            'nombrec' => 'required|string|max:20|unique:categorias',
+        ]);
+
+        $categoria = new Categoria();
+        $categoria->nombrec = $request->input('nombrec');
+        $categoria->estatus = $request->input('estatus');
+
+        $categoria->save();
+
+        return redirect()->route('home')->with('success', '¡Categoria de producto registrada correctamente!');
     }
 
     /**
@@ -70,7 +82,8 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categoria = Categoria::find($id);
+        return view('categorias/editar', compact('categoria', 'id_categoria'));
     }
 
     /**
@@ -82,7 +95,14 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nombrec' => 'required|string|max:20|unique:categorias',
+        ]);
+
+        $categoria = Categoria::find($id);
+        $categoria->nombrec = $request->input('nombrec');
+        $categoria->save();
+        return redirect()->route('categorias.index')->with('success', '¡Categoría actualizada!');
     }
 
     /**
@@ -93,6 +113,14 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $categoria = Categoria::find($id);
+        
+        if ($categoria->estatus == 1) {
+            $categoria->estatus = 0;
+        }else{
+            $categoria->estatus = 1;
+        }
+        $categoria->save();
+        return redirect()->route('categorias.index');
     }
 }

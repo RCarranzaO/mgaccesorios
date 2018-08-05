@@ -40,7 +40,10 @@ class VentaController extends Controller
         $productos = DB::table('detallealmacen')
             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
             ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-            ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
+            ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+            ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+            ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+            ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
             ->orderBy('detallealmacen.id_detallea')
             ->where('detallealmacen.id_sucursal', $user->id_sucursal)
             ->get();
@@ -53,7 +56,10 @@ class VentaController extends Controller
                 ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                 ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                 ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
+                ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
                 ->where('cuenta.id_venta', $venta->id_venta)
                 ->get();
             foreach ($ventas as $vent) {
@@ -63,7 +69,10 @@ class VentaController extends Controller
                 $cuentas = DB::table('cuenta')
                     ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                    ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                     ->where('cuenta.id_venta', $venta->id_venta)
                     ->get();
                 foreach ($cuentas as $cuenta) {
@@ -158,14 +167,17 @@ class VentaController extends Controller
             $cuentas = DB::table('cuenta')
                         ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                         ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                        ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                        ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                        ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                        ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                         ->where('cuenta.id_venta', $request->venta)
                         ->get();
             foreach ($cuentas as $cart) {
                 $result.= '<tr>'.
                           '   <td>'.$cart->referencia.'</td>'.
                           '   <td class="text-center"><input type="number" min="1" max="'.$cart->existencia.'" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
-                          '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
+                          '   <td>'.$cart->nombrec.', '.$cart->nombret.', '.$cart->nombrem.', '.$cart->modelo.', '.$cart->color.'</td>'.
                           '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                           '   <td>$'.number_format($cart->precio, 2).'</td>'.
                           '   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
@@ -254,7 +266,10 @@ class VentaController extends Controller
             $carrito = DB::table('detallealmacen')
                         ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                         ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                        ->select('detallealmacen.id_detallea', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
+                        ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                        ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                        ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                        ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
                         ->where('detallealmacen.id_detallea', $request->id)
                         ->first();
             //dd($carrito);
@@ -293,7 +308,10 @@ class VentaController extends Controller
                 $cuentas = DB::table('cuenta')
                             ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                             ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
-                            ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
+                            ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                            ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                            ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                            ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                             ->where('cuenta.id_venta', $venta->id_venta)
                             ->get();
                 //dd($cuentas);
@@ -301,7 +319,7 @@ class VentaController extends Controller
                     $result.= '<tr>'.
                               '   <td>'.$cart->referencia.'</td>'.
                               '   <td class="text-center"><input type="number" min="1" max="'.$cart->existencia.'" id="cantidad_'.$cart->id_cuenta.'" class="text-center" style="width:50px" value="'.$cart->cantidad.'"></td>'.
-                              '   <td>'.$cart->categoria_producto.', '.$cart->tipo_producto.', '.$cart->marca.', '.$cart->modelo.', '.$cart->color.'</td>'.
+                              '   <td>'.$cart->nombrec.', '.$cart->nombret.', '.$cart->nombrem.', '.$cart->modelo.', '.$cart->color.'</td>'.
                               '   <td>$'.number_format($cart->precio_venta, 2).'</td>'.
                               '   <td>$'.number_format($cart->precio, 2).'</td>'.
                               '   <td><a href="#" class="" onclick="eliminar('.$cart->id_cuenta.')"><i class="fa fa-trash"></i></a></td>'.
@@ -333,7 +351,10 @@ class VentaController extends Controller
                 ->join('detallealmacen', 'cuenta.id_detallea', '=', 'detallealmacen.id_detallea')
                 ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                 ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
+                ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                ->select('venta.id_venta', 'sucursales.nombre_sucursal', 'cuenta.id_detallea', 'cuenta.cantidad', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'cuenta.precio', 'cobro.monto_total')
                 ->where('cuenta.id_venta', $venta->id_venta)
                 ->get();
             $total = count($ventas);

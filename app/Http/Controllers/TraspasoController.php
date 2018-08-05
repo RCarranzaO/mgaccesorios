@@ -36,7 +36,10 @@ class TraspasoController extends Controller
         $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal', 'sucursales.nombre_sucursal', 'producto.estatus')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal', 'sucursales.nombre_sucursal', 'producto.estatus')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
         //dd($salidas);
@@ -55,20 +58,26 @@ class TraspasoController extends Controller
                 $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
             }elseif ($request->buscar != "") {
                 $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
-                    ->select('producto.id_producto', 'producto.referencia', 'producto.categoria_producto', 'producto.tipo_producto', 'producto.marca', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
+                    ->join('categorias', 'producto.id_categoria', '=', 'categorias.id_categoria')
+                    ->join('tipos', 'producto.id_tipo', '=', 'tipos.id_tipo')
+                    ->join('marcas', 'producto.id_marca', '=', 'marcas.id_marca')
+                    ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->where(function ($query) use ($request){
                         $query->where('producto.referencia', 'like', '%'.$request->buscar.'%')
-                            ->orWhere('producto.categoria_producto', 'like', '%'.$request->buscar.'%')
-                            ->orWhere('producto.tipo_producto', 'like', '%'.$request->buscar.'%')
-                            ->orWhere('producto.marca', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('categorias.nombrec', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('tipos.nombret', 'like', '%'.$request->buscar.'%')
+                            ->orWhere('marcas.nombrem', 'like', '%'.$request->buscar.'%')
                             ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
                             ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
                     })
@@ -78,7 +87,7 @@ class TraspasoController extends Controller
                 foreach ($traspasos as $traspaso) {
                     $result.= '<tr>'.
                         '<td>'.$traspaso->referencia.'</td>'.
-                        '<td>'.$traspaso->categoria_producto.', '.$traspaso->tipo_producto.', '.$traspaso->marca.', '.$traspaso->modelo.', '.$traspaso->color.'</td>'.
+                        '<td>'.$traspaso->nombrec.', '.$traspaso->nombret.', '.$traspaso->nombrem.', '.$traspaso->modelo.', '.$traspaso->color.'</td>'.
                         '<td>'.$traspaso->existencia.'</td>'.
                         '<td><a href="'.route("traspaso.show", $traspaso->id_producto).'" class="btn btn-outline-info">Traspasar</a></td>'.
                         '</tr>';

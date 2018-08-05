@@ -10,7 +10,7 @@ class Marca extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_marca';
     protected $fillable = [
-    	'descripcion', 'estatus',
+    	'nombrem', 'estatus',
     ];
     
     public function Producto()

@@ -22,7 +22,7 @@
 														<div class="form-group row">
 																<label for="nombre_sucursal" class="col-md-4 col-form-label text-md-right">Nombre sucursal</label>
 																<div class="col-md-6">
-																		<input class="form-control {{ $errors->has('nombre_sucrusal') ? ' is-invalid' : '' }}" type="text" name="nombre_sucursal" placeholder="Nombre sucursal">
+																		<input class="form-control {{ $errors->has('nombre_sucrusal') ? ' is-invalid' : '' }}" type="text" name="nombre_sucursal" placeholder="Nombre sucursal" required>
 																		@if($errors->has('nombre_sucursal'))
 																				<span class="help-block">
 																						<strong>{{ $errors->first('nombre_sucursal') }}</strong>
@@ -34,7 +34,7 @@
 														<div class="form-group row">
 																<label for="direccion" class="col-md-4 col-form-label text-md-right">Dirección</label>
 																<div class="col-md-6">
-																		<input class="form-control {{ $errors->has('direccion') ? ' is-invalid' : '' }}" type="text" name="direccion" placeholder="Dirección">
+																		<input class="form-control {{ $errors->has('direccion') ? ' is-invalid' : '' }}" type="text" name="direccion" placeholder="Dirección" required>
 																		@if($errors->has('direccion'))
 																				<span class="invalid-feedback">
 																						<strong>{{ $errors->first('direccion') }}</strong>
@@ -64,6 +64,7 @@
 														<div class="form-group row">
 																<div class="col-md-6 offset-md-4">
 																		<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
+																		<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 																</div>
 														</div>
 														<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

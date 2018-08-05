@@ -102,7 +102,7 @@
                                                 <tr>
                                                     <td>{{ $cuenta->referencia }}</td>
                                                     <td class="text-center"><input type="number" min="1" max="{{ $cuenta->existencia }}" id="cantidad_{{ $cuenta->id_cuenta }}" class="text-center" style="width:50px" value="{{ $cuenta->cantidad }}"></td>
-                                                    <td>{{ $cuenta->categoria_producto }}, {{ $cuenta->tipo_producto }}, {{ $cuenta->marca }}, {{ $cuenta->modelo }}, {{ $cuenta->color }}</td>
+                                                    <td>{{ $cuenta->nombrec }}, {{ $cuenta->nombret }}, {{ $cuenta->nombrem }}, {{ $cuenta->modelo }}, {{ $cuenta->color }}</td>
                                                     <td>${{ number_format($cuenta->precio_venta, 2) }}</td>
                                                     <td>${{ number_format($cuenta->precio, 2) }}</td>
                                                     <td><a href="#" class="" onclick="eliminar({{ $cuenta->id_cuenta }})"><i class="fa fa-trash"></i></a></td>
@@ -165,7 +165,7 @@
                                                         @if ($producto->estatus != 0)
                                                             <tr>
                                                               <td>{{ $producto->referencia }}</td>
-                                                              <td class="text-left">{{ $producto->categoria_producto }} {{ $producto->tipo_producto }} {{ $producto->marca }} {{ $producto->modelo }} {{ $producto->color }}</td>
+                                                              <td class="text-left">{{ $producto->nombrec }} {{ $producto->nombret }} {{ $producto->nombrem }} {{ $producto->modelo }} {{ $producto->color }}</td>
                                                               <td class="text-left">{{ $producto->nombre_sucursal }}</td>
                                                               <td>{{ $producto->existencia }}</td>
                                                               <td class="text-right">${{ number_format($producto->precio_venta, 2) }}</td>
@@ -231,7 +231,7 @@
                                                                                 <td style="border-top: 1px solid black; border-collapse: collapse;
                                                                                 width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->cantidad }}</td>
                                                                                 <td style="border-top: 1px solid black; border-collapse: collapse;
-                                                                                width: 100px; max-width: 100px;">{{ $venta->categoria_producto }} {{ $venta->tipo_producto }} {{ $venta->marca }}</td>
+                                                                                width: 100px; max-width: 100px;">{{ $venta->nombrec }} {{ $venta->nombret }} {{ $venta->nombrem }}</td>
                                                                                 <td style="border-top: 1px solid black; border-collapse: collapse;
                                                                                 width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->precio }}</td>
                                                                             </tr>
