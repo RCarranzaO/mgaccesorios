@@ -44,7 +44,7 @@
                                                 <td style="border-top: 1px solid black; border-collapse: collapse;
                                                 width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->cantidad }}</td>
                                                 <td style="border-top: 1px solid black; border-collapse: collapse;
-                                                width: 100px; max-width: 100px;">{{ $venta->categoria_producto }} {{ $venta->tipo_producto }} {{ $venta->marca }}</td>
+                                                width: 100px; max-width: 100px;">{{ $venta->nombrec }} {{ $venta->nombret }} {{ $venta->nombrem }}</td>
                                                 <td style="border-top: 1px solid black; border-collapse: collapse;
                                                 width: 100px; max-width: 100px; word-break: break-all;">{{ $venta->precio }}</td>
                                             </tr>
