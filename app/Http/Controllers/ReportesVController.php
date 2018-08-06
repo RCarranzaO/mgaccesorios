@@ -30,7 +30,7 @@ class ReportesVController extends Controller
                 ->join('users', 'cobro.id_user', '=', 'users.id_user')
                 ->join('sucursales', 'cobro.id_sucursal', '=', 'sucursales.id_sucursal')
                 ->select('venta.id_venta', 'cobro.fecha', 'users.username', 'sucursales.nombre_sucursal', 'venta.estatus', 'cobro.monto_total')
-                ->get();
+                ->paginate(10);
         } else {
             $ventas = DB::table('cobro')
                 ->join('venta', 'cobro.id_venta', '=', 'venta.id_venta')
@@ -38,7 +38,7 @@ class ReportesVController extends Controller
                 ->join('sucursales', 'cobro.id_sucursal', '=', 'sucursales.id_sucursal')
                 ->select('venta.id_venta', 'cobro.fecha', 'users.username', 'sucursales.nombre_sucursal', 'venta.estatus', 'cobro.monto_total')
                 ->where('sucursales.id_sucursal', $usuario->id_sucursal)
-                ->get();
+                ->paginate(10);
         }
 
         return view('reportes.ventas', compact('ventas'));

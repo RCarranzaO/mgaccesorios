@@ -48,7 +48,7 @@
                             <th>Sucursal</th>
                             <th>Estado</th>
                             <th>Total</th>
-                            <th></th>
+                            <th>Ticket</th>
                           </tr>
                       </thead>
                       @if ($ventas->count())
@@ -59,9 +59,17 @@
                                     <td>{{ $venta->fecha }}</td>
                                     <td>{{ $venta->username }}</td>
                                     <td>{{ $venta->nombre_sucursal }}</td>
-                                    <td>{{ $venta->estatus }}</td>
+                                    <td>
+                                      @if($venta->estatus == 1)
+                                        {{ $rol = 'Finalizada' }}
+                                      @else
+                                        {{ $rol = 'Cancelada' }}
+                                      @endif
+                                    </td>
                                     <td>{{ $venta->monto_total }}</td>
-                                    <td></td>
+                                    <td>
+                                      <button type="button" id="imprimir{{ $venta->id_venta }}" class="btn btn-outline-success" name="button"><i class="fa fa-print"></i> Imprimir</button>
+                                    </td>
                                 </tr>
                               @endforeach
                           </tbody>
@@ -73,6 +81,9 @@
                           </tbody>
                       @endif
                   </table>
+                  <hr>
+                  {{ $ventas->links() }}
+
               </div>
           </div>
       </div>
