@@ -2,8 +2,9 @@
 
 namespace mgaccesorios\Http\Controllers;
 
-use mgaccesorios\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use mgaccesorios\User;
 use mgaccesorios\Sucursal;
 
 class UsuarioController extends Controller
@@ -27,9 +28,12 @@ class UsuarioController extends Controller
     public function index()//Muestra la lista de usuarios registrados
     {
 
-        $usuarios = User::all();
-        $sucursales = Sucursal::all();
-        return view('usuario/lista', compact('usuarios', 'sucursales'));
+        $usuarios =  DB::table('users')
+            ->join('sucursales', 'users.id_sucursal', '=', 'sucursales.id_sucursal')
+            ->select('users.id_user', 'users.name', 'users.lastname', 'users.username', 'users.email', 'users.rol', 'users.estatus', 'sucursales.nombre_sucursal')
+            ->orderBy('users.id_user')
+            ->paginate(10);
+        return view('usuario/lista', compact('usuarios'));
 
     }
 
