@@ -185,7 +185,7 @@ class ProductoController extends Controller
             return redirect()->back()->with('fail','Precio de venta invalido, debe ser mayor al de compra.');
         }else{
             $producto->save();
-            return redirect()->route('producto.create')->with('success','Producto agregado.');
+            return redirect()->route('producto.create')->with('success','Producto agregado correctamente.');
         }
     }
 

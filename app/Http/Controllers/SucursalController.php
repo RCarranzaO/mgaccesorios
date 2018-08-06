@@ -57,7 +57,7 @@ class SucursalController extends Controller
         $sucursal->estatus = $request->input('estatus');
         $sucursal->save();
 
-        return redirect()->route('home')->with('success', 'Sucursal registrada exitosamente');
+        return redirect()->route('home')->with('success', '¡Sucursal registrada exitosamente');
     }
 
     public function show($id)
