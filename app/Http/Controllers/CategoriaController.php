@@ -20,9 +20,8 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función index maneja las categorías de producto registradas.
+     * @return Devuelve la vista de categorias.lista donde se muestran las categorías de productos registradas en la base de datos.
      */
     public function index()
     {
@@ -32,21 +31,16 @@ class CategoriaController extends Controller
         return view('categorias.lista', compact('categorias'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('categorias.alta');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * La función store valida el campo nombrec y lo almacena en la base de datos.
+     * @param El parámetro requerido es nombrec. 
+     * @return Devuelve la vista de home con un mensaje de success indicando que se ha guardado la información de manera correcta.
      */
     public function store(Request $request)
     {
@@ -63,22 +57,16 @@ class CategoriaController extends Controller
         return redirect()->route('home')->with('success', '¡Categoria de producto registrada correctamente!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función edit permite modificar la información de la categoría de producto.
+     * @param  El parámetro requerido es id, ya que el botón de editar está ligado al id de la categoría que desea modificar.
+     * @return Devuelve la vista editar para cambiar el nombre de la categoría de producto.
      */
     public function edit($id)
     {
@@ -87,11 +75,10 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función update guarda los cambios realizados al editar la categoría y actualiza la base de datos.
+     * @param La función realiza un request y valida el id de la categoría que modifica para realizar el update. 
+     * @param El parámetro requerido es el id de categoría. 
+     * @return Una vez realizada la actualización devuelve la vista categorias.index, la lista de categorías registradas en la base de datos junto con un mensaje de success indicando que se actualizó de forma correcta.
      */
     public function update(Request $request, $id)
     {
@@ -106,10 +93,9 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La funcion destroy controla el estatus de una categoría de producto para indicar si esta está activa o inactiva para su utilización.
+     * @param El parámetro requerido es el id de categoria. 
+     * @return Devuelve la lista de categorias.index, donde se muestran las categorías registradas en la base de datos con su estatus actualizados.
      */
     public function destroy($id)
     {
