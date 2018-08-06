@@ -127,9 +127,7 @@ class ReportesVController extends Controller
             ->where('venta.id_venta', $request->id)
             ->get();
         $fecha = date('Y-m-d');
-
         $pdf = PDF::loadView('reportes.ventaspdf', compact('ventas', 'fecha', 'total'));
-
         return $pdf->download('Reporte de ventas'.$fecha.'.pdf');
     }
 }

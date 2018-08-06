@@ -68,7 +68,7 @@
                                     </td>
                                     <td>{{ $venta->monto_total }}</td>
                                     <td>
-                                      <button type="button" id="imprimir{{ $venta->id_venta }}" class="btn btn-outline-success" name="button"><i class="fa fa-print"></i> Imprimir</button>
+                                      <button type="button" id="imprimir{{ $venta->id_venta }}" onclick="imprimir({{ $venta->id_venta }})" class="btn btn-outline-success" name="button"><i class="fa fa-print"></i> Imprimir</button>
                                     </td>
                                 </tr>
                               @endforeach
