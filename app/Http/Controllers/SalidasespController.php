@@ -23,16 +23,15 @@ class SalidasespController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función index realiza una búsqueda en la tabla detallealmacen de las existencias en la sucursal relacionada al usuario que realiza una salida especial. 
+     * @return Devuelve la vista de salidas.slidaesp con la lista de los productos en esa sucursal.
      */
     public function index()
     {
         $usuario = \Auth::user();
         $sucursal = Sucursal::find($usuario->id_sucursal);
-        //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
         $salidas = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -43,10 +42,14 @@ class SalidasespController extends Controller
                     ->orderBy('detallealmacen.id_detallea')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
-        //dd($salidas);
         return view('salidas.salidaesp', compact('sucursal', 'salidas'));
     }
 
+    /**
+     * La función buscarS realiza un request al atabla detallealmacen para ver los productos registrados en la sucursal donde el usuario está realizando la salida especial.
+     * @param El parámetro request solicita la información de los productos en la sucursal donde se está realizando la salida del producto. 
+     * @return Devuelve la vista de la lista de productos disponibles pararealizar la salida especial de acuerdo a lo escrito en el buscador de producto.
+     */
     public function buscarS(Request $request)
     {
         if ($request->ajax()) {
@@ -98,21 +101,17 @@ class SalidasespController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * La función store valida la información del producto al que se le está dando salida y que los datos del formulario se hayan llenado de manera correcta para poder realizar la salida especial.
+     * @param Los parámetros requeridos son: cantidad y descripcion. Se valida que la cantidad esté disponible y que el campo descripcion se haya llenado. 
+     * @return Si la solicitud del producto es validada correctamente devuelve la vista almacen.index con un mensaje de success.
+     * Si la validación es incorrecta devuelve la vista salidasesp.show con un mensaje de fail indicando que la cantidad solicitada excede las existencias.
      */
     public function store(Request $request)
     {
@@ -126,8 +125,6 @@ class SalidasespController extends Controller
               ->first();
 
         $date = Carbon::now();
-        //dd($productoId);
-        //dd($detalleaId);
         $max = $detalleaId->existencia;
         $validate = $this->validate($request, [
             'cantidad' => 'required|numeric',
@@ -142,7 +139,6 @@ class SalidasespController extends Controller
             $salidaesp->cantidad = $request->input('cantidad');
             $salidaesp->fecha = $date;
             $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');
-            //dd($salidaesp);
             $salidaesp->save();
             $detalleaId->save();
             return redirect()->route('almacen.index')->with('success', 'El traspaso se realizo exitosamente');
@@ -153,47 +149,29 @@ class SalidasespController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función show controla el formulario para realizar la salida especial.
+     * @param El parámetro requerido es id, el botón retirar está ligado al id del producto que desea retirar. 
+     * @return Devuelve salidas.formesp, que es la vista del formulario para realizar la salida especial.
      */
     public function show($id)
     {
-        //dd($id);
         Session::flash('id', $id);
         return view('salidas.formesp', compact('id'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
