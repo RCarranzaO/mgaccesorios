@@ -31,7 +31,13 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="search" >.  </label>
-                                        <button type="button" id="search_f" name="search" onclick="" class="btn btn-outline-primary form-control">Buscar</button>
+                                        <button type="button" id="search_f" name="search" onclick="" class="btn btn-outline-primary form-control"><i class="fa fa-search"></i>Buscar</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="print" >.  </label>
+                                        <button type="button" id="print" name="print" onclick="" class="btn btn-outline-primary form-control"><i class="fa fa-print"></i>Imprimir</button>
                                     </div>
                                 </div>
                             </div>
@@ -133,6 +139,18 @@
               }
           });
       });
+    </script>
+    <script>
+    $("#print").on("click", function () {
+        var fecha_i = $("#fecha_i").val();
+        var fecha_f = $("#fecha_f").val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('reporte.pdf') }}',
+            data: {'fecha_i':fecha_i, 'fecha_f':fecha_f}
+
+        });
+    });
     </script>
     <script>
         function imprimir(id) {

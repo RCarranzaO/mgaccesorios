@@ -220,4 +220,50 @@ class ReportesVController extends Controller
             return $pdf->download('ticketpdf.pdf');
       }
   }
+
+  public function reporte_venta(Request $request)
+  {
+      $user = \Auth::user();
+      $fecha = Carbon::now()->toDateString();
+      if ($request->ajax()) {
+          $fechai = $request->fecha_i;
+          $fechaf = $request->fecha_f;
+          $result = "";
+          if ($request->fecha_i != '' && $request->fecha_f != '') {
+              if ($request->fecha_f >= $request->fecha_i && $request->fecha_f <= $fecha) {
+                  if ($user->rol == '1') {
+                    $ventas = DB::table('cobro')
+                        ->join('venta', 'cobro.id_venta', '=', 'venta.id_venta')
+                        ->join('users', 'cobro.id_user', '=', 'users.id_user')
+                        ->join('sucursales', 'cobro.id_sucursal', '=', 'sucursales.id_sucursal')
+                        ->select('venta.id_venta', 'cobro.fecha', 'users.username', 'sucursales.nombre_sucursal', 'venta.estatus', 'cobro.monto_total')
+                        ->whereBetween('cobro.fecha', [$request->fecha_i, $request->fecha_f])
+                        ->get();
+                  } else {
+                    $ventas = DB::table('cobro')
+                        ->join('venta', 'cobro.id_venta', '=', 'venta.id_venta')
+                        ->join('users', 'cobro.id_user', '=', 'users.id_user')
+                        ->join('sucursales', 'cobro.id_sucursal', '=', 'sucursales.id_sucursal')
+                        ->select('venta.id_venta', 'cobro.fecha', 'users.username', 'sucursales.nombre_sucursal', 'venta.estatus', 'cobro.monto_total')
+                        ->whereBetween('cobro.fecha', [$request->fecha_i, $request->fecha_f])
+                        ->where('sucursales.id_sucursal', $user->id_sucursal)
+                        ->get();
+
+                  }
+              } else {
+              }
+          } else {
+              $ventas = DB::table('cobro')
+                  ->join('venta', 'cobro.id_venta', '=', 'venta.id_venta')
+                  ->join('users', 'cobro.id_user', '=', 'users.id_user')
+                  ->join('sucursales', 'cobro.id_sucursal', '=', 'sucursales.id_sucursal')
+                  ->select('venta.id_venta', 'cobro.fecha', 'users.username', 'sucursales.nombre_sucursal', 'venta.estatus', 'cobro.monto_total')
+                  ->where('cobro.fecha', $fecha)
+                  ->get();
+          }
+          $pdf = PDF::loadView('reportes.reporteVenta', compact('ventas', 'fecha', 'fechai', 'fechaf', 'user'));
+
+          return $pdf->download('Reporte_Ventas_'.$fecha.'.pdf');
+      }
+  }
 }
