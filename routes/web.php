@@ -56,6 +56,7 @@ Route::get('/reporte/descargar-almacen', 'ReportesController@pdf')->name('almace
 Route::get('/reporte/venta', 'ReportesVController@index')->name('repventa');
 Route::get('/reporte/descargar-venta', 'ReportesVController@ticket_pdf')->name('venta.ticket');
 Route::get('/reporte/venta-buscar', 'ReportesVController@buscar')->name('venta.buscar');
+Route::get('reporte/descargar/{id}', 'ReportesVController@venta_pdf')->name('venta.pdf');
 
 //Rutas de Saldo
 Route::get('/saldo/guardarF', 'SaldoController@guardarFondo')->name('guardarFondo');
