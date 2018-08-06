@@ -12,10 +12,10 @@ use mgaccesorios\Sucursal;
 
 class ReportesController extends Controller
 {
-    
+
     /**
      * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
-     * @return 
+     * @return
      */
     public function __construct()
     {
@@ -25,7 +25,7 @@ class ReportesController extends Controller
     /**
      * La función index muestra los productos en el inventario.
      * @return Si el rol que realiza la búsqueda es Vendedor, solo se muestran los productos en la sucursal a  la que pertenece.
-     Si el rol del usuario que realiza la búsqueda es Administrador, se muestran los productos de todas las sucursales disponibles en la base de datos.
+     * Si el rol del usuario que realiza la búsqueda es Administrador, se muestran los productos de todas las sucursales disponibles en la base de datos.
      */
     public function index()
     {
@@ -68,7 +68,7 @@ class ReportesController extends Controller
 
             $user = \Auth::user();
             $result = "";
-            
+
             if ($request->buscador == "0" && $request->buscar == "" && $user->rol == "1") {
                 $productos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
@@ -152,7 +152,7 @@ class ReportesController extends Controller
                             '<td class="text-right">$'.number_format($producto->precio_venta*$producto->existencia, 2).'</td>'.
                             '</tr>';
                     }
-                    
+
                 }
                 return Response($result);
             }else{
@@ -184,7 +184,7 @@ class ReportesController extends Controller
                 ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.precio_venta', 'producto.estatus')
                 ->orderBy('detallealmacen.id_detallea')
                 ->get();
-                
+
         }elseif ($request->buscador == "0" && $request->buscar != "" && $user->rol == "1") {
 
             $productos = DB::table('detallealmacen')
@@ -202,7 +202,7 @@ class ReportesController extends Controller
                 ->orWhere('producto.modelo', 'like', '%'.$request->buscar.'%')
                 ->orWhere('producto.color', 'like', '%'.$request->buscar.'%')
                 ->get();
-                
+
         }elseif ($request->buscador != "0" && $request->buscar == "") {
 
             $productos = DB::table('detallealmacen')
@@ -215,7 +215,7 @@ class ReportesController extends Controller
                 ->orderBy('detallealmacen.id_detallea')
                 ->where('sucursales.id_sucursal', '=', $request->buscador)
                 ->get();
-                
+
         }elseif ($request->buscador != "0" && $request->buscar != "") {
 
             $productos = DB::table('detallealmacen')
@@ -236,10 +236,10 @@ class ReportesController extends Controller
                         ->orWhere('producto.color', 'like', '%'.$request->buscar.'%');
                 })
                 ->get();
-                
+
         }
         $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
         return $pdf->download('inventario_'.$fecha.'.pdf');
-        
+
     }
 }
