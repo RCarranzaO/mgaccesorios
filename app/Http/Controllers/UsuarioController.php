@@ -20,7 +20,10 @@ class UsuarioController extends Controller
 
     }
 
-    
+    /**
+     * La funcion index llama a toda la información de las tablas User y Sucursal de la base de datos.
+     * @return Devuelve la vista de los usuarios registrados en la base de datos y a que sucursal pertenecen.
+     */
     public function index()//Muestra la lista de usuarios registrados
     {
 
@@ -30,14 +33,21 @@ class UsuarioController extends Controller
 
     }
 
-    
+    /**
+     * La funcion create guarda la información del formulario para registrar a un nuevo usuario.
+     * @return Devuelve la vista del formulario para la captura de información del nuevo usuario.
+     */
     public function create()//Muestra el formulario para registrar un usuario nuevo
     {
         $sucursales = Sucursal::all();
         return view('usuario/registrar', compact('sucursales'));
     }
 
-    
+    /**
+     * La funcion store valida la información capturada en el formulario para registrar a un nuevo usuario y la guarda.
+     * @param Los parámetros requeridos para realizar el guardado de este formulario son los campos: name, apellido, username, email, password, rol y sucursal. 
+     * @return Una vez validada la información y guardada nos redirrige a la vista home junto con un mensaje de success.
+     */
     public function store(Request $request)//Funcion que guarda al nuevo usuario
     {
         $validateData = $this->validate($request,[
@@ -59,10 +69,9 @@ class UsuarioController extends Controller
         $usuario->rol = $request->input('rol');
         $usuario->id_sucursal = $request->input('sucursal');
         $usuario->estatus = $request->input('estatus');
-
         $usuario->save();
-        return redirect()->route('home')->with('success', '¡Usuario registrado correctamente!');
         
+        return redirect()->route('home')->with('success', 'Usuario registrado correctamente!');
     }
 
     
@@ -71,7 +80,11 @@ class UsuarioController extends Controller
         
     }
 
-    
+    /**
+     * La funcion edit permite ver y editar la información de un usuario seleccionado. Buscará en la tabla User al usuario seleccionado y en Sucursal, la sucursal a la que pertenece por medio del id:scursal relacionado al usuario.
+     * @param El parámetro requerido es el id ya que cada botón de editar está relacionado con el id de ese usuario.
+     * @return Devuelve la vista del formulario para editar la información de ese usuario.
+     */
     public function edit($id)//Muestra la informacion a editar del usuario
     {
         $usuario = User::find($id);
@@ -80,7 +93,12 @@ class UsuarioController extends Controller
         return view('usuario/editar', compact('usuario', 'id_user', 'sucursales', 'sucursalId'));
     }
 
-    
+    /**
+     * La función update valida que la información del formulario esté correcta y completa, guarda los cambios realizados en la información del usuario seleccionado y actualiza la base de datos.
+     * @param Los parámetros requeridos son: nombre, apellido, usuario, correo, password y rol. 
+     * @param El parámetro id es requerido de la tabla sucursales ya que está relacionada con la tabla Users por medio del id de usuario.
+     * @return Devuelve la vista de la lista del usuario.index. Los usuarios registrados en la base de datos.
+     */
     public function update(Request $request, $id)//Actualiza la informacion que se modifico del usuario
     {
         $this->validate($request,[
@@ -102,11 +120,15 @@ class UsuarioController extends Controller
         $usuario->id_sucursal = $request->input('sucursal');
         $usuario->save();
 
-        return redirect()->route('usuario.index')->with('success', '¡Usuario actualizado!');
+        return redirect()->route('usuario.index')->with('success', 'Usuario actualizado!');
 
     }
 
-    
+    /**
+     * La función destroy sirve para cambiar el estatus de un usuario de activo a inactivo por medio del valor 1 y 0 con los cuales indica su estado para restringir su acceso al sistema.
+     * @param El parámetro que utiliza es el id, ya que el botón de cambio de estatus está relacionado al id del usuario al que desea modificar su estatus. 
+     * @return Devuelve la vista del usuario.index con la lista de los ususarios registrados y su estatus actualizado.
+     */
     public function destroy($id)//Activa o desactiva al usuario
     {
         
