@@ -12,7 +12,7 @@
                                 @csrf
                                 @include('alerts.errores')
                                 @include('alerts.success')
-                                @if ($user->rol == 0)
+                                @if ($user->rol == 2)
                                     @if ($fondoId->fecha == date("Y-m-d"))
                                         <div class="card-header">
                                             <h5 class="card-title">Fondo</h5>
