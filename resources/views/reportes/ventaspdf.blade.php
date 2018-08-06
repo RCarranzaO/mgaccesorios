@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (->count())
+                    @if ($ventas->count())
                         @foreach ($ventas as $venta)
                           <tr>
                               <td>{{ $venta->id_venta }}</td>
