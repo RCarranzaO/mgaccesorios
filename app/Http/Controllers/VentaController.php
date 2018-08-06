@@ -17,16 +17,21 @@ use Session;
 
 class VentaController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función function_construct se encarga de verificar que el usuario ha iniciado sesión antes de poder realizar cualquier acción.
+     * @return 
      */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * La función index controla la venta, llama la indormación de la sucursal que está realizando la venta, define la fecha actual y por medio de un join llama a la informacion de detalle almacen para poder verificar las existencias y disponibilidad de los productos a vender.
+     * @return Si no se ha definido un fondo de caja devuelve la vista fondo.fondo ya que no puede realizarse una venta sin un fondo especificado previamente.
+     * Si el fondo ya fué definido y la selección de los articulos realizada correctamente devuelve la vista venta.venta con los artículos agregados.
+     */
     public function index()
     {
         $venta = Venta::all()->last();
@@ -92,21 +97,17 @@ class VentaController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
 
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * La función store almacena la información de los productos seleccionados de AetalleAlmacen y guarda la información en Cuenta, también generá el Cobro sumando los precios de venta de los productos para actualizar el saldo de caja.
+     * El nuevo cobro crea un id para este, guarda la información del usuario que realiza la venta, la sucursal donde se está realizando, la fecha y el monto total a cobrar.
+     * @param Los parámetros necesarios son el id_venta e id_detallea. 
+     * @return Si la infromación es validada correctamente devuelve guardarCobro almacenando la información mencionada y un succes indicando que se ha realizado correctamente.
      */
     public function store(Request $request)
     {
@@ -154,10 +155,10 @@ class VentaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función show realiza el almacenamiento de los productos seleccionados en el detalle de venta y suma los precios de venta de cada artículo.
+     * @param El parámetro utilizado es el id de cuenta.
+     * @param Los parámetros requeridos son los detalles de productos en la tabla detallealmacen.
+     * @return Devuelve la lista de productos seleccionados y la cantidad total a cobrar por la venta.
      */
     public function show($id, Request $request)
     {
@@ -189,41 +190,25 @@ class VentaController extends Controller
                       '   <td>'.number_format($total, 2 ).'</td>'.
                       '   <td></td>'.
                       '</tr>';
-            //dd($result);
+            
             return Response($result);
         }
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id, Request $request)
     {
         $cuenta = Cuenta::find($id);
@@ -245,9 +230,10 @@ class VentaController extends Controller
                 return Response($result);
             }
         }
-        //dd($cuenta);
+        
         return Response($cuenta);
     }
+
 
     public function cart_temp(Request $request)
     {
@@ -272,7 +258,7 @@ class VentaController extends Controller
                         ->select('detallealmacen.id_detallea', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'producto.precio_venta', 'sucursales.nombre_sucursal', 'detallealmacen.existencia', 'producto.estatus')
                         ->where('detallealmacen.id_detallea', $request->id)
                         ->first();
-            //dd($carrito);
+            
             if ($carrito) {
                 if ($request->cantidad <= $carrito->existencia) {
                     if(empty($ventas)){
@@ -314,7 +300,7 @@ class VentaController extends Controller
                             ->select('cuenta.id_cuenta', 'cuenta.id_venta', 'cuenta.id_detallea', 'detallealmacen.id_producto', 'detallealmacen.existencia', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'cuenta.cantidad', 'cuenta.precio', 'producto.precio_venta', 'cuenta.fecha')
                             ->where('cuenta.id_venta', $venta->id_venta)
                             ->get();
-                //dd($cuentas);
+                
                 foreach ($cuentas as $cart) {
                     $result.= '<tr>'.
                               '   <td>'.$cart->referencia.'</td>'.
@@ -335,10 +321,11 @@ class VentaController extends Controller
             }
         }
     }
+
+
     public function ticket()
     {
-        //header('Content-Type: application/pdf;');
-        //header('Content-Disposition: attachment; filename="ticketpdf.pdf"');
+
         $venta = Venta::all()->last();
         $user = \Auth::user();
         $date = Carbon::now();

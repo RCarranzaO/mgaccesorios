@@ -5,6 +5,7 @@
 @if (Auth::user()->rol == 1)
 		<div class="container">
 				@include('alerts.success')
+				{{ $usuarios->links() }}
 				<table class="table text-center table-responsive-lg">
 						<thead class="thead-dark">
 								<tr>
@@ -35,7 +36,7 @@
 																{{ $rol = 'Vendedor' }}
 														@endif
 												</td>
-												<td>{{ $usuario->id_sucursal }}</td>
+												<td>{{ $usuario->nombre_sucursal }}</td>
 												<td>
 														@if($usuario->estatus == 1)
 																{{ $rol = 'Activo' }}

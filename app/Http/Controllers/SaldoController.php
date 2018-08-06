@@ -111,8 +111,8 @@ class SaldoController extends Controller
     }
 
     /**
-     * Description
-     * @return type
+     * La función guardarCobro almacena la información de la venta como un nuevo saldo, valida el saldo actual anterior y realiza la suma de la cantidad cobrada en el nuevo saldo.
+     * @return Devuelve la vista de venta.index, la vista para realizar otra venta junto con un mensaje de success.
      */
     public function guardarCobro()
     {
