@@ -20,9 +20,8 @@ class MarcaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función index maneja las marcas de producto registradas.
+     * @return Devuelve la vista de marcas.lista donde se muestran las marcas de productos registradas en la base de datos.
      */
     public function index()
     {
@@ -32,21 +31,16 @@ class MarcaController extends Controller
         return view('marcas.lista', compact('marcas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('marcas.alta');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * La función store valida el campo nombrem y lo almacena en la base de datos.
+     * @param El parámetro requerido es nombrem. 
+     * @return Devuelve la vista de home con un mensaje de success indicando que se ha guardado la información de manera correcta.
      */
     public function store(Request $request)
     {
@@ -63,22 +57,16 @@ class MarcaController extends Controller
         return redirect()->route('home')->with('success', '¡La marca fue registrada correctamente!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función edit permite modificar la información de la marca de producto.
+     * @param  El parámetro requerido es id, ya que el botón de editar está ligado al id de la marca que desea modificar.
+     * @return Devuelve la vista editar para cambiar el nombre de la marca de producto.
      */
     public function edit($id)
     {
@@ -87,11 +75,10 @@ class MarcaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función update guarda los cambios realizados al editar la marca y actualiza la base de datos.
+     * @param La función realiza un request y valida el id de la marca que modifica para realizar el update. 
+     * @param El parámetro requerido es el id de marca.
+     * @return Una vez realizada la actualización devuelve la vista marcas.index, la lista de marcas registradas en la base de datos junto con un mensaje de success indicando que se actualizó de forma correcta.
      */
     public function update(Request $request, $id)
     {
@@ -106,10 +93,9 @@ class MarcaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La funcion destroy controla el estatus de una marca de producto para indicar si esta está activa o inactiva para su utilización.
+     * @param El parámetro requerido es el id de marca. 
+     * @return Devuelve la lista de marcas.index, donde se muestran las marcas registradas en la base de datos con su estatus actualizados.
      */
     public function destroy($id)
     {

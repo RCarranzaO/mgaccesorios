@@ -20,9 +20,8 @@ class TipoController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La función index maneja los tipos de producto registrados.
+     * @return Devuelve la vista de tipos.lista donde se muestran los tipos de productos registrados en la base de datos.
      */
     public function index()
     {
@@ -32,21 +31,16 @@ class TipoController extends Controller
         return view('tipos.lista', compact('tipos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('tipos.alta');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * La función store valida el campo nombret y lo almacena en la base de datos.
+     * @param El parámetro requerido es nombret.
+     * @return Devuelve la vista de home con un mensaje de success indicando que se ha guardado la información de manera correcta.
      */
     public function store(Request $request)
     {
@@ -63,22 +57,16 @@ class TipoController extends Controller
         return redirect()->route('home')->with('success', '¡El tipo de producto fue registrado correctamente!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función edit permite modificar la información del tipo de producto.
+     * @param El parámetro requerido es id, ya que el botón de editar está ligado al id del tipo que desea modificar.
+     * @return Devuelve la vista editar para cambiar el nombre del tipo de producto.
      */
     public function edit($id)
     {
@@ -87,11 +75,10 @@ class TipoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función update guarda los cambios realizados al editar el tipo y actualiza la base de datos. 
+     * @param La función realiza un request y valida el id del tipo que modifica para realizar el update en el mismo tipo de producto.
+     * @param El parámetro requerido es el id del tipo. 
+     * @return Una vez realizada la actualización devuelve la vista tipos.index, la lista de tipos registrados en la base de datos junto con un mensaje de success indicando que se actualizó de forma correcta.
      */
     public function update(Request $request, $id)
     {
@@ -106,10 +93,9 @@ class TipoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La funcion destroy controla el estatus de un tipo de producto para indicar si este tipo está activo o inactivo para su utilización.
+     * @param El parámetro requerido es el id del tipo. 
+     * @return Devuelve la lista de tipos.index, donde se muestran los tipos registrados en la base de datos con su estatus actualizados.
      */
     public function destroy($id)
     {
