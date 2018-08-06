@@ -59,9 +59,10 @@ class UsuarioController extends Controller
         $usuario->rol = $request->input('rol');
         $usuario->id_sucursal = $request->input('sucursal');
         $usuario->estatus = $request->input('estatus');
+
         $usuario->save();
+        return redirect()->route('home')->with('success', '¡Usuario registrado correctamente!');
         
-        return redirect()->route('home')->with('success', 'Usuario registrado correctamente!');
     }
 
     
@@ -101,7 +102,7 @@ class UsuarioController extends Controller
         $usuario->id_sucursal = $request->input('sucursal');
         $usuario->save();
 
-        return redirect()->route('usuario.index')->with('success', 'Usuario actualizado!');
+        return redirect()->route('usuario.index')->with('success', '¡Usuario actualizado!');
 
     }
 

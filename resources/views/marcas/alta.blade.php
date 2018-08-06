@@ -10,19 +10,13 @@
 										<div class="card-body">
 												<form class="form-control" method="post" action="{{ route('marcas.store') }}">
 														@csrf
-														@if($errors->any())
-																<div class="alert alert-danger">
-																		<ul>
-																				@foreach($errors->all() as $error)
-																						<li>{{$error}}</li>
-																				@endforeach
-																		</ul>
-																</div>
-														@endif
+														@include('alerts.errores')
+														<div id="msg" class="col-sm"></div>
+
 														<div class="form-group row">
 																<label for="nombrem" class="col-md-4 col-form-label text-md-right">{{ "Nombre de la marca:" }}</label>
 																<div class="col-md-6">
-																		<input class="form-control {{ $errors->has('nombrem') ? ' is-invalid' : '' }}" type="text" name="nombrem" placeholder="Nombre" required>
+																		<input id="marca" class="form-control {{ $errors->has('nombrem') ? ' is-invalid' : '' }}" type="text" name="nombrem" placeholder="Nombre" required>
 																		@if($errors->has('nombrem'))
 																				<span class="help-block">
 																						<strong>{{ $errors->first('nombrem') }}</strong>
@@ -39,7 +33,7 @@
 														</div>
 														<div class="form-group row">
 																<div class="col-md-6 offset-md-4">
-																		<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
+																		<button type="button" id="aceptar" class="btn btn-outline-primary">Aceptar</button>
 																		<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 																</div>
 														</div>
@@ -98,4 +92,21 @@
 		</div>
 @endif
 
+@endsection
+@section('script')
+	<script>
+		$(document).ready(function(){
+			$('#aceptar').click(function(){
+				validar();
+			});
+			function validar(){
+				var marca = $("#marca").val();
+				if(marca == ''){
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>El nombre de la marca está vacío.</div>');
+				}else{
+					$("#myModal").modal();
+				}
+			}
+		});
+	</script>
 @endsection

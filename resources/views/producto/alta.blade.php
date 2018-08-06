@@ -11,6 +11,8 @@
 													<form method="post" action="{{ route('producto.store') }}">
 															@csrf
 															@include('alerts.errores')
+															<div id="msg" class="col-sm"></div>
+
 															<div class="form-group row">
 																	<label for="referencia" class="col-md-4 col-form-label text-md-right">Referencia</label>
 
@@ -29,8 +31,8 @@
 															<div class="form-group row">
 																		<label for="categoria" class="col-md-4 col-form-label text-md-right">Categoría</label>
 																		<div class="col-md-6">
-																				<select class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" required>
-																						<option>Elija una opcion</option>
+																				<select id="categoria" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" required>
+																						<option value="0">Elija una opcion</option>
 																						@foreach ($categorias as $categoria)
 																								@if ($categoria->estatus != 0)
 																										<option value="{{$categoria->id_categoria}}">{{$categoria->nombrec}}</option>
@@ -48,8 +50,8 @@
 															<div class="form-group row">
 																		<label for="tipo" class="col-md-4 col-form-label text-md-right">Tipo</label>
 																		<div class="col-md-6">
-																				<select class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" required>
-																						<option>Elija una opcion</option>
+																				<select id="tipo" class="form-control{{ $errors->has('tipo') ? ' is-invalid' : '' }}" name="tipo" required>
+																						<option value="0">Elija una opcion</option>
 																						@foreach ($tipos as $tipo)
 																								@if ($tipo->estatus != 0)
 																										<option value="{{$tipo->id_tipo}}">{{$tipo->nombret}}</option>
@@ -67,8 +69,8 @@
 															<div class="form-group row">
 																		<label for="marca" class="col-md-4 col-form-label text-md-right">Marca</label>
 																		<div class="col-md-6">
-																				<select class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" required>
-																						<option>Elija una opcion</option>
+																				<select id="marca" class="form-control{{ $errors->has('marca') ? ' is-invalid' : '' }}" name="marca" required>
+																						<option value="0">Elija una opcion</option>
 																						@foreach ($marcas as $marca)
 																								@if ($marca->estatus != 0)
 																										<option value="{{$marca->id_marca}}">{{$marca->nombrem}}</option>
@@ -155,9 +157,28 @@
 															<div class="form-group row">
 																	<div class="col-md-6 offset-md-4">
 
-																			<button type="submit" class="btn btn-outline-primary">Aceptar</button>
+																			<button id="aceptar" type="button" class="btn btn-outline-primary">Aceptar</button>
 																			<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
 
+																	</div>
+															</div>
+															<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																	<div class="modal-dialog" role="document">
+																			<div class="modal-content">
+																					<div class="modal-header">
+																							<h5 class="modal-title"  id="exampleModalLabel">{{ "Alta de Producto" }}</h5>
+																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																									<span aria-hidden="true">&times;</span>
+																							</button>
+																					</div>
+																					<div class="modal-body">
+																							<p class="card-text">{{ "¿Desea registrar el producto?" }}</p>
+																					</div>
+																					<div class="modal-footer">
+																							<button type="submit" class="btn btn-outline-primary" data-toogle="modal" data-target="#myModal">Aceptar</button>
+																							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+																					</div>
+																			</div>
 																	</div>
 															</div>
 													</form>
@@ -184,7 +205,7 @@
 											</button>
 									</div>
 									<div class="modal-body">
-											<p class="text-center">No tienes lo privilegios para entrar aquí!! Adios!</p>
+											<p class="text-center">Usted no cuenta con los privilegios para estar aquí.</p>
 									</div>
 									<div class="modal-footer">
 											<form class="" action="{{ route('home') }}">
@@ -196,4 +217,35 @@
 			</div>
 	@endif
 
+@endsection
+@section('script')
+	<script>
+		$(document).ready(function(){
+			$('#aceptar').click(function(){
+				validar();
+			});
+			function validar(){
+				var categoria = $("#categoria").val();
+				var tipo = $("#tipo").val();
+				var marca = $("#marca").val();
+				if(categoria == 0 && tipo == 0 && marca == 0){
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Hay campos vacíos.</div>');
+				}else if (categoria != 0 && tipo == 0 && marca != 0) {
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Debe seleccionar el tipo de producto.</div>');
+				}else if (categoria == 0 && tipo != 0 && marca != 0) {
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Debe seleccionar una categoría para el producto.</div>');
+				}else if (categoria != 0 && tipo != 0 && marca == 0) {
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Debe seleccionar una marca para el producto.</div>');
+				}else if(categoria != 0 && tipo == 0 && marca == 0){
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Hay campos vacíos.</div>');
+				}else if(categoria == 0 && tipo != 0 && marca == 0){
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Hay campos vacíos.</div>');
+				}else if(categoria == 0 && tipo == 0 && marca != 0){
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Hay campos vacíos.</div>');
+				}else{
+					$("#myModal").modal();
+				}
+			}
+		});
+	</script>
 @endsection

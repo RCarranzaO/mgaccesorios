@@ -12,6 +12,8 @@
 														<form method="post" action="{{ route('usuario.store') }}">
 																@csrf
 																@include('alerts.errores')
+																<div id="msg" class="col-sm"></div>
+
 																<div class="form-group row">
 																		<label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
 																		<div class="col-md-6">
@@ -82,8 +84,8 @@
 																<div class="form-group row">
 																		<label for="rol" class="col-md-4 col-form-label text-md-right">Rol</label>
 																		<div class="col-md-6">
-																				<select class="form-control{{ $errors->has('rol') ? ' is-invalid' : '' }}" name="rol" required>
-																						<option>Elija una opcion</option>
+																				<select id="rol" class="form-control{{ $errors->has('rol') ? ' is-invalid' : '' }}" name="rol" required>
+																						<option value="2">Elija una opcion</option>
 																						<option value="0">Vendedor</option>
 																						<option value="1">Administrador</option>
 																				</select>
@@ -98,8 +100,8 @@
 																<div class="form-group row">
 																		<label for="sucursal" class="col-md-4 col-form-label text-md-right">Sucursal</label>
 																		<div class="col-md-6">
-																				<select class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
-																						<option>Elija una opcion</option>
+																				<select id="sucursal" class="form-control{{ $errors->has('sucursal') ? ' is-invalid' : '' }}" name="sucursal" required>
+																						<option value="0">Elija una opcion</option>
 																						@foreach ($sucursales as $sucursal)
 																								@if ($sucursal->estatus != 0)
 																										<option value="{{$sucursal->id_sucursal}}">{{$sucursal->nombre_sucursal}}</option>
@@ -123,8 +125,27 @@
 
 																<div class="form-group row">
 																		<div class="col-md-6 offset-md-4">
-																				<button type="submit" class="btn btn-outline-primary">Aceptar</button>
+																				<button id="aceptar" type="button" class="btn btn-outline-primary">Aceptar</button>
 																				<a href="{{ route('home') }}" class="btn btn-outline-secondary">Cancelar</a>
+																		</div>
+																</div>
+																<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																		<div class="modal-dialog" role="document">
+																				<div class="modal-content">
+																						<div class="modal-header">
+																								<h5 class="modal-title"  id="exampleModalLabel">{{ "Alta de Usuario" }}</h5>
+																								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																										<span aria-hidden="true">&times;</span>
+																								</button>
+																						</div>
+																						<div class="modal-body">
+																								<p class="card-text">{{ "¿Desea registrar al usuario?" }}</p>
+																						</div>
+																						<div class="modal-footer">
+																								<button type="submit" class="btn btn-outline-primary" data-toogle="modal" data-target="#myModal">Aceptar</button>
+																								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+																						</div>
+																				</div>
 																		</div>
 																</div>
 														</form>
@@ -151,7 +172,7 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<p class="text-center">No tienes lo privilegios para entrar aquí!! Adios!</p>
+							<p class="text-center">Usted no cuenta con los privilegios para estar aquí.</p>
 						</div>
 						<div class="modal-footer">
 							<form class="" action="{{ route('home') }}">
@@ -162,4 +183,27 @@
 				</div>
 			</div>
 		@endif
+@endsection
+@section('script')
+	<script>
+		$(document).ready(function(){
+			$('#aceptar').click(function(){
+				validar();
+			});
+			function validar(){
+				var rol = $("#rol").val();
+				var sucursal = $("#sucursal").val();
+				if(rol > 1 && sucursal == 0){
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Hay campos vacíos.</div>');
+				}else if (rol > 1 && sucursal != 0) {
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Debe elegir un rol para el usuario.</div>');
+				}else if (rol <= 1 && sucursal == 0) {
+					$('#msg').html('<div class="alert alert-danger alert-dismissible fade show" id="danger-alert" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Debe elegir una sucursal para el usuario.</div>');
+				}
+				else{
+					$("#myModal").modal();
+				}
+			}
+		});
+	</script>
 @endsection

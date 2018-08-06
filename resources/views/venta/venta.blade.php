@@ -146,7 +146,7 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <table class="table text-center table-responsive-sm">
+                                        <table class="table text-center table-responsive-lg">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th scope="col">Referencia</th>

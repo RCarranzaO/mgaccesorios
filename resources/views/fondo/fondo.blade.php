@@ -11,6 +11,7 @@
                             <form class="form-control" action="{{ route('guardar-fondo') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @include('alerts.errores')
+                                @include('alerts.success')
                                 @if ($user->rol == 0)
                                     @if ($fondoId->fecha == date("Y-m-d"))
                                         <div class="card-header">

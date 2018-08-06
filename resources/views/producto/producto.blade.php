@@ -9,7 +9,7 @@
               {{ $productos->links() }}
             </form>
           </nav>
-          <table id="myTable" class="table text-center table-responsive-sm">
+          <table id="myTable" class="table text-center table-responsive-lg">
               <thead class="thead-dark">
                   <tr>
                       <th scope="col" onclick="ordenar(0)">{{ 'Refencia' }} <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></th>
@@ -100,7 +100,7 @@
                       </button>
                   </div>
                   <div class="modal-body">
-                      <h3>No tienes lo privilegios para entrar aquí!! Adios!</h3>
+                      <h3>Usted no cuenta con los privilegios para estar aquí.</h3>
                   </div>
                   <div class="modal-footer">
                       <form class="" action="{{ route('home') }}">

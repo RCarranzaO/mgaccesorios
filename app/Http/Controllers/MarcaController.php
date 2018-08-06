@@ -100,7 +100,7 @@ class MarcaController extends Controller
         ]);
 
         $marca = Marca::find($id);
-        $marca->nombrem = $request->input('nombre');
+        $marca->nombrem = $request->input('nombrem');
         $marca->save();
         return redirect()->route('marcas.index')->with('success', '¡Marca actualizada!');
     }

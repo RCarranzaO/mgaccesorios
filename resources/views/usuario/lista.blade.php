@@ -5,7 +5,7 @@
 @if (Auth::user()->rol == 1)
 		<div class="container">
 				@include('alerts.success')
-				<table class="table text-center table-responsive-sm">
+				<table class="table text-center table-responsive-lg">
 						<thead class="thead-dark">
 								<tr>
 										<th scope="col">ID</th>
@@ -97,7 +97,7 @@
 										</button>
 								</div>
 								<div class="modal-body">
-										<p class="text-center">No tienes lo privilegios para entrar aquí!! Adios!</p>
+										<p class="text-center">Usted no cuenta con los privilegios para estar aquí.</p>
 								</div>
 								<div class="modal-footer">
 										<form class="" action="{{ route('home') }}">
