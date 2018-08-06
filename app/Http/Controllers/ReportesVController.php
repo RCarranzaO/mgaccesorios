@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use mgaccesorios\Cobro;
 use mgaccesorios\Venta;
 use mgaccesorios\Sucursal;
+use Carbon\Carbon;
 
 class ReportesVController extends Controller
 {
@@ -23,6 +24,7 @@ class ReportesVController extends Controller
     }
     public function index()
     {
+        $date = Carbon::now()->toDateString();
         $usuario = \Auth::user();
         if ($usuario->rol == "1") {
             $ventas = DB::table('cobro')
@@ -41,7 +43,7 @@ class ReportesVController extends Controller
                 ->paginate(10);
         }
 
-        return view('reportes.ventas', compact('ventas'));
+        return view('reportes.ventas', compact('ventas', 'date'));
     }
 
     public function buscar(Request $request)
@@ -66,7 +68,7 @@ class ReportesVController extends Controller
                         '<td>'.$venta->fecha.'</td>'.
                         '<td>'.$venta->username.'</td>'.
                         '<td>'.$venta->nombre_sucursal.'</td>'.
-                        '<td>'.$venta->estatus.'</td>'.
+                        '<td>'.$estado = ($venta->estatus == 1) ? "Finalizada" : "Cancelada".'</td>'.
                         '<td>'.$venta->monto_total.'</td>'.
                         '<td><button type="button" onclick="imprimir('.$venta->id_venta.')" class="btn btn-warning-outline"><i class="fa fa-print"></i></button></td>'.
                         '</tr>';
@@ -87,8 +89,9 @@ class ReportesVController extends Controller
                         '<td>'.$venta->fecha.'</td>'.
                         '<td>'.$venta->username.'</td>'.
                         '<td>'.$venta->nombre_sucursal.'</td>'.
-                        '<td>'.$venta->estatus.'</td>'.
+                        '<td>'.$estado = ($venta->estatus == 1) ? "Finalizada" : "Cancelada" .'</td>'.
                         '<td>'.$venta->monto_total.'</td>'.
+                        '<td><button type="button" onclick="imprimir('.$venta->id_venta.')" class="btn btn-warning-outline"><i class="fa fa-print"></i></button></td>'.
                         '</tr>';
                       }
                       return Response($result);
