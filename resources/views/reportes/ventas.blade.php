@@ -96,7 +96,7 @@
         function imprimir(id) {
             $.ajax({
               type: 'get',
-              url: '{{ route('venta.pdf') }}',
+              url: '{{ route('venta.ticket') }}',
               data: {'id':id}
             });
         }
