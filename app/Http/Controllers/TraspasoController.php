@@ -32,7 +32,6 @@ class TraspasoController extends Controller
     {
         $usuario = \Auth::user();
         $sucursal = Sucursal::find($usuario->id_sucursal);
-        //$salidas = DetalleAlmacen::all()->where('id_sucursal', $usuario->id_sucursal);
         $traspasos = DB::table('detallealmacen')
                     ->join('producto', 'detallealmacen.id_producto', '=', 'producto.id_producto')
                     ->join('sucursales', 'detallealmacen.id_sucursal', '=', 'sucursales.id_sucursal')
@@ -42,11 +41,15 @@ class TraspasoController extends Controller
                     ->select('producto.id_producto', 'producto.referencia', 'categorias.nombrec', 'tipos.nombret', 'marcas.nombrem', 'producto.modelo', 'producto.color', 'detallealmacen.existencia', 'sucursales.id_sucursal', 'sucursales.nombre_sucursal', 'producto.estatus')
                     ->where('detallealmacen.id_sucursal', $usuario->id_sucursal)
                     ->paginate(10);
-        //dd($salidas);
 
         return view('traspaso.traspaso', compact('traspasos', 'sucursal'));
     }
 
+    /**
+     * La función buscarT trabaja sobre la tabla detallealmacen llamando a todos sus campos para hacer la búsqueda de producto que se desea traspasar a otra sucursal. Realiza la validación de disponibilidad en la sucursal que realizará el traspaso hacia otra sucursal.
+     * @param Se realiza un request a la base de datos, en la tabla detallealmacen y realiza la búsqueda del producto relacionado con la sucursal que realizará el traspaso. 
+     * @return Devuelve la vista de la lista de productos en la sucursal que realizaó el traspaso junto con un mensaje de success indicando que el traspaso se realizó con éxito.
+     */
     public function buscarT(Request $request)
     {
         if ($request->ajax()) {
@@ -101,21 +104,17 @@ class TraspasoController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * La función store guarda la información del inventario de las sucursales al realizar un traspaso. Valida el que la cantidad de producto sea correcta y la sucursal a donde se enviará el producto.
+     * @param Se realiza un request a DetalleAlmacen para validar el producto que se desea traspasar a otra sucursal y la sucursal que recibirá dicho producto.
+     * @return Si el traspaso se realiza con éxito devuelve la vista de almacen.index donde se podrá ver las existencias actualizadas de la sucursal que realizó el traspaso.
+     * Si el traspaso no serealiza debido a que se indicó una cantidad errónea devuelve la vista de traspaso.show para poder definir una cantidad correcta a traspasar.
      */
     public function store(Request $request)
     {
@@ -134,7 +133,6 @@ class TraspasoController extends Controller
         $date = Carbon::now();
         $sucursalO = Sucursal::find($usuario->id_sucursal);
         $sucursalD = Sucursal::find($request->input('sucursal'));
-        //dd($detalleaId);
         $max = $detalleaId->existencia;
         $validate = $this->validate($request, [
             'cantidad' => 'required|numeric',
@@ -149,11 +147,9 @@ class TraspasoController extends Controller
             $traspaso->cantidad = $request->input('cantidad');
             $traspaso->fecha = $date;
             $traspaso->save();
-            //dd($traspaso);
             if ($detalleaID) {
                 $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');
                 $detalleaID->existencia = $detalleaID->existencia + $request->input('cantidad');
-                //dd($detalleaId);
                 $detalleaId->save();
                 $detalleaID->save();
             } else {
@@ -163,7 +159,6 @@ class TraspasoController extends Controller
                 $almacen->id_sucursal = $request->input('sucursal');
                 $almacen->existencia = $request->input('cantidad');
                 $detalleaId->existencia = $detalleaId->existencia - $request->input('cantidad');
-                //dd($detalleaId);
                 $almacen->save();
                 $detalleaId->save();
             }
@@ -175,10 +170,9 @@ class TraspasoController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * La función show se encarga de controlar el formulario para realizar el traspaso de producto.
+     * @param El parámetro que requiere es el id del producto, ya que el botón de traspaso está ligado al producto que desea traspasar por su id. 
+     * @return Devuelve la vista del formulario traspaso.formtras.
      */
     public function show($id)
     {
@@ -188,35 +182,19 @@ class TraspasoController extends Controller
         return view('traspaso.formtras', compact('id', 'sucursales', 'usuario'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
