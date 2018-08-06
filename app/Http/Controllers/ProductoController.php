@@ -40,6 +40,11 @@ class ProductoController extends Controller
         return view('producto.producto', compact('productos'));
     }
 
+    /**
+     * La función buscarP realiza la búsqueda de productos en la tabla prodcuto de la base de datos conforme se va escribiendo el nombre de una característica de dicho producto.
+     * @param Se realiza un request a la tabla producto conforme se va escribiendo la característica del producto. 
+     * @return Devuelve la lista de los productos que cumplen dicha característica escrita.
+     */
     public function buscarP(Request $request)
     {
         if ($request->ajax()) {

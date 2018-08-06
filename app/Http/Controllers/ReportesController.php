@@ -22,6 +22,11 @@ class ReportesController extends Controller
        $this->middleware('auth');
     }
 
+    /**
+     * La función index muestra los productos en el inventario.
+     * @return Si el rol que realiza la búsqueda es Vendedor, solo se muestran los productos en la sucursal a  la que pertenece.
+     Si el rol del usuario que realiza la búsqueda es Administrador, se muestran los productos de todas las sucursales disponibles en la base de datos.
+     */
     public function index()
     {
         $user = \Auth::user();
@@ -52,6 +57,11 @@ class ReportesController extends Controller
         return view('reportes.inventario', compact('productos', 'sucursales'));
     }
 
+    /**
+     * La función buscarR realiza una búsqueda de de un producto en específico en el inventario con forme se va escribiendo alguna característica del producto a buscar.
+     * @param Se realiza una petición a la tabla detallealmacen para buscar los productos que cumplen con dicha característica.
+     * @return Devuelve la vista de la lista de los productos que cumplen con las características que se van escribiendo.
+     */
     public function buscarR(Request $request)
     {
         if ($request->ajax()) {
@@ -154,6 +164,11 @@ class ReportesController extends Controller
         }
     }
 
+    /**
+     * La función pdf permite imprimir en formato PDF la información solicitada de la tabla detallealmacen
+     * @param Realiza un request a la base de datos con la información solicitada.
+     * @return Devuelve la vista del inventario en formato PDF.
+     */
     public function pdf(Request $request)
     {
         $fecha = date('Y-m-d');
@@ -223,7 +238,6 @@ class ReportesController extends Controller
                 ->get();
                 
         }
-        //dd($request->buscar);
         $pdf = PDF::loadView('reportes.inventariopdf', compact('productos', 'fecha'));
         return $pdf->download('inventario_'.$fecha.'.pdf');
         
