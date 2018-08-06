@@ -55,7 +55,7 @@
 										</button>
 								</div>
 								<div class="modal-body">
-										<p class="text-center">No tienes lo privilegios para entrar aquí!! Adios!</p>
+										<p class="text-center">Usted no cuenta con los privilegios para estar aquí.</p>
 								</div>
 								<div class="modal-footer">
 										<form class="" action="{{ route('home') }}">
