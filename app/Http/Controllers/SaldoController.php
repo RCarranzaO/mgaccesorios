@@ -32,7 +32,8 @@ class SaldoController extends Controller
      */
     public function index()
     {
-        $saldos = Saldo::all();
+        $user = \Auth::user();
+        $saldos = Saldo::all()->where('id_sucursal', $user->id_sucursal);
         $saldo = $saldos->last();
         $date = Carbon::now();
         $date = $date->toDateString();
@@ -46,26 +47,30 @@ class SaldoController extends Controller
      */
     public function guardarFondo()
     {
+        $user = \Auth::user();
         $saldo = new Saldo();
-        $saldos = Saldo::all();
+        $saldos = Saldo::all()->where('id_sucursal', $user->id_sucursal);
         $saldoId = $saldos->last();
-        $fondo = Fondo::all();
+        $fondo = Fondo::all()->where('id_sucursal', $user->id_sucursal);
         $fondoId = $fondo->last();
         $date = Carbon::now()->toDateString();
 
         if (empty($saldoId)) {
             $saldo->id_fondo = $fondoId->id_fondo;
             $saldo->saldo_actual = $fondoId->cantidad;
+            $saldo->id_sucursal = $user->id_sucursal;
             $saldo->fecha = $date;
             $saldo->save();
         } elseif ($fondoId->id_fondo != $saldoId->id_fondo) {
             $saldo->id_fondo = $fondoId->id_fondo;
             $saldo->saldo_actual = $fondoId->cantidad;
+            $saldo->id_sucursal = $user->id_sucursal;
             $saldo->fecha = $date;
             $saldo->save();
         } elseif ($fondoId->id_fondo == NULL) {
             $saldoId->id_fondo = $fondoId->id_fondo;
             $saldoId->saldo_actual = $fondoId->cantidad;
+            $saldoId->id_sucursal = $user->id_sucursal;
             $saldoId->fecha = $date;
             $saldoId->save();
         }
@@ -81,20 +86,23 @@ class SaldoController extends Controller
      */
     public function guardarGasto()
     {
+        $user = \Auth::user();
         $saldo = new Saldo();
-        $saldos = Saldo::all();
+        $saldos = Saldo::all()->where('id_sucursal', $user->id_sucursal);
         $saldoId = $saldos->last();
-        $gasto = Gasto::all();
+        $gasto = Gasto::all()->where('id_sucursal', $user->id_sucursal);
         $gastoId = $gasto->last();
         $date = Carbon::now()->toDateString();
 
         if ($saldoId->id_gasto == null){
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
+            $saldo->id_sucursal = $user->id_sucursal;
             $saldo->fecha = $date;
         } elseif ($gastoId->id_gasto != $saldoId->id_gasto) {
             $saldo->id_gasto = $gastoId->id_gasto;
             $saldo->saldo_actual = $saldoId->saldo_actual - $gastoId->cantidad;
+            $saldo->id_sucursal = $user->id_sucursal;
             $saldo->fecha = $date;
         }
 
@@ -109,18 +117,20 @@ class SaldoController extends Controller
     public function guardarCobro()
     {
         $saldo = new Saldo();
-        $saldos = Saldo::all();
+        $saldos = Saldo::all()->where('id_sucursal', $user->id_sucursal);
         $saldoId = $saldos->last();
-        $cobro = Cobro::all()->last();
+        $cobro = Cobro::all()->where('id_sucursal', $user->id_sucursal)->last();
         $date = Carbon::now()->toDateString();
 
         if ($saldoId->id_cobro == null) {
             $saldo->id_cobro = $cobro->id_cobro;
             $saldo->saldo_actual = $saldoId->saldo_actual + $cobro->monto_total;
+            $saldo->id_sucursal = $user->id_sucursal;
             $saldo->fecha = $date;
         } elseif ($cobro->id_cobro != $saldoId->id_cobro) {
             $saldo->id_cobro = $cobro->id_cobro;
             $saldo->saldo_actual = $saldoId->saldo_actual + $cobro->monto_total;
+            $saldo->id_sucursal = $user->id_sucursal;
             $saldo->fecha = $date;
         }
         $saldo->save();
