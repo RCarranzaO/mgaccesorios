@@ -31,7 +31,10 @@ class TipoController extends Controller
         return view('tipos.lista', compact('tipos'));
     }
 
-
+    /**
+     * La función create maneja la vista de las altas de tipos.
+     * @return Devuelve la vista de tipos.alta, el formulario para dar de alta un tipo de producto.
+     */
     public function create()
     {
         return view('tipos.alta');

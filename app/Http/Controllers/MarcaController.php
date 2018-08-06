@@ -31,7 +31,10 @@ class MarcaController extends Controller
         return view('marcas.lista', compact('marcas'));
     }
 
-
+    /**
+     * La función create maneja la vista de las altas de marcas.
+     * @return Devuelve la vista de marcas.alta, el formulario para dar de alta una marca.
+     */
     public function create()
     {
         return view('marcas.alta');

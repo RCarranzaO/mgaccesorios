@@ -31,7 +31,10 @@ class CategoriaController extends Controller
         return view('categorias.lista', compact('categorias'));
     }
 
-
+    /**
+     * La función create maneja la vista de las altas de categorías.
+     * @return Devuelve la vista de categorias.alta, el formulario para dar de alta una categoría.
+     */
     public function create()
     {
         return view('categorias.alta');
