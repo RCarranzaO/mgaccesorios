@@ -11,88 +11,82 @@
             @endif
             <div class="card">
                 <div class="card-header background-light">
-                  <h4 class="card-title"><i class="fa fa-calendar"></i> {{ 'Reporte de Ventas' }}</h4>
-                  <br>
+                    <h4 class="card-title"><i class="fa fa-calendar"></i> {{ 'Reporte de Ventas' }}</h4>
+                    <br>
                     <div class="container">
-                      <form class="" action="" method="post">
-                        <div class="row">
-                          <div class="col-md-4">
-                            <div class="input-group" id="datetimepicker1">
-                              <input type="date" name="bday" max="3000-12-31" min="1980-01-01" class="form-control">
-                              <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
+                        <form class="" action="#" method="post">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <input type="date" id="fecha_i" min="1980-01-01" max="3000-12-31" class="form-control">
+                                        <span class="input-group-btn fecha_i"><button type="button" class="btn btn-outline-default" disabled><i class="fa fa-calendar"></i></button></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <input type="date" id="fecha_f" min="1980-01-01" max="3000-12-31" class="form-control">
+                                        <span class="input-group-btn fecha_f"><button type="button" class="btn btn-outline-default" disabled><i class="fa fa-calendar"></i></button></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" id="search_f" onclick="" class="btn btn-outline-primary">Buscar</button>
+                                </div>
                             </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="input-group" id="datetimepicker1">
-                              <input type="date" name="bday"min="1980-01-01" max="3000-12-31" class="form-control">
-                              <span class="input-group-btn"><button type="button" class="btn btn-outline-default"><i class="fa fa-calendar"></i></button></span>
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <button type="submit" class="btn btn-outline-primary">Buscar</button>
-                          </div>
-                        </div>
-                      </form>
+                        </form>
                     </div>
                 </div>
-                  <div class="card-body">
+                <div class="card-body">
                     <table class="table table-bordered table-responsive-sm">
                       <thead>
                           <tr>
-                            <th>#</th>
-                            <th>Cliente</th>
+                            <th># Folio</th>
                             <th>Fecha</th>
                             <th>Empleado</th>
-                            <th>Número</th>
+                            <th>Sucursal</th>
                             <th>Estado</th>
                             <th>Total</th>
-                            <th>ID</th>
-                            <th>Ver</th>
+                            <th></th>
                           </tr>
-                          </thead>
-                          <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Publico General</td>
-                            <td>29/07/2018</td>
-                            <td>Juan</td>
-                            <td>V000001</td>
-                            <td>Pagado</td>
-                            <td>$150.00</td>
-                            <td>1</td>
-                            <td><i class="fa fa-search"></i></td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>Publico General</td>
-                            <td>29/07/2018</td>
-                            <td>Juan</td>
-                            <td>V000002</td>
-                            <td>Pagado</td>
-                            <td>$150.00</td>
-                            <td>1</td>
-                            <td><i class="fa fa-search"></i></td>
-                          </tr>
-                          <tr>
-                            <td>3</td>
-                            <td>Publico General</td>
-                            <td>29/07/2018</td>
-                            <td>Juan</td>
-                            <td>V000003</td>
-                            <td>Pagado</td>
-                            <td>$150.00</td>
-                            <td>1</td>
-                            <td><i class="fa fa-search"></i></td>
-                          </tr>
+                      </thead>
+                      @if ($ventas->count())
+                          <tbody id="ventas">
+                              @foreach ($ventas as $venta)
+                                <tr>
+                                    <td>{{ $venta->id_venta }}</td>
+                                    <td>{{ $venta->fecha }}</td>
+                                    <td>{{ $venta->username }}</td>
+                                    <td>{{ $venta->nombre_sucursal }}</td>
+                                    <td>{{ $venta->estatus }}</td>
+                                    <td>{{ $venta->monto_total }}</td>
+                                    <td></td>
+                                </tr>
+                              @endforeach
                           </tbody>
-                      </table>
-                  </div>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
+                      @else
+                          <tbody id="ventas">
+                              <tr>
+                                  <td colspan="7" class="text-center">No hay registro de ventas</td>
+                              </tr>
+                          </tbody>
+                      @endif
+                  </table>
+              </div>
+          </div>
+      </div>
+@endsection
+@section('script')
+    <script>
+      $("#search_f").on("click", function () {
+          var fecha_i = $("#fecha_i").val();
+          var fecha_f = $("#fecha_f").val();
+          $.ajax({
+              type: 'post',
+              url: '{{ route('venta.buscar') }}',
+              data: {'fecha_i':fecha_i, 'fecha_f':fecha_f},
+              success:function (data) {
+                  $('#ventas').html(data);
+              }
+          });
+      });
+    </script>
 @endsection

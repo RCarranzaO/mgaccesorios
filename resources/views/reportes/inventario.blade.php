@@ -95,7 +95,7 @@
             $('#buscador').click(function(){
                 buscar();
             });
-            
+
         });
         function buscar(){
             var $buscador=$("#buscador").val();
@@ -147,23 +147,7 @@
                 }
             }
         }
-        
-    </script>
-    <script>
-        /**
-        function pdf(){
-            var buscador=$("#buscador").val();
-            var buscar=$("#buscar").val();
-            $.ajax({
-                type: 'get',
-                url: '{{ route('almacen.pdf') }}',
-                data: {'buscar':buscar, 'buscador':buscador},
-                success:function(data){
 
-                }
-            });
-        }
-        */
     </script>
     <script type="text/javascript">
         $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });

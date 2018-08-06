@@ -14,6 +14,7 @@
     <!--<script src="{{ asset('js/app.js') }}" defer></script>-->
     <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('bootstrap-4.1.1/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('jquery-ui-1.12.1/jquery-ui.min.js') }}"></script>
     <!--<script src="{{ asset('js/popper/popper.min.js') }}"></script>-->
     <!--<script src="{{ asset('js/tooltip/tooltip.min.js') }}"></script>-->
 
