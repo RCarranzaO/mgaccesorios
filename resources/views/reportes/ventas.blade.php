@@ -17,19 +17,22 @@
                         <form class="" action="#" method="post">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="input-group">
-                                        <input type="date" id="fecha_i" min="1980-01-01" max="3000-12-31" class="form-control">
-                                        <span class="input-group-btn fecha_i"><button type="button" class="btn btn-outline-default" disabled><i class="fa fa-calendar"></i></button></span>
+                                    <div class="form-group">
+                                        <label for="fecha_i">Desde:</label>
+                                        <input class="form-control" type="date" id="fecha_i" name="fecha_i" min="1980-01-01" max="3000-12-31">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="input-group">
-                                        <input type="date" id="fecha_f" min="1980-01-01" max="3000-12-31" class="form-control">
-                                        <span class="input-group-btn fecha_f"><button type="button" class="btn btn-outline-default" disabled><i class="fa fa-calendar"></i></button></span>
+                                    <div class="form-group">
+                                        <label for="fecha_f">Hasta:</label>
+                                        <input class="form-control" type="date" id="fecha_f" name="fecha_f" min="1980-01-01" max="3000-12-31">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" id="search_f" onclick="" class="btn btn-outline-primary">Buscar</button>
+                                    <div class="form-group">
+                                        <label for="search" >.  </label>
+                                        <button type="button" id="search_f" name="search" onclick="" class="btn btn-outline-primary form-control">Buscar</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -80,7 +83,7 @@
           var fecha_i = $("#fecha_i").val();
           var fecha_f = $("#fecha_f").val();
           $.ajax({
-              type: 'post',
+              type: 'get',
               url: '{{ route('venta.buscar') }}',
               data: {'fecha_i':fecha_i, 'fecha_f':fecha_f},
               success:function (data) {
@@ -88,5 +91,14 @@
               }
           });
       });
+    </script>
+    <script>
+        function imprimir(id) {
+            $.ajax({
+              type: 'get',
+              url: '{{ route('venta.pdf') }}',
+              data: {'id':id}
+            });
+        }
     </script>
 @endsection
