@@ -14,7 +14,7 @@
                     <h4 class="card-title"><i class="fa fa-calendar"></i> {{ 'Reporte de Ventas' }}</h4>
                     <br>
                     <div class="container">
-                        <form class="" action="#" method="post">
+                        <form class="" action="{{ route('reporte.pdf') }}" method="get">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -37,7 +37,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="print" >.  </label>
-                                        <button type="button" id="print" name="print" onclick="" class="btn btn-outline-primary form-control"><i class="fa fa-print"></i>Imprimir</button>
+                                        <button type="submit" name="print"  class="btn btn-outline-primary form-control"><i class="fa fa-print"></i>Imprimir</button>
                                     </div>
                                 </div>
                             </div>

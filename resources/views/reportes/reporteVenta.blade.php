@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                   <tr style="font-size: 15px">
-                      <td class="text-center"><strong>># Folio</strong></td>
+                      <td class="text-center"><strong># Folio</strong></td>
                       <td colspan="4"><strong>Fecha</strong></td>
                       <td colspan="2" class="text-left"><strong>Empleado</strong></td>
                       <td><strong>Sucursal</strong></td>
@@ -39,7 +39,7 @@
                                   <td colspan="4" class="text-left">{{ $fecha }}</td>
                                   <td colspan="2" class="text-left">{{ $venta->username }}</td>
                                   <td class="text-center">{{ $venta->nombre_sucursal }}</td>
-                                  <td class="text-right">$ {{ $estado = ($venta->estatus ==1) ? 'Finalizada' : 'Cancelada' }}</td>
+                                  <td class="text-right"> {{ $estado = ($venta->estatus ==1) ? 'Finalizada' : 'Cancelada' }}</td>
                                   <td colspan="2" class="text-right">$ {{ number_format($venta->monto_total, 2) }}</td>
                               </tr>
                               @php

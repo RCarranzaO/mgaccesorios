@@ -225,7 +225,7 @@ class ReportesVController extends Controller
     {
         $user = \Auth::user();
         $fecha = Carbon::now()->toDateString();
-        if ($request->ajax()) {
+        if ($request) {
             $fechai = $request->fecha_i;
             $fechaf = $request->fecha_f;
             $result = "";
