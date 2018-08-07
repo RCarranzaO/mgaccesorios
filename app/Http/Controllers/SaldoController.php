@@ -37,7 +37,9 @@ class SaldoController extends Controller
         $saldo = $saldos->last();
         $date = Carbon::now();
         $date = $date->toDateString();
+        //dd($saldos);
         return view('saldo.saldo', compact('saldo', 'date'));
+
     }
 
     /**
@@ -117,11 +119,12 @@ class SaldoController extends Controller
     public function guardarCobro()
     {
         $saldo = new Saldo();
+        $user = \Auth::user();
         $saldos = Saldo::all()->where('id_sucursal', $user->id_sucursal);
         $saldoId = $saldos->last();
         $cobro = Cobro::all()->where('id_sucursal', $user->id_sucursal)->last();
         $date = Carbon::now()->toDateString();
-
+        //dd($saldoId);
         if ($saldoId->id_cobro == null) {
             $saldo->id_cobro = $cobro->id_cobro;
             $saldo->saldo_actual = $saldoId->saldo_actual + $cobro->monto_total;
