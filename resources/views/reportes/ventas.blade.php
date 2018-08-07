@@ -147,8 +147,10 @@
         $.ajax({
             type: 'get',
             url: '{{ route('reporte.pdf') }}',
-            data: {'fecha_i':fecha_i, 'fecha_f':fecha_f}
-
+            data: {'fecha_i':fecha_i, 'fecha_f':fecha_f},
+            success:function () {
+                console.log('Imprimiendo...');
+            }
         });
     });
     </script>
@@ -165,5 +167,8 @@
               }
             });
         }
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({headers: {'csrftoken' : '{{ csrf_token() }}'} });
     </script>
 @endsection
