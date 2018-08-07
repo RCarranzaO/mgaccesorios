@@ -13,36 +13,53 @@
                                 @include('alerts.errores')
                                 @include('alerts.success')
                                 @if ($user->rol == 2)
-                                    @if ($fondoId->fecha == date("Y-m-d"))
-                                        <div class="card-header">
-                                            <h5 class="card-title">Fondo</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="form-group row">
+                                    @if (!empty($fondoId))
+                                        @if ($fondoId->fecha == date("Y-m-d"))
+                                            <div class="card-header">
+                                              <h5 class="card-title">Fondo</h5>
+                                            </div>
+                                            <div class="card-body">
+                                              <div class="form-group row">
                                                 <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
                                                 <div class="col-md-7">
-                                                    <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ $fondoId->cantidad }}" disabled placeholder="Ingrese cantidad para iniciar">
+                                                  <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ $fondoId->cantidad }}" disabled placeholder="Ingrese cantidad para iniciar">
                                                 </div>
+                                              </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-outline-primary" disabled>Aceptar</button>
-                                            <!--<button type="button" class="btn btn-outline-secondary" >Cancelar</button>-->
-                                        </div>
+                                            <div class="modal-footer">
+                                              <button type="submit" class="btn btn-outline-primary" disabled>Aceptar</button>
+                                              <!--<button type="button" class="btn btn-outline-secondary" >Cancelar</button>-->
+                                            </div>
+                                        @else
+                                            <div class="card-header">
+                                              <h3 class="card-title">Fondo</h3>
+                                            </div>
+                                            <div class="card-body">
+                                              <div class="form-group row">
+                                                <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
+                                                <div class="col-md-7">
+                                                  <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ 1000 }}" required placeholder="Ingrese cantidad para iniciar">
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="card-header">
-                                            <h3 class="card-title">Fondo</h3>
+                                          <h3 class="card-title">Fondo</h3>
                                         </div>
                                         <div class="card-body">
-                                            <div class="form-group row">
-                                                <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
-                                                <div class="col-md-7">
-                                                    <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ 1000 }}" required placeholder="Ingrese cantidad para iniciar">
-                                                </div>
+                                          <div class="form-group row">
+                                            <label for="cantidad" class="col-md-3 col-form-label text-md-right">Fondo: $</label>
+                                            <div class="col-md-7">
+                                              <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" value="{{ 1000 }}" required placeholder="Ingrese cantidad para iniciar">
                                             </div>
+                                          </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
+                                          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
                                         </div>
                                     @endif
                                 @else
