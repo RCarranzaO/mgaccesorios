@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-responsive-sm">
+                    <table class="table table-bordered table-responsive-lg">
                       <thead>
                           <tr>
                               <th># Folio</th>
